@@ -429,7 +429,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "58C37441-A586-4F7A-A19C-C655772F5C47"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VisitorApp/Visitor/VisitorDataViewController.swift"

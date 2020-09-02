@@ -126,8 +126,9 @@ extension VisitorDataViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       //  let data = viewObj[indexPath.row]
        // let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as! ChartViewController
-       // vc.visits = [data]
+       // vc.vits = [data]
        // navigationController?.pushViewController(vc, animated: true)
         print("Select tablerow")
     }
 }
+
