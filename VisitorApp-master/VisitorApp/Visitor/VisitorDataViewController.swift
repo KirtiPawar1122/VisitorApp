@@ -15,14 +15,8 @@ class VisitorDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         print(viewObj)
-        //self.tableview.backgroundColor = UIColor.clear
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "View Graph", style: .plain, target: nil, action: #selector(viewGraph))
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "View Graph", style: .plain, target: self, action: #selector(viewGraph))
-        
-        
     }
     
     @objc func viewGraph(){
@@ -67,20 +61,8 @@ class VisitorDataViewController: UIViewController {
         }
 }
 
-extension VisitorViewController : UITableViewDelegate{
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.contentView.backgroundColor = UIColor.blue
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-    }
-}
-
 extension VisitorDataViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // return visitorObj.count
         return viewObj.count
     }
     
@@ -103,18 +85,12 @@ extension VisitorDataViewController : UITableViewDataSource{
             print("profile image is not set")
         }
         return cell
-        
     }
 }
 
 extension VisitorDataViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
-//            let visotorInfo = viewObj[indexPath.row]
-//            context.delete(visotorInfo)
-//            viewObj.remove(at: indexPath.row)
-//            appDelegate.saveContext()
-//            tableView.reloadData()
            deleteConfirm(indexpath: indexPath)
         }
     }
@@ -124,11 +100,26 @@ extension VisitorDataViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      //  let data = viewObj[indexPath.row]
-       // let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as! ChartViewController
-       // vc.vits = [data]
-       // navigationController?.pushViewController(vc, animated: true)
-        print("Select tablerow")
+        
+        let data = viewObj
+        let item = viewObj[indexPath.row]
+        var dataArray = [String]()
+        let selectedEmail = item.visitors?.value(forKey: "email") as! String
+        let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "VisitorChartViewController") as! VisitorChartViewController
+        
+        for visit in data {
+            let email = visit.visitors?.value(forKey: "email") as! String
+            if email == selectedEmail {
+                print("Email : \(email), Purpose : \(String(describing: visit.purpose))")
+                dataArray.append(visit.purpose!)
+            }
+           // print(dataArray)
+         //   storyboard.datavisit = dataArray
+         //  navigationController?.pushViewController(storyboard, animated: true)
+        }
+        storyboard.datavisit = dataArray
+        navigationController?.pushViewController(storyboard, animated: true)
+        print("Select table row")
     }
 }
 

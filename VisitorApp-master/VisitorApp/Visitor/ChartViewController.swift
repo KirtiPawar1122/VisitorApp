@@ -33,8 +33,8 @@ class ChartViewController: UIViewController {
         
         let total = Double(visits.count)
         var meeting : Double{
-            let maeetingValue = 100 * Double(meetings) / total
-            return maeetingValue
+            let meetingValue = 100 * Double(meetings) / total
+            return meetingValue
         }
         
         var guestvisit : Double{
@@ -57,7 +57,6 @@ class ChartViewController: UIViewController {
     }
 
     func customizeChart(dataPoints: [String], values: [Double]) {
-      
       // 1. Set ChartDataEntry
       var dataEntries: [ChartDataEntry] = []
         for i in 0..<dataPoints.count {
@@ -69,9 +68,13 @@ class ChartViewController: UIViewController {
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
       pieChartDataSet.entryLabelColor  = UIColor.white
       pieChartDataSet.entryLabelFont = UIFont(name: "futura", size: 17)
-      pieChartDataSet.valueFont = UIFont(name: "futura", size: 17)!
-      // pieChartDataSet.colors = ChartColorTemplates.colorful()
-      // pieChartDataSet.colors = colorsOfCharts(numbersOfColor: dataPoints.count)
+     // pieChartDataSet.valueFont = UIFont(name: "futura", size: 17) !
+      if let font = UIFont(name: "futura", size: 17) {
+            pieChartDataSet.valueFont = font
+      } else {
+            print("error in to set font")
+      }
+        
       var colors: [UIColor] = []
       colors.append(UIColor.systemBlue)
       colors.append(UIColor.purple)
@@ -93,18 +96,5 @@ class ChartViewController: UIViewController {
     // 4. Assign it to the chart’s data
       chartView.data = pieChartData
     }
-    
- /*   private func colorsOfCharts(numbersOfColor: Int) -> [UIColor] {
-      var colors: [UIColor] = []
-      for _ in 0..<numbersOfColor {
-        let red = Double(arc4random_uniform(256))
-        let green = Double(arc4random_uniform(256))
-        let blue = Double(arc4random_uniform(256))
-        let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
-        colors.append(color)
-      }
-      return colors
-    } */
-    
 }
 

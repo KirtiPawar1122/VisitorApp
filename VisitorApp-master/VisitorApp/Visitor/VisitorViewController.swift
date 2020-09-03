@@ -1,6 +1,4 @@
 
-
-
 import UIKit
 import CoreData
 import AVFoundation
@@ -184,6 +182,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         }
     }
     
+    // textfeild character limit for PhoneNumber
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
         case phoneTextField:
@@ -245,12 +244,11 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         return true
     }
 
+    /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {
-        
         tapCount = tapCount + 1
         print(tapCount)
         if tapCount == 5 {
-            
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorDataViewController
             //vc.visitorObj = visitor
             vc.viewObj = visit
@@ -304,6 +302,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
 
         interactor.save(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: String(email), companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg,currentDate: dateString
         )
+        
         showAlert(for: "Hello \(name), Welcome to Wurth-IT")
         resetfields()
     }

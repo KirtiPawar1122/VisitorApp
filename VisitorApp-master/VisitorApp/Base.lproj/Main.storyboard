@@ -212,6 +212,45 @@
             </objects>
             <point key="canvasLocation" x="3484" y="159"/>
         </scene>
+        <!--Visitor Chart View Controller-->
+        <scene sceneID="Cx9-Q1-3Xm">
+            <objects>
+                <viewController storyboardIdentifier="VisitorChartViewController" id="S8i-eH-xyt" customClass="VisitorChartViewController" customModule="VisitorApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="h1F-HK-aCY">
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Visitors Overview" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3S-gw-OfS">
+                                <rect key="frame" x="216" y="191" width="435" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LBO-QO-ZeN" customClass="BarChartView" customModule="Charts">
+                                <rect key="frame" x="117" y="297" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="57V-85-bZB"/>
+                                    <constraint firstAttribute="width" constant="600" id="9BV-9R-Wpr"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="LBO-QO-ZeN" firstAttribute="centerY" secondItem="h1F-HK-aCY" secondAttribute="centerY" id="9TK-eH-AYo"/>
+                            <constraint firstItem="LBO-QO-ZeN" firstAttribute="centerX" secondItem="h1F-HK-aCY" secondAttribute="centerX" id="uwn-YM-hlS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="emo-Zk-hCV"/>
+                    </view>
+                    <connections>
+                        <outlet property="histogram" destination="LBO-QO-ZeN" id="5kY-or-ykU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R2g-Cc-HYn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4162.5899280575541" y="158.79396984924622"/>
+        </scene>
         <!--Signature View Controller-->
         <scene sceneID="A9b-lz-Scj">
             <objects>
@@ -289,7 +328,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Guo-lz-LqC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4141" y="159"/>
+            <point key="canvasLocation" x="4862" y="159"/>
         </scene>
         <!--Visitor Form-->
         <scene sceneID="cfh-aq-Uf6">

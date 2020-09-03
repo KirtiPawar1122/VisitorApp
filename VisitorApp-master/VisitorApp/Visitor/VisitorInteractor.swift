@@ -87,7 +87,5 @@ class VisitorInteractor {
 //            print(error.description)
 //        }
 //    }
-    
 }
-
 }
