@@ -17,6 +17,7 @@ class ChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "Overall Visitor Chart"
          for visit in visits {
             if let purpose = visit.purpose{
                 if purpose == "Meeting"{
@@ -80,7 +81,7 @@ class ChartViewController: UIViewController {
       colors.append(UIColor.purple)
       colors.append(UIColor.systemGreen)
       colors.append(UIColor.systemRed)
-      pieChartDataSet.colors = colors
+        pieChartDataSet.colors = colors
         
       // 3. Set ChartData
       let pieChartData = PieChartData(dataSet: pieChartDataSet)

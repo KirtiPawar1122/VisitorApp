@@ -103,7 +103,7 @@ extension VisitorDataViewController: UITableViewDelegate{
         
         let data = viewObj
         let item = viewObj[indexPath.row]
-        var dataArray = [String]()
+        var dataArray = [Visit]()
         let selectedEmail = item.visitors?.value(forKey: "email") as! String
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "VisitorChartViewController") as! VisitorChartViewController
         
@@ -111,13 +111,12 @@ extension VisitorDataViewController: UITableViewDelegate{
             let email = visit.visitors?.value(forKey: "email") as! String
             if email == selectedEmail {
                 print("Email : \(email), Purpose : \(String(describing: visit.purpose))")
-                dataArray.append(visit.purpose!)
+                dataArray.append(visit)
+               // dataArray.append(visit)
             }
-           // print(dataArray)
-         //   storyboard.datavisit = dataArray
-         //  navigationController?.pushViewController(storyboard, animated: true)
         }
         storyboard.datavisit = dataArray
+       // storyboard.visits = [item]
         navigationController?.pushViewController(storyboard, animated: true)
         print("Select table row")
     }
