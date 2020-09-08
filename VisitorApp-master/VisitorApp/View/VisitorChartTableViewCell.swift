@@ -10,11 +10,7 @@ import UIKit
 
 class VisitorChartTableViewCell: UITableViewCell {
     
-    
-    @IBOutlet weak var meetingLabel: UILabel!
-    @IBOutlet weak var otherLable: UILabel!
-    @IBOutlet weak var guestvisitLable: UILabel!
-    @IBOutlet weak var interviewLable: UILabel!
+    @IBOutlet weak var dataLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,7 +19,6 @@ class VisitorChartTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 

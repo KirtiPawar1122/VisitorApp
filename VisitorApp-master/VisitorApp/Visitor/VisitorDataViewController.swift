@@ -120,5 +120,7 @@ extension VisitorDataViewController: UITableViewDelegate{
         navigationController?.pushViewController(storyboard, animated: true)
         print("Select table row")
     }
+    
+    
 }
 

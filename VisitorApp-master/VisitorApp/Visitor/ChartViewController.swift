@@ -18,7 +18,7 @@ class ChartViewController: UIViewController {
         super.viewDidLoad()
 
         self.navigationItem.title = "Overall Visitor Chart"
-         for visit in visits {
+        for visit in visits {
             if let purpose = visit.purpose{
                 if purpose == "Meeting"{
                       meetings = meetings + 1
