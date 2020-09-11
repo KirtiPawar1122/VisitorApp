@@ -8,6 +8,7 @@ class SignatureViewController: UIViewController, CustomSignDelegate {
     var sign = UIImage()
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var clearBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -22,15 +23,15 @@ class SignatureViewController: UIViewController, CustomSignDelegate {
     }
     
     @IBAction func onSave(_ sender: Any) {
-       
         sign = signatureView.getSignature()
         dismiss(animated: true, completion: nil)
         signatureView.clear()
-        
     }
+    
     @IBAction func onClear(_ sender: Any) {
         self.signatureView.clear()
     }
+    
     func didStart(_ view: CustomView) {
         print("did start Method")
     }

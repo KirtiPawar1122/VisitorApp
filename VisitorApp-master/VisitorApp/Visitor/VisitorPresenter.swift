@@ -10,7 +10,7 @@ protocol PresenterProtocol {
 
 class VisitorPresenter: PresenterProtocol {
     
-    var viewObj : ViewProtocol?
+    var viewObj: ViewProtocol?
     
     func getDatafromInteractor(visitorData: [Visit]) {
         print(visitorData)

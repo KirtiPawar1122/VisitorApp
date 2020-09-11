@@ -22,7 +22,7 @@ class ChartViewController: UIViewController {
             if let purpose = visit.purpose{
                 if purpose == "Meeting"{
                       meetings = meetings + 1
-                }else if purpose == "Guest Visit"{
+                } else if purpose == "Guest Visit"{
                       guestvisits = guestvisits + 1
                 } else if purpose == "Interview"{
                       interviews = interviews + 1
@@ -69,7 +69,7 @@ class ChartViewController: UIViewController {
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
       pieChartDataSet.entryLabelColor  = UIColor.white
       pieChartDataSet.entryLabelFont = UIFont(name: "futura", size: 17)
-     // pieChartDataSet.valueFont = UIFont(name: "futura", size: 17) !
+     // pieChartDataSet.valueFont = UIFont(name: "futura", size: 17)!
       if let font = UIFont(name: "futura", size: 17) {
             pieChartDataSet.valueFont = font
       } else {
@@ -81,7 +81,7 @@ class ChartViewController: UIViewController {
       colors.append(UIColor.purple)
       colors.append(UIColor.systemGreen)
       colors.append(UIColor.systemRed)
-        pieChartDataSet.colors = colors
+      pieChartDataSet.colors = colors
         
       // 3. Set ChartData
       let pieChartData = PieChartData(dataSet: pieChartDataSet)

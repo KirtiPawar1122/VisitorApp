@@ -6,7 +6,7 @@ class VisitorDataViewController: UIViewController {
     
    // var visitorObj = [Visitor]()
     var viewObj = [Visit]()
-    var visits : Visit?
+    var visits: Visit?
     
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -20,7 +20,6 @@ class VisitorDataViewController: UIViewController {
     }
     
     @objc func viewGraph(){
-        
         let data = viewObj
         print(data)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as? ChartViewController
@@ -30,7 +29,6 @@ class VisitorDataViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Visit")
         do {
             viewObj = try context.fetch(fetchRequest) as! [Visit]
@@ -43,7 +41,6 @@ class VisitorDataViewController: UIViewController {
     
     func deleteConfirm(indexpath: IndexPath){
             let alert = UIAlertController(title: nil, message: "Are you sure you would like to delete entry", preferredStyle: .alert)
-        
             let confirmAction = UIAlertAction(title: "Confirm", style: .default) {(_) in
                 print("Click On Confirm")
                 let visitorInfo = self.viewObj[indexpath.row]
@@ -52,12 +49,10 @@ class VisitorDataViewController: UIViewController {
                 self.appDelegate.saveContext()
                 self.tableview.reloadData()
             }
-        
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(confirmAction)
             alert.addAction(cancelAction)
             present(alert,animated: true,completion: nil)
-            
         }
 }
 
@@ -120,7 +115,5 @@ extension VisitorDataViewController: UITableViewDelegate{
         navigationController?.pushViewController(storyboard, animated: true)
         print("Select table row")
     }
-    
-    
 }
 
