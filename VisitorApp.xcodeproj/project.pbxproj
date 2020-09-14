@@ -32,6 +32,7 @@
 		9BED8B3F24E6890300B57C40 /* Visitor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */; };
 		9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */; };
 		9BEED35924F7FD1700EDE4A5 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */; };
+		D34AF652250F9E0A00C52C5A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D34AF651250F9E0A00C52C5A /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +63,7 @@
 		9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
-		D34AF650250F9C2700C52C5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D34AF651250F9E0A00C52C5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB434DAE4719C6DE5EBD8FD3 /* Pods-VisitorApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisitorApp.release.xcconfig"; path = "Target Support Files/Pods-VisitorApp/Pods-VisitorApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +116,7 @@
 		9BBAF77B247654FF00B31A70 /* VisitorApp */ = {
 			isa = PBXGroup;
 			children = (
-				D34AF650250F9C2700C52C5A /* Info.plist */,
+				D34AF651250F9E0A00C52C5A /* Info.plist */,
 				9BE7A20824987FF000AFC4C9 /* View */,
 				9BA98F582486958B00C86B5C /* DB */,
 				9BBAF79624767AD700B31A70 /* Visitor */,
@@ -237,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34AF652250F9E0A00C52C5A /* Info.plist in Resources */,
 				9BBAF78C247654FF00B31A70 /* LaunchScreen.storyboard in Resources */,
 				9BBAF789247654FF00B31A70 /* Assets.xcassets in Resources */,
 				9BBAF784247654FF00B31A70 /* Main.storyboard in Resources */,
