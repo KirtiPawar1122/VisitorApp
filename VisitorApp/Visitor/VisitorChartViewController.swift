@@ -25,7 +25,6 @@ class VisitorChartViewController: UIViewController {
     var sectionName = String()
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(datavisit)
          
         tableview.dataSource = self
         tableview.delegate = self
