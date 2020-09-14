@@ -32,6 +32,7 @@
 		9BED8B3F24E6890300B57C40 /* Visitor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */; };
 		9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */; };
 		9BEED35924F7FD1700EDE4A5 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */; };
+		D34AF64D250F918200C52C5A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D34AF64C250F918200C52C5A /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,7 +55,6 @@
 		9BBAF786247654FF00B31A70 /* VisitorApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VisitorApp.xcdatamodel; sourceTree = "<group>"; };
 		9BBAF788247654FF00B31A70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9BBAF78B247654FF00B31A70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9BBAF78D247654FF00B31A70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BDD18A2247D390A00828EAB /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		9BDD18A4247FECBA00828EAB /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
@@ -63,6 +63,7 @@
 		9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
+		D34AF64C250F918200C52C5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../../../Downloads/Info.plist; sourceTree = "<group>"; };
 		FB434DAE4719C6DE5EBD8FD3 /* Pods-VisitorApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisitorApp.release.xcconfig"; path = "Target Support Files/Pods-VisitorApp/Pods-VisitorApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +116,7 @@
 		9BBAF77B247654FF00B31A70 /* VisitorApp */ = {
 			isa = PBXGroup;
 			children = (
+				D34AF64C250F918200C52C5A /* Info.plist */,
 				9BE7A20824987FF000AFC4C9 /* View */,
 				9BA98F582486958B00C86B5C /* DB */,
 				9BBAF79624767AD700B31A70 /* Visitor */,
@@ -124,7 +126,6 @@
 				9B931F612508A94500CC1A18 /* VisitorInnerTableViewCell.swift */,
 				9BBAF788247654FF00B31A70 /* Assets.xcassets */,
 				9BBAF78A247654FF00B31A70 /* LaunchScreen.storyboard */,
-				9BBAF78D247654FF00B31A70 /* Info.plist */,
 				9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */,
 				9BDD18A2247D390A00828EAB /* CustomTextField.swift */,
 				9BDD18A4247FECBA00828EAB /* CustomImageView.swift */,
@@ -237,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34AF64D250F918200C52C5A /* Info.plist in Resources */,
 				9BBAF78C247654FF00B31A70 /* LaunchScreen.storyboard in Resources */,
 				9BBAF789247654FF00B31A70 /* Assets.xcassets in Resources */,
 				9BBAF784247654FF00B31A70 /* Main.storyboard in Resources */,
@@ -457,16 +459,20 @@
 			baseConfigurationReference = 045B74D927B32A5406BBA267 /* Pods-VisitorApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9X3QRKYN45;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = VisitorApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.VisitorApp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wurth.VisitorApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -477,16 +483,20 @@
 			baseConfigurationReference = FB434DAE4719C6DE5EBD8FD3 /* Pods-VisitorApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9X3QRKYN45;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = VisitorApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.VisitorApp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wurth.VisitorApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -502,7 +512,7 @@
 				9BBAF78F247654FF00B31A70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		9BBAF790247654FF00B31A70 /* Build configuration list for PBXNativeTarget "VisitorApp" */ = {
 			isa = XCConfigurationList;
@@ -511,7 +521,7 @@
 				9BBAF792247654FF00B31A70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
