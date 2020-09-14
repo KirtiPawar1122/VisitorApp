@@ -152,7 +152,6 @@ class CustomView: UIView {
           return sign
 
       }
-
 }
 
 extension CustomSignDelegate {

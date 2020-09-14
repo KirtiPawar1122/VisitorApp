@@ -107,23 +107,20 @@ extension VisitorChartViewController: UITableViewDelegate {
 }
 extension VisitorChartViewController: UITableViewDataSource{
 
-
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return purpose.count
     }
     
-   /* func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
-    } */
+    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-       
         return purpose[section]
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return items[section].count
+        return items[section].count
        // return datavisit.count
     }
 
@@ -132,9 +129,43 @@ extension VisitorChartViewController: UITableViewDataSource{
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorChartTableViewCell") as! VisitorChartTableViewCell
       
         let data = items[indexPath.section][indexPath.row]
-        cell.dataLabel.text = data
+        
+        let dataitem =  items[indexPath.row]
+        print(dataitem.count)
+        
+        if (indexPath.section == 0) {
+            let count = items[indexPath.section].count
+            print(count)
+            cell.sectionLabel.text = "Meeting"
+            cell.dataLabel.text = data
+            cell.backgroundColor = UIColor.red
+        }
+        
+        if (indexPath.section == 1){
+          //  let count = items[indexPath.section].count
+          //  print(count)
+            cell.sectionLabel.text = "Interview"
+            cell.dataLabel.text = data
+            cell.backgroundColor = UIColor.orange
+        }
+        
+        if (indexPath.section == 2) {
+          //  let count = items[indexPath.section].count
+          //  print(count)
+            cell.sectionLabel.text = "Guest Visit"
+            cell.dataLabel.text = data
+            cell.backgroundColor = UIColor.systemYellow
+        }
+
+        if (indexPath.section == 3){
+          //  let count = items[indexPath.section].count
+          //  print(count)
+            cell.sectionLabel.text = "Others"
+            cell.dataLabel.text = data
+            cell.backgroundColor = UIColor.systemGreen
+        }
     
         return cell
-        
+    
     }
 }

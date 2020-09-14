@@ -72,7 +72,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         submitLable.layer.shadowRadius = 5
         submitLable.layer.shadowOpacity = 1.0
         
-       navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.white
 
         let personImg = UIImage(named: "person")
         addImageOntextField(textField: userTextField, img: personImg!)
@@ -182,7 +182,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         }
     }
     
-    // textfeild character limit for PhoneNumber
+    // textfeild character limits for PhoneNumber
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
         case phoneTextField:
@@ -196,26 +196,33 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
        var nameString : String = ""
-        //switchnextTextfield(textField)
+       switchnextTextfield(textField)
        textField.resignFirstResponder()
+      
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-       // purposeTextFeild.resignFirstResponder()
-       // print(textField.text!)
+    
         let fetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
               do {
                   let record = try context.fetch(fetchRequest)
                   print(record)
+                
                   for item in record {
                       print(item)
                     
                     if textField.text == "" {
                         switchnextTextfield(textField)
+                        
                     } else if emailTextField.text != item.visitors?.value(forKey: "email") as? String {
+                        
                         switchnextTextfield(textField)
+                        print(emailTextField.text!)
+        
+                        
                     } else if emailTextField.text == item.visitors?.value(forKey: "email") as? String {
                         
+                          switchnextTextfield(textField)
                           companyTextField.text = item.companyName!
-                          purposeTextFeild.text = item.purpose!
+                         // purposeTextFeild.text = item.purpose!
                           visitTextField.text = item.visitorName!
                           userTextField.text = item.visitors?.value(forKey: "name") as? String
                           emailTextField.text = item.visitors?.value(forKey: "email") as? String
@@ -224,20 +231,18 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
                         
                           visitorImage.image = UIImage(data: item.visitors?.value(forKey: "profileImage") as! Data)
                         
-                         // purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
-                          purposeTextFeild.text = item.purpose!
+                          purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
                           print(userTextField.text!)
 
                           nameString = "Hello \(userTextField.text!), Welcome to wurth-IT"
-                       //emailTextField.resignFirstResponder()
-                       userTextField.resignFirstResponder()
+                          userTextField.resignFirstResponder()
                       }
                   }
-                  print(nameString)
+                 // print(nameString)
                   myUtterance = AVSpeechUtterance(string:  nameString)
                   myUtterance.rate = 0.4
                   synth.speak(myUtterance)
-                 // userTextField.resignFirstResponder()
+                  userTextField.resignFirstResponder()
               }catch{
                   print("error")
               }
@@ -324,24 +329,6 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         resetfields()
     }
     
- /*   func showToast(message : String){
-         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 130, y: self.view.frame.size.height/2, width: 250, height: 35))
-           toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-           toastLabel.textColor = UIColor.white
-           toastLabel.textAlignment = .center;
-           toastLabel.font = UIFont(name: "Montserrat-Light", size: 15.0)
-           toastLabel.text = message
-           toastLabel.alpha = 1.0
-           toastLabel.layer.cornerRadius = 10;
-           toastLabel.clipsToBounds  =  true
-           self.view.addSubview(toastLabel)
-           UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
-               toastLabel.alpha = 0.0
-           }, completion: {(isCompleted) in
-               toastLabel.removeFromSuperview()
-           })
-    } */
-    
     func showAlert(for alert : String) {
         let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -351,6 +338,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         myUtterance = AVSpeechUtterance(string: alertController.message!)
         myUtterance.rate = 0.4
         synth.speak(myUtterance)
+    
     }
 }
 
@@ -378,18 +366,6 @@ extension String {
         return result
     }
     
-//    var isValidEmail: Bool{
-//            let emailRegEx = "[A-Z0-9a-z.%+-]+@[A-Za-z.-]+\\.[A-Za-z]{2,3}"
-//            let emailtest = NSPredicate(format: "SELF Matches %@", emailRegEx)
-//            let result =  emailtest.evaluate(with: self)
-//            return result
-//    }
-
-//    var isphoneValidate : Bool {
-//        let phoneRegEx = "[0-9]{10}"
-//        let phonetest = NSPredicate(format: "SELF Matches %@", phoneRegEx)
-//        return phonetest.evaluate(with: self)
-//    }
 }
 
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -416,6 +392,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
 
           self.present(alert, animated: true, completion: nil)
       }
+    
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)){
             imagePicker.sourceType = UIImagePickerController.SourceType.camera
@@ -465,7 +442,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         let FourthAction = UIAlertAction(title: "Others", style: .default){ (_) in
             self.purposeTextFeild.text = "Others"
         }
-                
+        
         optionmenu.addAction(FirstAction)
         optionmenu.addAction(SecondAction)
         optionmenu.addAction(ThirdAction)

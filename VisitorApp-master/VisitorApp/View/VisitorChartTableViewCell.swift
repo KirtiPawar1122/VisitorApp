@@ -21,9 +21,9 @@ class VisitorChartTableViewCell: UITableViewCell, UITableViewDataSource, UITable
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-       // setUptable()
-      //  addSubview()
+        // setUptable()
     }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
@@ -39,6 +39,7 @@ class VisitorChartTableViewCell: UITableViewCell, UITableViewDataSource, UITable
         innerTableview.frame = CGRect(x: innerTableview.frame.origin.x, y: innerTableview.frame.origin.y, width: innerTableview.frame.size.width, height: innerTableview.contentSize.height)
         innerTableview.reloadData()
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
        // return 100
@@ -51,9 +52,6 @@ class VisitorChartTableViewCell: UITableViewCell, UITableViewDataSource, UITable
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-      //  let cell = tableView.dequeueReusableCell(withIdentifier: "VisitorInnerTableViewCell")!
-      //  cell.textLabel?.text = data[indexPath.row]
-
         let cell = innerTableview.dequeueReusableCell(withIdentifier: "VisitorInnerTableViewCell") as! VisitorInnerTableViewCell
         cell.innerCellLabel.text = data?[indexPath.row]
         return cell
