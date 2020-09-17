@@ -134,9 +134,11 @@ extension VisitorChartViewController: UITableViewDataSource{
         print(dataitem.count)
         
         if (indexPath.section == 0) {
-            let count = items[indexPath.section].count
-            print(count)
-            cell.sectionLabel.text = "Meeting"
+            if (indexPath.row == 0) {
+               cell.sectionLabel.text = "Meeting"
+            } else  {
+                cell.sectionLabel.text = ""
+            }
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.red
         }
@@ -144,7 +146,11 @@ extension VisitorChartViewController: UITableViewDataSource{
         if (indexPath.section == 1){
           //  let count = items[indexPath.section].count
           //  print(count)
-            cell.sectionLabel.text = "Interview"
+            if (indexPath.row == 0) {
+                cell.sectionLabel.text = "Interview"
+            } else {
+                cell.sectionLabel.text = ""
+            }
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.orange
         }
@@ -152,7 +158,11 @@ extension VisitorChartViewController: UITableViewDataSource{
         if (indexPath.section == 2) {
           //  let count = items[indexPath.section].count
           //  print(count)
-            cell.sectionLabel.text = "Guest Visit"
+            if (indexPath.row == 0) {
+               cell.sectionLabel.text = "Guest Visit"
+            } else {
+               cell.sectionLabel.text = ""
+            }
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.systemYellow
         }
@@ -160,7 +170,11 @@ extension VisitorChartViewController: UITableViewDataSource{
         if (indexPath.section == 3){
           //  let count = items[indexPath.section].count
           //  print(count)
-            cell.sectionLabel.text = "Others"
+            if (indexPath.row == 0) {
+               cell.sectionLabel.text = "Others"
+            } else {
+               cell.sectionLabel.text = ""
+            }
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.systemGreen
         }

@@ -62,7 +62,9 @@ class ChartViewController: UIViewController {
       var dataEntries: [ChartDataEntry] = []
         for i in 0..<dataPoints.count {
         let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data: dataPoints[i] as AnyObject)
-        dataEntries.append(dataEntry)
+            if (dataEntry.y != 0) {
+               dataEntries.append(dataEntry)
+            }
       }
 
       // 2. Set ChartDataSet
