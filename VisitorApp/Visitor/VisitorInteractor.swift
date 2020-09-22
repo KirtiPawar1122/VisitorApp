@@ -37,11 +37,8 @@ class VisitorInteractor {
         
         do{
             try context.save()
-           // visitor.append(visitorData as! Visitor)
-          //  print(visitor.first?.visits as Any)
             visit.append(visitData as! Visit)
             print(visit.first?.visitors as Any)
-           // self.presenterProtocol?.getDatafromInteractor(visitorData: visitor)
             self.presenterProtocol?.getDatafromInteractor(visitorData: visit)
             
         } catch let error as NSError {
@@ -51,41 +48,14 @@ class VisitorInteractor {
     }
     
     func fetchRecord(){
-        var arrVisits = [Visit]()
         let visitorsfetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
         do {
-            arrVisits = try context.fetch(visitorsfetchRequest)
-            for item in arrVisits{
-               // print(item.name!, item.address!, item.email!, item.phoneNo,item.profileImage)
-                print(item.companyName!, item.date!, item.visitorName!, item.purpose!,item.visitors?.allObjects as Any)
-            }
+            let record = try context.fetch(visitorsfetchRequest)
+            self.presenterProtocol?.getDatafromInteractor(visitorData: record)
+            
         } catch let error as NSError{
             print(error.description)
         }
     }
+}
 
-    
-    func compareData(email : String){
-//        var data : [Any] = []
-//        let fetchRequest = NSFetchRequest<Visitor>(entityName: "Visitor")
-//        do {
-//            let fetchedRequests =  try context.fetch(fetchRequest)
-//            for item in fetchedRequests{
-//                let visitorObj: Visitor = Visitor()
-//                if email == item.email{
-//                    print(item.name! , item.address!,item.companyName!, item.phoneNo,item.email!, item.visitingName!, item.visitPurpose!)
-//                    if let name = item.name{
-//                        visitorObj.name = name
-//                    }
-//                }else {
-//                    print("error in fetching data")
-//                }
-//                data.append(visitorObj)
-//                print(data)
-//            }
-//        } catch let error as NSError{
-//            print(error.description)
-//        }
-//    }
-}
-}

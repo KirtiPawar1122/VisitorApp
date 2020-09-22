@@ -4,7 +4,7 @@ import UIKit
 
 protocol PresenterProtocol {
     func getDatafromInteractor(visitorData : [Visit])
-    func getCompareEmailData(compareData: [Visitor])
+    func getCompareEmailData(compareData: [Visit])
 }
 
 
@@ -17,6 +17,7 @@ class VisitorPresenter: PresenterProtocol {
         viewObj?.loadData(visitorData: visitorData)
     }
     
-    func getCompareEmailData(compareData: [Visitor]) {
+    func getCompareEmailData(compareData: [Visit]) {
+        print(compareData)
     }
 }

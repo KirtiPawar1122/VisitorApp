@@ -35,6 +35,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     let synth = AVSpeechSynthesizer()
     var myUtterance = AVSpeechUtterance(string: "")
     var name: String = ""
+    var compareEmail: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +73,8 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         submitLable.layer.shadowRadius = 5
         submitLable.layer.shadowOpacity = 1.0
         
-        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7621263266, green: 0.08146793395, blue: 0.1015944257, alpha: 1)
 
         let personImg = UIImage(named: "person")
         addImageOntextField(textField: userTextField, img: personImg!)
@@ -95,6 +97,8 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
 
         let purposeImg = UIImage(named: "purpose")
         addImageOntextField(textField: purposeTextFeild, img: purposeImg!)
+        
+        fetchData()
 
     } //end of viewDidiLoad()
 
@@ -148,10 +152,25 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         }
     }
     
+    func fetchData(){
+        interactor.fetchRecord()
+    }
+    
+    func checkMail(checkmail: String){
+        print(checkmail)
+        for item in visit {
+            if (checkmail == item.visitors?.value(forKey: "email") as? String) {
+                compareEmail = checkmail
+                let alert = UIAlertController(title: nil, message: "Welcome to Wurth IT", preferredStyle: .alert)
+                let alertAtion = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alert.addAction(alertAtion)
+                present(alert, animated: true, completion: nil)            }
+        }
+    }
+    
     @IBAction func submitButtonClick(_ sender: Any) {
         print("on Submit button")
         validate()
-       // showAlert(for: "Data Submitted successfully..!!")
     }
     
     private func switchnextTextfield(_ textField: UITextField){
@@ -207,7 +226,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
                   print(record)
                 
                   for item in record {
-                      print(item)
+                    print(item)
                     
                     if textField.text == "" {
                         switchnextTextfield(textField)
@@ -215,8 +234,6 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
                     } else if emailTextField.text != item.visitors?.value(forKey: "email") as? String {
                         
                         switchnextTextfield(textField)
-                        print(emailTextField.text!)
-        
                         
                     } else if emailTextField.text == item.visitors?.value(forKey: "email") as? String {
                         
@@ -234,7 +251,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
                           purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
                           print(userTextField.text!)
 
-                          nameString = "Hello \(userTextField.text!), Welcome to wurth-IT"
+                          nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
                           userTextField.resignFirstResponder()
                       }
                   }
@@ -304,13 +321,27 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         formatter.dateFormat = "MMM d, h:mm a"
         let dateString = formatter.string(from: now)
         print(dateString)
-
-        interactor.save(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: String(email), companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg,currentDate: dateString
-        )
         
-        showAlert(for: "Hello \(name), Welcome to Wurth-IT")
+        
+        checkMail(checkmail: email)
+        
+        if(compareEmail != email) {
+            saveData(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString)
+            
+            showAlert(for: "Hello \(name), Welcome to Wurth-IT")
+            
+        } else {
+            saveData(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString)
+        }
         resetfields()
     }
+    
+    func saveData(name: String, address: String, phoneNo: Int64, email: String, companyName: String, visitPurpose: String, visitingName: String, profileImage: Data,currentDate: String)
+     {
+        interactor.save(name: name, address: address, phoneNo: phoneNo, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitingName, profileImage: profileImage, currentDate: currentDate)
+     }
+    
+    
     
     func resetfields() {
         userTextField.text = ""
