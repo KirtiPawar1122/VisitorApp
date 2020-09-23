@@ -24,7 +24,6 @@ class VisitorChartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(datavisit)
         tableview.dataSource = self
         tableview.delegate = self
         tableview.layer.borderWidth = 2
