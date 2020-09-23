@@ -4,7 +4,6 @@ import Charts
 
 class VisitorChartViewController: UIViewController {
     
-
     @IBOutlet weak var histogram: BarChartView!
     @IBOutlet weak var viewUI: UIView!
     @IBOutlet weak var tableview: UITableView!
@@ -20,23 +19,19 @@ class VisitorChartViewController: UIViewController {
     var interviewDate = [String]()
     var guestvisitDate = [String]()
     var otherDate = [String]()
-  //  var items : [String :[String]] = [:]
     var items : [[String]] = []
     var sectionName = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(datavisit)
-         
         tableview.dataSource = self
         tableview.delegate = self
         tableview.layer.borderWidth = 2
         tableview.layer.borderColor = UIColor.black.cgColor
-  
-
-      for item in datavisit {
-       // print(item.visitors?.value(forKey: "name"))
-        namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
         
+      for item in datavisit {
+        namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
         if item.purpose == "Meeting" {
                 meeting = meeting + 1
                 meetingDate.append(item.date!)
@@ -53,16 +48,13 @@ class VisitorChartViewController: UIViewController {
         }
         }
         items = [meetingDate,interviewDate,guestvisitDate,otherDate]
-       // items = ["Meeting" : meetingDate, "Interview" : interviewDate, "Guestvisit" : guestvisitDate, "Others" : otherDate]
-        print(items)
         
         let data = [meeting,interview,guestVisit,other]
-        setChart(dataPoints: purpose, values: data.map({ Double($0)}))
-       // setChart(dataPoints: purpose, values: Double(data))
+        setDataOnChart(dataPoints: purpose, values: data.map({ Double($0)}))
         self.navigationItem.title = "Visitor Data Overview"
     }
     
-    func setChart(dataPoints: [String], values: [Double]) {
+    func setDataOnChart(dataPoints: [String], values: [Double]) {
        var dataEntries: [BarChartDataEntry] = []
                 
         for i in 0..<dataPoints.count {
@@ -96,42 +88,31 @@ class VisitorChartViewController: UIViewController {
         histogram.leftAxis.axisMinimum = 0
         histogram.rightAxis.axisMinimum = 0
         histogram.data = barChartData
-
     }
 }
 extension VisitorChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
-        //return 50
     }
 }
 extension VisitorChartViewController: UITableViewDataSource{
-
     func numberOfSections(in tableView: UITableView) -> Int {
         return purpose.count
     }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return purpose[section]
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items[section].count
-       // return datavisit.count
     }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorChartTableViewCell") as! VisitorChartTableViewCell
-      
         let data = items[indexPath.section][indexPath.row]
-        
-        let dataitem =  items[indexPath.row]
-        print(dataitem.count)
+        //let dataitem =  items[indexPath.row]
         
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
@@ -142,10 +123,7 @@ extension VisitorChartViewController: UITableViewDataSource{
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.red
         }
-        
         if (indexPath.section == 1){
-          //  let count = items[indexPath.section].count
-          //  print(count)
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = "Interview"
             } else {
@@ -154,10 +132,7 @@ extension VisitorChartViewController: UITableViewDataSource{
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.orange
         }
-        
         if (indexPath.section == 2) {
-          //  let count = items[indexPath.section].count
-          //  print(count)
             if (indexPath.row == 0) {
                cell.sectionLabel.text = "Guest Visit"
             } else {
@@ -166,10 +141,7 @@ extension VisitorChartViewController: UITableViewDataSource{
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.systemYellow
         }
-
         if (indexPath.section == 3){
-          //  let count = items[indexPath.section].count
-          //  print(count)
             if (indexPath.row == 0) {
                cell.sectionLabel.text = "Others"
             } else {
@@ -178,8 +150,6 @@ extension VisitorChartViewController: UITableViewDataSource{
             cell.dataLabel.text = data
             cell.backgroundColor = UIColor.systemGreen
         }
-    
         return cell
-    
     }
 }

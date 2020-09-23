@@ -4,29 +4,19 @@ import CoreData
 
 class VisitorDataViewController: UIViewController {
     
-   // var visitorObj = [Visitor]()
+    @IBOutlet weak var tableview: UITableView!
+    
     var viewObj = [Visit]()
     var visits: Visit?
-    
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    @IBOutlet weak var tableview: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(viewObj)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "View Graph", style: .plain, target: self, action: #selector(viewGraph))
     }
-    
-    @objc func viewGraph(){
-        let data = viewObj
-        print(data)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as? ChartViewController
-        vc?.visits = data
-        navigationController?.pushViewController(vc!, animated: true)
-    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Visit")
@@ -54,6 +44,13 @@ class VisitorDataViewController: UIViewController {
             alert.addAction(cancelAction)
             present(alert,animated: true,completion: nil)
         }
+    
+    @objc func viewGraph(){
+        let data = viewObj
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as? ChartViewController
+        vc?.visits = data
+        navigationController?.pushViewController(vc!, animated: true)
+    }
 }
 
 extension VisitorDataViewController : UITableViewDataSource{
@@ -64,7 +61,6 @@ extension VisitorDataViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VisitorTableViewCell", for: indexPath) as! VisitorTableViewCell
         let data = viewObj[indexPath.row]
-        print(data)
         
         cell.companyName.text = data.companyName
         cell.date.text = data.date
@@ -95,23 +91,18 @@ extension VisitorDataViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let data = viewObj
         let item = viewObj[indexPath.row]
         var dataArray = [Visit]()
         let selectedEmail = item.visitors?.value(forKey: "email") as! String
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "VisitorChartViewController") as! VisitorChartViewController
-        
         for visit in data {
             let email = visit.visitors?.value(forKey: "email") as! String
             if email == selectedEmail {
-                print("Email : \(email), Purpose : \(String(describing: visit.purpose))")
                 dataArray.append(visit)
-               // dataArray.append(visit)
             }
         }
         storyboard.datavisit = dataArray
-       // storyboard.visits = [item]
         navigationController?.pushViewController(storyboard, animated: true)
         print("Select table row")
     }

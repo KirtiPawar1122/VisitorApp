@@ -23,8 +23,6 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         self.floatingLabel = UILabel(frame: CGRect.zero)
     }
     
-   
-        
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         textField.returnKeyType = .next
@@ -64,56 +62,6 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         self.borderStyle = .roundedRect
         self.layer.borderColor = UIColor.gray.cgColor
     }
-    
-//    func addImageOntextField(textfield : UITextField,img : UIImage){
-//        let leftImage = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: img.size.width, height: img.size.height))
-//        leftImage.image = img
-//        textfield.leftView = leftImage
-//        textfield.leftViewMode = .always
-//    }
-    
  }
-
-
-
-
-
-
-//    func createTextFeild(){
-//        let borderWidth = CGFloat(1.0)
-//        self.layer.borderColor = UIColor.white.cgColor
-//        self.layer.frame = CGRect(x: 130, y: 450 , width: 550, height: self.frame.size.height )
-//        self.layer.borderWidth = borderWidth
-//        self.backgroundColor = UIColor.lightGray
-//        self.layer.masksToBounds = true
-//    }
-    
-//    func newTextFeild(){
-//        let textField = UITextField(frame: CGRect(x: 0, y: 20, width: 100, height: 20))
-//        let border = CALayer()
-//        let width = CGFloat(2.0)
-//        border.borderColor = UIColor.darkGray.cgColor
-//        border.frame = CGRect(x: 0, y: textField.frame.size.height - width, width:  textField.frame.size.width, height: textField.frame.size.height)
-//        border.borderWidth = width
-//        textField.borderStyle = .none
-//        textField.layer.addSublayer(border)
-//        textField.layer.masksToBounds = true
-//    }
-    
-//func textFeildVendorName() {
-//     print("in textFeildVendorName")
-//// let placeholderString = NSAttributedString(string: "vendor Name", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
-// //    self.attributedPlaceholder = placeholderString
-//   //  self.text = _placeholder
-//   //  self.placeholder = _placeholder
-//     let imageVendorname = UIImage(named: "icon")
-//     imageView.image = imageVendorname
-//     imageView.frame = CGRect(x: 5, y: 5, width: 20, height: 20)
-//     let paddingView: UIView = UIView.init(frame:
-//         CGRect(x: 0, y: 0, width: 30, height: 30))
-//     paddingView.addSubview(imageView)
-//     self.leftViewMode = .always
-//     self.leftView = paddingView
-// }
 
 

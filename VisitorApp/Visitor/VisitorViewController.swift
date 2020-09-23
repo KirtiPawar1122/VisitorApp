@@ -39,17 +39,14 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //loadDataButton.isEnabled = false
-        //interactor.fetchRecord()
-        //interactor.compareData(email: emailTextField.text!)
-        
-        self.userTextField.delegate = self
-        self.addressTextField.delegate = self
-        self.emailTextField.delegate = self
-        self.phoneTextField.delegate = self
-        self.companyTextField.delegate = self
-        self.purposeTextFeild.delegate = self
-        self.visitTextField.delegate = self
+
+        userTextField.delegate = self
+        addressTextField.delegate = self
+        emailTextField.delegate = self
+        phoneTextField.delegate = self
+        companyTextField.delegate = self
+        purposeTextFeild.delegate = self
+        visitTextField.delegate = self
     
         hideKeyboardTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector( VisitorViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -57,8 +54,8 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         NotificationCenter.default.addObserver(self, selector: #selector(VisitorViewController
             .keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(imgAction))
-        visitorImage.addGestureRecognizer(tap)
+        let tapOnImageView = UITapGestureRecognizer(target: self, action: #selector(imageAction))
+        visitorImage.addGestureRecognizer(tapOnImageView)
         visitorImage.isUserInteractionEnabled = true
         
         let tapPurposeTextFeild = UITapGestureRecognizer(target: self, action: #selector(purposeAction))
@@ -67,7 +64,6 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         
         submitLable.layer.cornerRadius = 5
         submitLable.layer.borderColor = UIColor.black.cgColor
-        
         submitLable.layer.shadowColor = UIColor.black.cgColor
         submitLable.layer.shadowOffset = CGSize(width: 5, height: 5)
         submitLable.layer.shadowRadius = 5
@@ -75,33 +71,33 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7621263266, green: 0.08146793395, blue: 0.1015944257, alpha: 1)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        
+        let personImage = UIImage(named: "person")
+        addImageOntextField(textField: userTextField, img: personImage!)
 
-        let personImg = UIImage(named: "person")
-        addImageOntextField(textField: userTextField, img: personImg!)
+        let addressImage = UIImage(named: "icon-1")
+        addImageOntextField(textField: addressTextField, img: addressImage!)
 
-        let addressImg = UIImage(named: "icon-1")
-        addImageOntextField(textField: addressTextField, img: addressImg!)
+        let phoneImage = UIImage(named: "phone")
+        addImageOntextField(textField: phoneTextField, img: phoneImage!)
 
-        let phoneImg = UIImage(named: "phone")
-        addImageOntextField(textField: phoneTextField, img: phoneImg!)
-
-        let mailImg = UIImage(named: "email")
-        addImageOntextField(textField: emailTextField, img: mailImg!)
+        let mailImage = UIImage(named: "email")
+        addImageOntextField(textField: emailTextField, img: mailImage!)
         emailTextField.delegate = self as UITextFieldDelegate
         
-        let companyImg = UIImage(named: "company")
-        addImageOntextField(textField: companyTextField, img: companyImg!)
+        let companyImage = UIImage(named: "company")
+        addImageOntextField(textField: companyTextField, img: companyImage!)
 
-        let visitImg = UIImage(named: "persons")
-        addImageOntextField(textField: visitTextField, img: visitImg!)
+        let visitImage = UIImage(named: "persons")
+        addImageOntextField(textField: visitTextField, img: visitImage!)
 
-        let purposeImg = UIImage(named: "purpose")
-        addImageOntextField(textField: purposeTextFeild, img: purposeImg!)
+        let purposeImage = UIImage(named: "purpose")
+        addImageOntextField(textField: purposeTextFeild, img: purposeImage!)
         
         fetchData()
 
     } //end of viewDidiLoad()
-
 
     func addImageOntextField(textField : CustomTextField,img : UIImage){
         let imageView = UIImageView()
@@ -112,22 +108,19 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         textField.leftView = leftView;
         textField.leftViewMode = .always
         textField.returnKeyType = .next
-       // switchnextTextfield(textField)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
          }
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
+         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
          scrollView.contentInset = contentInsets
          scrollView.scrollIndicatorInsets = contentInsets
-
      }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-      let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
          scrollView.contentInset = contentInsets
          scrollView.scrollIndicatorInsets = contentInsets
     }
@@ -143,12 +136,9 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     }
     
     func loadData(visitorData: [Visit]) {
-       // visitor = visitorData
         visit = visitorData
-        print(visit.count)
         for item in visit{
             name = item.visitors?.value(forKey: "name") as? String ?? ""
-            print(name as Any)
         }
     }
     
@@ -157,7 +147,6 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     }
     
     func checkMail(checkmail: String){
-        print(checkmail)
         for item in visit {
             if (checkmail == item.visitors?.value(forKey: "email") as? String) {
                 compareEmail = checkmail
@@ -169,11 +158,10 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     }
     
     @IBAction func submitButtonClick(_ sender: Any) {
-        print("on Submit button")
         validate()
     }
     
-    private func switchnextTextfield(_ textField: UITextField){
+    private func switchnextTextField(_ textField: UITextField){
         switch textField {
         case self.emailTextField:
             self.userTextField.becomeFirstResponder()
@@ -200,7 +188,6 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
             self.submitLable.becomeFirstResponder()
         }
     }
-    
     // textfeild character limits for PhoneNumber
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
@@ -212,10 +199,9 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
             return true
         }
     }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
        var nameString : String = ""
-       switchnextTextfield(textField)
+       switchnextTextField(textField)
        textField.resignFirstResponder()
       
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
@@ -223,21 +209,14 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         let fetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
               do {
                   let record = try context.fetch(fetchRequest)
-                  print(record)
-                
                   for item in record {
-                    print(item)
-                    
                     if textField.text == "" {
-                        switchnextTextfield(textField)
-                        
+                        switchnextTextField(textField)
                     } else if emailTextField.text != item.visitors?.value(forKey: "email") as? String {
-                        
-                        switchnextTextfield(textField)
-                        
+                        switchnextTextField(textField)
                     } else if emailTextField.text == item.visitors?.value(forKey: "email") as? String {
                         
-                          switchnextTextfield(textField)
+                          switchnextTextField(textField)
                           companyTextField.text = item.companyName!
                          // purposeTextFeild.text = item.purpose!
                           visitTextField.text = item.visitorName!
@@ -245,18 +224,13 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
                           emailTextField.text = item.visitors?.value(forKey: "email") as? String
                           addressTextField.text = item.visitors?.value(forKey: "address") as? String
                           phoneTextField.text = String(item.visitors?.value(forKey: "phoneNo") as! Int64)
-                        
                           visitorImage.image = UIImage(data: item.visitors?.value(forKey: "profileImage") as! Data)
-                        
                           purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
-                          print(userTextField.text!)
-
                           nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
                           userTextField.resignFirstResponder()
                       }
                   }
-                 // print(nameString)
-                  myUtterance = AVSpeechUtterance(string:  nameString)
+                  myUtterance = AVSpeechUtterance(string: nameString)
                   myUtterance.rate = 0.4
                   synth.speak(myUtterance)
                   userTextField.resignFirstResponder()
@@ -269,10 +243,8 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
-        print(tapCount)
         if tapCount == 5 {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorDataViewController
-            //vc.visitorObj = visitor
             vc.viewObj = visit
             navigationController?.pushViewController(vc, animated: true)
             tapCount = 0
@@ -314,36 +286,29 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
              self.view.makeToast("Please select Image", duration: 3, position: .center)
             return
         }
-        
         let now = Date()
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "MMM d, h:mm a"
         let dateString = formatter.string(from: now)
-        print(dateString)
-        
-        
         checkMail(checkmail: email)
         
         if(compareEmail != email) {
             saveData(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString)
-            
             showAlert(for: "Hello \(name), Welcome to Wurth-IT")
             
         } else {
             saveData(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString)
         }
-        resetfields()
+        resetTextFields()
     }
     
     func saveData(name: String, address: String, phoneNo: Int64, email: String, companyName: String, visitPurpose: String, visitingName: String, profileImage: Data,currentDate: String)
      {
         interactor.save(name: name, address: address, phoneNo: phoneNo, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitingName, profileImage: profileImage, currentDate: currentDate)
      }
-    
-    
-    
-    func resetfields() {
+
+    func resetTextFields() {
         userTextField.text = ""
         addressTextField.text = ""
         emailTextField.text = ""
@@ -353,11 +318,10 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         purposeTextFeild.text = ""
         visitorImage.image = UIImage(named: "no-image.png")
         selectedImage = UIImage(named: "no-image.png")
-        //Signature.clear()
     }
     
     @IBAction func refreshPage(_ sender: UIBarButtonItem) {
-        resetfields()
+        resetTextFields()
     }
     
     func showAlert(for alert : String) {
@@ -365,11 +329,9 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(alertAction)
         present(alertController, animated: true, completion: nil)
-        
         myUtterance = AVSpeechUtterance(string: alertController.message!)
         myUtterance.rate = 0.4
         synth.speak(myUtterance)
-    
     }
 }
 
@@ -380,19 +342,15 @@ extension String {
             return trimmed.isEmpty
         }
     }
-    
     func isValidEmail(mail : String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z.%+-]+@[A-Za-z.-]+\\.[A-Za-z]{2,3}"
         let emailtest = NSPredicate(format: "SELF Matches %@", emailRegEx)
         let result =  emailtest.evaluate(with: self)
         return result
     }
-    
     func isphoneValidate(phone: String) -> Bool {
         let phoneRegEx = "[0-9]{10}"
-       // let phonelength = 10
         let phonetest = NSPredicate(format: "SELF Matches %@", phoneRegEx)
-       // return phonetest.evaluate(with: self) <= phonelength
         let result = phonetest.evaluate(with: self)
         return result
     }
@@ -401,17 +359,17 @@ extension String {
 
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @objc func imgAction() {
+    @objc func imageAction() {
           print("click on imageview")
           let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
           alert.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
-              self.openCamera()
+               self.openCamera()
           }))
           alert.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
-              self.openGallary()
+               self.openGallary()
           }))
           alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-          
+
           switch UIDevice.current.userInterfaceIdiom {
               case .pad:
                   alert.popoverPresentationController?.sourceView = self.view
@@ -420,7 +378,6 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
               default:
                       break
           }
-
           self.present(alert, animated: true, completion: nil)
       }
     
@@ -456,10 +413,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
     @objc func purposeAction(){
-        print("on purpose textfeilds")
-        
-        let optionmenu = UIAlertController(title: nil, message: "Choose option", preferredStyle: .actionSheet)
-        
+        let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
         let FirstAction = UIAlertAction(title: "Guest Visit", style: .default){ (_) in
             self.purposeTextFeild.text = "Guest Visit"
             return
@@ -474,23 +428,20 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
             self.purposeTextFeild.text = "Others"
         }
         
-        optionmenu.addAction(FirstAction)
-        optionmenu.addAction(SecondAction)
-        optionmenu.addAction(ThirdAction)
-        optionmenu.addAction(FourthAction)
-        
+        optionMenu.addAction(FirstAction)
+        optionMenu.addAction(SecondAction)
+        optionMenu.addAction(ThirdAction)
+        optionMenu.addAction(FourthAction)
+
         switch UIDevice.current.userInterfaceIdiom {
             case .pad:
-                optionmenu.popoverPresentationController?.sourceView = self.view
-                optionmenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                optionmenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+                optionMenu.popoverPresentationController?.sourceView = self.view
+                optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
             default:
                     break
         }
-        
-        self.present(optionmenu, animated: true,completion: nil)
-
+        self.present(optionMenu, animated: true,completion: nil)
     }
-
 }
 
