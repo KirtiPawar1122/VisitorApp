@@ -2,19 +2,33 @@
 import UIKit
 import CoreData
 
-class VisitorDataViewController: UIViewController {
-    
+protocol VisitorDataProtocol{
+    func viewProtocol(visitorData : [Visit])
+}
+
+struct VisitorDataViewControllerConstants{
+    static let navRightBarTitle = "View Graph"
+    static let deleteAlertMessage = "Are you sure you would like to delete entry"
+    static let confirmActionMessage = "Confirm"
+    static let cancelActionMessage = "Cancel"
+}
+
+class VisitorDataViewController: UIViewController, VisitorDataProtocol {
+
     @IBOutlet weak var tableview: UITableView!
     
     var viewObj = [Visit]()
     var visits: Visit?
+    var interactor : VisitorListInteractor = VisitorListInteractor()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(viewObj)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "View Graph", style: .plain, target: self, action: #selector(viewGraph))
+    
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
+        //tableview.reloadData()
+      //  interactor.fecthAllData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -23,23 +37,28 @@ class VisitorDataViewController: UIViewController {
         do {
             viewObj = try context.fetch(fetchRequest) as! [Visit]
         } catch let error as NSError{
-            print("Error in fetching data \(error)")
+            print(error.description)
         }
-        print(viewObj)
+      //  interactor.fecthAllData()
         self.tableview.reloadData()
     }
     
+    func viewProtocol(visitorData: [Visit]) {
+        print(visitorData)
+        viewObj = visitorData
+    }
     func deleteConfirm(indexpath: IndexPath){
-            let alert = UIAlertController(title: nil, message: "Are you sure you would like to delete entry", preferredStyle: .alert)
-            let confirmAction = UIAlertAction(title: "Confirm", style: .default) {(_) in
-                print("Click On Confirm")
+        let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
                 let visitorInfo = self.viewObj[indexpath.row]
                 self.context.delete(visitorInfo)
                 self.viewObj.remove(at: indexpath.row)
                 self.appDelegate.saveContext()
                 self.tableview.reloadData()
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let cancelAction = UIAlertAction(title: VisitorDataViewControllerConstants.cancelActionMessage, style: .cancel, handler: nil)
             alert.addAction(confirmAction)
             alert.addAction(cancelAction)
             present(alert,animated: true,completion: nil)
@@ -52,7 +71,7 @@ class VisitorDataViewController: UIViewController {
         navigationController?.pushViewController(vc!, animated: true)
     }
 }
-
+//MARK: - Tableview DataSource methods
 extension VisitorDataViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewObj.count
@@ -71,14 +90,14 @@ extension VisitorDataViewController : UITableViewDataSource{
         
         if let data = data.visitors?.value(forKey: "profileImage") as? Data?{
             cell.profileImage.image = UIImage(data: data!)
-        }else{
+        } else {
             cell.profileImage.image = UIImage(named: "img.jpeg")
             print("profile image is not set")
         }
         return cell
     }
 }
-
+//MARK: - Tableview Delegate Methods
 extension VisitorDataViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
@@ -104,7 +123,7 @@ extension VisitorDataViewController: UITableViewDelegate{
         }
         storyboard.datavisit = dataArray
         navigationController?.pushViewController(storyboard, animated: true)
-        print("Select table row")
+       
     }
 }
 

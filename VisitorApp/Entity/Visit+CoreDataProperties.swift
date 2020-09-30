@@ -15,8 +15,6 @@ extension Visit {
     @NSManaged public var purpose: String?
     @NSManaged public var companyName: String?
     @NSManaged public var visitors: NSSet?
-    
-
 }
 
 // MARK: Generated accessors for visitors

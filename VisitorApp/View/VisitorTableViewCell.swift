@@ -4,7 +4,6 @@ import UIKit
 
 class VisitorTableViewCell: UITableViewCell {
     
-    
     @IBOutlet weak var innerView: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var visitorName: UILabel!
@@ -13,11 +12,10 @@ class VisitorTableViewCell: UITableViewCell {
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var visitPurpose: UILabel!
-    
     @IBOutlet weak var subView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

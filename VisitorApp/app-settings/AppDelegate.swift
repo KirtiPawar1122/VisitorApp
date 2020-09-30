@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc private func mainScreen(){
-        let vc = VisitorRouter.getFirstScreen()
+        let vc = VisitorRouter.mainScreen()
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: vc)
         window?.rootViewController = navigationController
