@@ -20,6 +20,7 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
     var viewObj = [Visit]()
     var visits: Visit?
     var interactor : VisitorListInteractor = VisitorListInteractor()
+    var visitorDataRouter : VisitorListRouter = VisitorListRouter()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -27,19 +28,17 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
         super.viewDidLoad()
     
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
-        //tableview.reloadData()
-      //  interactor.fecthAllData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Visit")
-        do {
+      //let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Visit")
+      /*  do {
             viewObj = try context.fetch(fetchRequest) as! [Visit]
         } catch let error as NSError{
             print(error.description)
-        }
-      //  interactor.fecthAllData()
+        } */
+        interactor.fecthAllData()
         self.tableview.reloadData()
     }
     
@@ -47,6 +46,7 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
         print(visitorData)
         viewObj = visitorData
     }
+    
     func deleteConfirm(indexpath: IndexPath){
         let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
         
@@ -123,7 +123,6 @@ extension VisitorDataViewController: UITableViewDelegate{
         }
         storyboard.datavisit = dataArray
         navigationController?.pushViewController(storyboard, animated: true)
-       
     }
 }
 

@@ -175,7 +175,6 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         interactor.fetchRecord(email: emailTextField.text!)
     }
     
-   
     func checkMail(checkmail: String){
         fetchData()
         print(checkmail)
@@ -277,9 +276,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
         if tapCount == VisitorViewControllerConstants.maxTapCount {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorDataViewController
-            navigationController?.pushViewController(vc, animated: true)
-            vc.viewObj = visit
+            router.routeToVisitorList(navigationController: navigationController!)
             tapCount = VisitorViewControllerConstants.minTapCount
         } else {
             print("error in save button")
