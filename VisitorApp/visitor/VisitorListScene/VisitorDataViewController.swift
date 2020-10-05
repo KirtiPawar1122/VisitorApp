@@ -32,12 +32,6 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      //let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Visit")
-      /*  do {
-            viewObj = try context.fetch(fetchRequest) as! [Visit]
-        } catch let error as NSError{
-            print(error.description)
-        } */
         interactor.fecthAllData()
         self.tableview.reloadData()
     }
@@ -66,9 +60,7 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
     
     @objc func viewGraph(){
         let data = viewObj
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as? ChartViewController
-        vc?.visits = data
-        navigationController?.pushViewController(vc!, animated: true)
+        visitorDataRouter.routeToChart(data: data, navigationController: navigationController!)
     }
 }
 //MARK: - Tableview DataSource methods
@@ -114,15 +106,13 @@ extension VisitorDataViewController: UITableViewDelegate{
         let item = viewObj[indexPath.row]
         var dataArray = [Visit]()
         let selectedEmail = item.visitors?.value(forKey: "email") as! String
-        let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "VisitorChartViewController") as! VisitorChartViewController
         for visit in data {
             let email = visit.visitors?.value(forKey: "email") as! String
             if email == selectedEmail {
                 dataArray.append(visit)
             }
         }
-        storyboard.datavisit = dataArray
-        navigationController?.pushViewController(storyboard, animated: true)
+        visitorDataRouter.routeToBarChart(fetcheddata: dataArray, navigationController: navigationController!)
     }
 }
 

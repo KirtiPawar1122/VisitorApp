@@ -2,6 +2,10 @@
 import UIKit
 import Charts
 
+protocol loadDataOnChartProtocol {
+    func loadData(fetchedData : [Visit])
+}
+
 struct ChartViewControllerConstants{
     static let chartTitle = "Overall Visitors Data Chart"
     static let meetingTitle = "Meeting"
@@ -10,19 +14,33 @@ struct ChartViewControllerConstants{
     static let othersTitle = "Other"
 }
 
-class ChartViewController: UIViewController {
-
+class ChartViewController: UIViewController, loadDataOnChartProtocol {
+   
     @IBOutlet weak var chartView: PieChartView!
-    var visits : [Visit]!
+    var visits = [Visit]()
     let purpose = ["Meeting", "Guest Visit", "Interview", "Others"]
     var meetings = 0
     var guestvisits = 0
     var interviews = 0
     var others = 0
+    var chartRouter : VisitorChartRouter = VisitorChartRouter()
+    var chartInteractor : VisitorChartInteractor = VisitorChartInteractor()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
+        chartInteractor.loadData()
+        displayChart()
+    }
+    
+    func loadData(fetchedData: [Visit]) {
+             visits = fetchedData
+             print(visits)
+            // displayChart()
+    }
+    
+    func displayChart(){
         for visit in visits {
             if let purpose = visit.purpose{
                 if purpose == ChartViewControllerConstants.meetingTitle{
@@ -55,8 +73,8 @@ class ChartViewController: UIViewController {
         }
         let data = [meeting, guestvisit, interview, other]
         customizeChart(dataPoints: purpose, values: data)
+        
     }
-
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
       var dataEntries: [ChartDataEntry] = []
@@ -92,7 +110,7 @@ class ChartViewController: UIViewController {
       let formatter = DefaultValueFormatter(formatter: format)
       pieChartData.setValueFormatter(formatter)
         
-    // 4. Assign it to the chart’s data
+      //4. Assign it to the chart’s data
       chartView.data = pieChartData
     }
 }

@@ -2,6 +2,11 @@
 import UIKit
 import Charts
 
+protocol visitorViewBarChartProtocol {
+    func laodbarChartData(loadDataObj: [Visit])
+}
+
+
 struct VisitorsChartViewControllerConstants {
     static let visitorChartTitle = "Visitor Data Overview"
     static let meetingTitle = "Meeting"
@@ -10,14 +15,16 @@ struct VisitorsChartViewControllerConstants {
     static let otherTitle = "Other"
 }
 
-class VisitorChartViewController: UIViewController {
+class VisitorChartViewController: UIViewController, visitorViewBarChartProtocol {
+  
+    
     
     @IBOutlet weak var histogram: BarChartView!
     @IBOutlet weak var viewUI: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var namedataLabel : UILabel!
 
-    var datavisit : [Visit]!
+    var datavisit = [Visit]()
     let purpose = ["Meeting", "Interview", "Guest Visit", "Others"]
     var meeting = 0
     var interview = 0
@@ -29,6 +36,8 @@ class VisitorChartViewController: UIViewController {
     var otherDate = [String]()
     var items : [[String]] = []
     var sectionName = String()
+    var barChartRouter : VisitorBarChartRouter = VisitorBarChartRouter()
+    var barChartInterator : VisitorBarChartInteractor = VisitorBarChartInteractor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +45,16 @@ class VisitorChartViewController: UIViewController {
         tableview.delegate = self
         tableview.layer.borderWidth = 2
         tableview.layer.borderColor = UIColor.black.cgColor
+
+        self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
+        barChartInterator.loadData()
+    }
+    
+    func laodbarChartData(loadDataObj: [Visit]) {
+          print(loadDataObj)
+          datavisit = loadDataObj
         
-      for item in datavisit {
+        for item in datavisit {
         namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
         if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
@@ -58,7 +75,7 @@ class VisitorChartViewController: UIViewController {
         
         let data = [meeting,interview,guestVisit,other]
         setDataOnChart(dataPoints: purpose, values: data.map({ Double($0)}))
-        self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
+        
     }
     
     func setDataOnChart(dataPoints: [String], values: [Double]) {
@@ -97,6 +114,7 @@ class VisitorChartViewController: UIViewController {
         histogram.data = barChartData
     }
 }
+
 extension VisitorChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
