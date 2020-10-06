@@ -237,7 +237,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
        textField.resignFirstResponder()
       
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-    
+        
         let fetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
               do {
                   let record = try context.fetch(fetchRequest)
@@ -268,7 +268,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
                   userTextField.resignFirstResponder()
               }catch{
                   print("error")
-              }
+              } 
         return true
     }
 

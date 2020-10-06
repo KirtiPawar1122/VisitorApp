@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = VisitorRouter.mainScreen()
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: vc)
+      //  navigationController.viewControllers = [vc]
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

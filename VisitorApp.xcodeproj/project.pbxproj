@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1AEBD49956BD30ADC244109F /* Pods_VisitorApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619908114255828E9A84C394 /* Pods_VisitorApp.framework */; };
+		9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF02529DE2D00E8B04F /* VisitorBarChartRouter.swift */; };
+		9B63BDF42529DE5F00E8B04F /* VisitorBarChartInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */; };
+		9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */; };
 		9B726F122500DE4700E2F9AD /* VisitorChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */; };
+		9B7D5EFF251C57D4002C995D /* VisitorValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D5EFE251C57D4002C995D /* VisitorValidation.swift */; };
 		9B851BB52490C9B900FFB7F6 /* VisitorDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */; };
 		9B851BB72490CA8100FFB7F6 /* VisitorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B851BB62490CA8100FFB7F6 /* VisitorTableViewCell.swift */; };
 		9B9E2EF925024C9F00E54E4F /* VisitorChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9E2EF825024C9F00E54E4F /* VisitorChartTableViewCell.swift */; };
@@ -21,6 +25,12 @@
 		9BBAF787247654FF00B31A70 /* VisitorApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */; };
 		9BBAF789247654FF00B31A70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BBAF788247654FF00B31A70 /* Assets.xcassets */; };
 		9BBAF78C247654FF00B31A70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BBAF78A247654FF00B31A70 /* LaunchScreen.storyboard */; };
+		9BD5FDE825219D8C006F21DC /* VisitorListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */; };
+		9BD5FDEA25219DD8006F21DC /* VisitorListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */; };
+		9BD5FDEC25219E20006F21DC /* VisitorListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDEB25219E20006F21DC /* VisitorListRouter.swift */; };
+		9BD5FDEE2525A613006F21DC /* VisitorChartRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDED2525A613006F21DC /* VisitorChartRouter.swift */; };
+		9BD5FDF02525AEFE006F21DC /* VisitorChartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDEF2525AEFE006F21DC /* VisitorChartPresenter.swift */; };
+		9BD5FDF22525AF32006F21DC /* VisitorChartInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDF12525AF32006F21DC /* VisitorChartInteractor.swift */; };
 		9BDD18A3247D390A00828EAB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDD18A2247D390A00828EAB /* CustomTextField.swift */; };
 		9BDD18A5247FECBA00828EAB /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDD18A4247FECBA00828EAB /* CustomImageView.swift */; };
 		9BE7A235249A2D8C00AFC4C9 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */; };
@@ -34,13 +44,17 @@
 /* Begin PBXFileReference section */
 		045B74D927B32A5406BBA267 /* Pods-VisitorApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisitorApp.debug.xcconfig"; path = "Target Support Files/Pods-VisitorApp/Pods-VisitorApp.debug.xcconfig"; sourceTree = "<group>"; };
 		619908114255828E9A84C394 /* Pods_VisitorApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisitorApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B63BDF02529DE2D00E8B04F /* VisitorBarChartRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartRouter.swift; sourceTree = "<group>"; };
+		9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartInteractor.swift; sourceTree = "<group>"; };
+		9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartPresenter.swift; sourceTree = "<group>"; };
 		9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewController.swift; sourceTree = "<group>"; };
+		9B7D5EFE251C57D4002C995D /* VisitorValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorValidation.swift; sourceTree = "<group>"; };
 		9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorDataViewController.swift; sourceTree = "<group>"; };
 		9B851BB62490CA8100FFB7F6 /* VisitorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorTableViewCell.swift; sourceTree = "<group>"; };
 		9B9E2EF825024C9F00E54E4F /* VisitorChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartTableViewCell.swift; sourceTree = "<group>"; };
-		9BA98F52248690F900C86B5C /* VisitorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorInteractor.swift; sourceTree = "<group>"; };
-		9BA98F542486913100C86B5C /* VisitorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorPresenter.swift; sourceTree = "<group>"; };
-		9BA98F562486915500C86B5C /* VisitorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorRouter.swift; sourceTree = "<group>"; };
+		9BA98F52248690F900C86B5C /* VisitorInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VisitorInteractor.swift; path = ../Interactor/VisitorInteractor.swift; sourceTree = "<group>"; };
+		9BA98F542486913100C86B5C /* VisitorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VisitorPresenter.swift; path = ../Presenter/VisitorPresenter.swift; sourceTree = "<group>"; };
+		9BA98F562486915500C86B5C /* VisitorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VisitorRouter.swift; path = ../Router/VisitorRouter.swift; sourceTree = "<group>"; };
 		9BBAF779247654FF00B31A70 /* VisitorApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisitorApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BBAF77C247654FF00B31A70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BBAF780247654FF00B31A70 /* VisitorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +62,12 @@
 		9BBAF786247654FF00B31A70 /* VisitorApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VisitorApp.xcdatamodel; sourceTree = "<group>"; };
 		9BBAF788247654FF00B31A70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9BBAF78B247654FF00B31A70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListInteractor.swift; sourceTree = "<group>"; };
+		9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListPresenter.swift; sourceTree = "<group>"; };
+		9BD5FDEB25219E20006F21DC /* VisitorListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListRouter.swift; sourceTree = "<group>"; };
+		9BD5FDED2525A613006F21DC /* VisitorChartRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartRouter.swift; sourceTree = "<group>"; };
+		9BD5FDEF2525AEFE006F21DC /* VisitorChartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartPresenter.swift; sourceTree = "<group>"; };
+		9BD5FDF12525AF32006F21DC /* VisitorChartInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartInteractor.swift; sourceTree = "<group>"; };
 		9BDD18A2247D390A00828EAB /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		9BDD18A4247FECBA00828EAB /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
@@ -80,6 +100,81 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B7D5EFD251C5770002C995D /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9B7D5EFE251C57D4002C995D /* VisitorValidation.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		9B7D5F03251D0384002C995D /* VisitorChartScene */ = {
+			isa = PBXGroup;
+			children = (
+				9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */,
+				9BD5FDED2525A613006F21DC /* VisitorChartRouter.swift */,
+				9BD5FDEF2525AEFE006F21DC /* VisitorChartPresenter.swift */,
+				9BD5FDF12525AF32006F21DC /* VisitorChartInteractor.swift */,
+			);
+			path = VisitorChartScene;
+			sourceTree = "<group>";
+		};
+		9B7D5F04251D03ED002C995D /* app-settings */ = {
+			isa = PBXGroup;
+			children = (
+				9BBAF77C247654FF00B31A70 /* AppDelegate.swift */,
+			);
+			path = "app-settings";
+			sourceTree = "<group>";
+		};
+		9B7D5F05251D0447002C995D /* app-ui */ = {
+			isa = PBXGroup;
+			children = (
+				9BBAF78A247654FF00B31A70 /* LaunchScreen.storyboard */,
+				9BBAF782247654FF00B31A70 /* Main.storyboard */,
+			);
+			path = "app-ui";
+			sourceTree = "<group>";
+		};
+		9B7D5F07251D051D002C995D /* custom */ = {
+			isa = PBXGroup;
+			children = (
+				9BDD18A2247D390A00828EAB /* CustomTextField.swift */,
+				9BDD18A4247FECBA00828EAB /* CustomImageView.swift */,
+			);
+			path = custom;
+			sourceTree = "<group>";
+		};
+		9B7D5F08251D054C002C995D /* app-icons */ = {
+			isa = PBXGroup;
+			children = (
+				9BBAF788247654FF00B31A70 /* Assets.xcassets */,
+			);
+			path = "app-icons";
+			sourceTree = "<group>";
+		};
+		9B7D5F09251D05BB002C995D /* VisitorFormScene */ = {
+			isa = PBXGroup;
+			children = (
+				9BA98F562486915500C86B5C /* VisitorRouter.swift */,
+				9BA98F52248690F900C86B5C /* VisitorInteractor.swift */,
+				9BA98F542486913100C86B5C /* VisitorPresenter.swift */,
+				9BBAF780247654FF00B31A70 /* VisitorViewController.swift */,
+			);
+			path = VisitorFormScene;
+			sourceTree = "<group>";
+		};
+		9B7D5F0A251D05D7002C995D /* VisitorListScene */ = {
+			isa = PBXGroup;
+			children = (
+				9BD5FDEB25219E20006F21DC /* VisitorListRouter.swift */,
+				9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */,
+				9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */,
+				9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */,
+			);
+			path = VisitorListScene;
+			sourceTree = "<group>";
+		};
 		9BBAF770247654FF00B31A70 = {
 			isa = PBXGroup;
 			children = (
@@ -102,53 +197,60 @@
 			isa = PBXGroup;
 			children = (
 				D34AF651250F9E0A00C52C5A /* Info.plist */,
-				9BE7A20824987FF000AFC4C9 /* View */,
-				9BBAF79624767AD700B31A70 /* Visitor */,
-				9BBAF79524767AB300B31A70 /* Entity */,
-				9BBAF77C247654FF00B31A70 /* AppDelegate.swift */,
-				9BBAF782247654FF00B31A70 /* Main.storyboard */,
-				9BBAF788247654FF00B31A70 /* Assets.xcassets */,
-				9BBAF78A247654FF00B31A70 /* LaunchScreen.storyboard */,
-				9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */,
-				9BDD18A2247D390A00828EAB /* CustomTextField.swift */,
-				9BDD18A4247FECBA00828EAB /* CustomImageView.swift */,
+				9BBAF79624767AD700B31A70 /* visitor */,
+				9BBAF79524767AB300B31A70 /* entity */,
+				9B7D5F07251D051D002C995D /* custom */,
+				9B7D5EFD251C5770002C995D /* extensions */,
+				9BE7A20824987FF000AFC4C9 /* view */,
+				9B7D5F05251D0447002C995D /* app-ui */,
+				9B7D5F08251D054C002C995D /* app-icons */,
+				9B7D5F04251D03ED002C995D /* app-settings */,
 			);
 			path = VisitorApp;
 			sourceTree = "<group>";
 		};
-		9BBAF79524767AB300B31A70 /* Entity */ = {
+		9BBAF79524767AB300B31A70 /* entity */ = {
 			isa = PBXGroup;
 			children = (
+				9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */,
 				9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */,
 				9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */,
 				9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */,
 				9BED8B3924E6890300B57C40 /* Visit+CoreDataClass.swift */,
 			);
-			path = Entity;
+			path = entity;
 			sourceTree = "<group>";
 		};
-		9BBAF79624767AD700B31A70 /* Visitor */ = {
+		9BBAF79624767AD700B31A70 /* visitor */ = {
 			isa = PBXGroup;
 			children = (
-				9BA98F562486915500C86B5C /* VisitorRouter.swift */,
-				9BBAF780247654FF00B31A70 /* VisitorViewController.swift */,
-				9BA98F542486913100C86B5C /* VisitorPresenter.swift */,
-				9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */,
-				9BA98F52248690F900C86B5C /* VisitorInteractor.swift */,
-				9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */,
-				9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */,
+				9B7D5F09251D05BB002C995D /* VisitorFormScene */,
+				9B7D5F0A251D05D7002C995D /* VisitorListScene */,
+				9B7D5F03251D0384002C995D /* VisitorChartScene */,
+				9BD5FDF32529D7AA006F21DC /* VisitorBarChartScene */,
 			);
-			path = Visitor;
+			path = visitor;
 			sourceTree = "<group>";
 		};
-		9BE7A20824987FF000AFC4C9 /* View */ = {
+		9BD5FDF32529D7AA006F21DC /* VisitorBarChartScene */ = {
+			isa = PBXGroup;
+			children = (
+				9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */,
+				9B63BDF02529DE2D00E8B04F /* VisitorBarChartRouter.swift */,
+				9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */,
+				9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */,
+			);
+			path = VisitorBarChartScene;
+			sourceTree = "<group>";
+		};
+		9BE7A20824987FF000AFC4C9 /* view */ = {
 			isa = PBXGroup;
 			children = (
 				9B851BB62490CA8100FFB7F6 /* VisitorTableViewCell.swift */,
 				9B9E2EF825024C9F00E54E4F /* VisitorChartTableViewCell.swift */,
 				9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */,
 			);
-			path = View;
+			path = view;
 			sourceTree = "<group>";
 		};
 		FD72172F2F27419247143B8E /* Pods */ = {
@@ -276,21 +378,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BD5FDF22525AF32006F21DC /* VisitorChartInteractor.swift in Sources */,
+				9B7D5EFF251C57D4002C995D /* VisitorValidation.swift in Sources */,
+				9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */,
 				9B726F122500DE4700E2F9AD /* VisitorChartViewController.swift in Sources */,
 				9BE7A235249A2D8C00AFC4C9 /* CustomView.swift in Sources */,
 				9BBAF787247654FF00B31A70 /* VisitorApp.xcdatamodeld in Sources */,
 				9BA98F552486913100C86B5C /* VisitorPresenter.swift in Sources */,
 				9BDD18A5247FECBA00828EAB /* CustomImageView.swift in Sources */,
+				9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */,
 				9BEED35924F7FD1700EDE4A5 /* ChartViewController.swift in Sources */,
 				9BED8B3D24E6890300B57C40 /* Visit+CoreDataClass.swift in Sources */,
 				9BBAF781247654FF00B31A70 /* VisitorViewController.swift in Sources */,
 				9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */,
+				9B63BDF42529DE5F00E8B04F /* VisitorBarChartInteractor.swift in Sources */,
 				9BDD18A3247D390A00828EAB /* CustomTextField.swift in Sources */,
 				9B9E2EF925024C9F00E54E4F /* VisitorChartTableViewCell.swift in Sources */,
+				9BD5FDEE2525A613006F21DC /* VisitorChartRouter.swift in Sources */,
 				9B851BB52490C9B900FFB7F6 /* VisitorDataViewController.swift in Sources */,
+				9BD5FDE825219D8C006F21DC /* VisitorListInteractor.swift in Sources */,
 				9BBAF77D247654FF00B31A70 /* AppDelegate.swift in Sources */,
+				9BD5FDF02525AEFE006F21DC /* VisitorChartPresenter.swift in Sources */,
+				9BD5FDEC25219E20006F21DC /* VisitorListRouter.swift in Sources */,
 				9BED8B3F24E6890300B57C40 /* Visitor+CoreDataClass.swift in Sources */,
 				9BA98F53248690F900C86B5C /* VisitorInteractor.swift in Sources */,
+				9BD5FDEA25219DD8006F21DC /* VisitorListPresenter.swift in Sources */,
 				9B851BB72490CA8100FFB7F6 /* VisitorTableViewCell.swift in Sources */,
 				9BED8B3E24E6890300B57C40 /* Visit+CoreDataProperties.swift in Sources */,
 				9BA98F572486915500C86B5C /* VisitorRouter.swift in Sources */,

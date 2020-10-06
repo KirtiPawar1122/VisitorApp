@@ -42,7 +42,6 @@ class VisitorInteractor {
     }
     
     func fetchRecord(email : String){
-
         let visitorsfetchRequest = NSFetchRequest<Visitor>(entityName: "Visitor")
         let predicate = NSPredicate(format: "email == %@", email)
         visitorsfetchRequest.predicate = predicate
