@@ -7,35 +7,37 @@ enum VisitorForm {
     
     enum fetchVisitorRecord{
         struct Request {
-            var name : String?
             var email : String?
-            var address : String?
-            var phoneNo : Int64
-            var companyName : String?
-            var visitPurpose : String?
-            var visitingName : String?
-            var profileImage : Data
-            var currentDate : String?
         }
         
         struct Response {
-            struct VisitResponse {
-                var visit : [Visit]
-            }
-            
-            struct VisitorResponse {
-                var visitor : [Visitor]
-            }
+            var visit : Visit
         }
         
         struct ViewModel {
-            struct VisitViewModel {
-                var visit : [Visit]
-            }
+            var visit : Visit
+        }
+    }
+    
+    enum saveVisitorRecord {
+        struct Request {
+            var name: String?
+            var address: String?
+            var email: String
+            var phoneNo: Int64
+            var visitPurpose: String?
+            var visitingName: String?
+            var companyName: String?
+            var profileImage: Data
+            var currentDate: String?
+        }
+        
+        struct Response {
             
-            struct VisitorViewModel {
-                var visitor : [Visitor]
-            }
+        }
+        
+        struct  ViewModel {
+            
         }
     }
 }

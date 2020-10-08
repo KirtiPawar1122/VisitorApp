@@ -3,7 +3,6 @@ import UIKit
 import CoreData
 
 protocol VisitorListDisplayLogic{
- //   func viewProtocol(visitorData : [Visit])
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel)
 }
 
@@ -40,10 +39,13 @@ class VisitorDataViewController: UIViewController, VisitorListDisplayLogic {
 
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
-       // interactor.fecthAllData()
+        fetchVisitorList()
+        self.tableview.reloadData()
+    }
+    
+    private func fetchVisitorList(){
         let request = VisitorList.fetchVisitorList.Request()
         interactor.fetchAllData(request: request)
-        self.tableview.reloadData()
     }
     
     func viewProtocol(visitorData: [Visit]){

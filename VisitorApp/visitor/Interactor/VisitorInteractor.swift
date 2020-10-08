@@ -18,14 +18,12 @@ struct VisitorInteractorConstants {
     static let visitors = "visitors"
     static let entityVisitor = "Visitor"
     static let entityVisit = "Visit"
-    static let predicateString = "email == %@"
+    static let predicateString = "visitors.email == %@"
 }
 
 protocol VisitorFormBusinessLogic{
-   // func fetchRecord(email : String)
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request)
-    func fetchAllData(request: VisitorForm.fetchVisitorRecord.Request)
-    func saveVisitorRecord(request: VisitorForm.fetchVisitorRecord.Request )
+    func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request)
 }
 
 class VisitorInteractor: VisitorFormBusinessLogic {
@@ -36,7 +34,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
       
-    func saveVisitorRecord(request: VisitorForm.fetchVisitorRecord.Request) {
+    func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
         
         let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
         let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)
@@ -55,46 +53,31 @@ class VisitorInteractor: VisitorFormBusinessLogic {
         visitData.setValue(request.currentDate, forKey: VisitorInteractorConstants.currentDate)
         visitData.setValue(request.visitingName, forKey: VisitorInteractorConstants.visitingPersonName)
         visitData.setValue(visitorData, forKey: VisitorInteractorConstants.visitors)
-        //visitorData.setValue(visitData, forKey: "visits")
         //core data relationship
         do {
              try context.save()
              visit.append(visitData as! Visit)
-             let response = VisitorForm.fetchVisitorRecord.Response.VisitResponse(visit: visit)
-             print(response)
-             self.presenter?.presentFetchResults(response: response)
+             print(visitData)
         } catch let error as NSError {
              print(error.description)
         }
     }
     
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {
-        let visitorsfetchRequest = NSFetchRequest<Visitor>(entityName: VisitorInteractorConstants.entityVisitor)
-        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString , request.email ?? "")
-        visitorsfetchRequest.predicate = predicate
-        visitorsfetchRequest.fetchLimit = 1
+
+        let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
+        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
+        visitorfetchRequest.predicate = predicate
+        visitorfetchRequest.fetchLimit = 1
+       
         do {
-            let record = try context.fetch(visitorsfetchRequest)
+            let record = try context.fetch(visitorfetchRequest)
             print(record)
-            let visitorResponse =  VisitorForm.fetchVisitorRecord.Response.VisitorResponse(visitor: record)
-            print(visitorResponse)
-            presenter?.presentEmailData(response: visitorResponse)
-            
-        } catch let error as NSError{
-            print(error.description)
-        }
-    }
-    
-    
-    func fetchAllData(request: VisitorForm.fetchVisitorRecord.Request){
-         let visitorsfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
-        do{
-            let record = try context.fetch(visitorsfetchRequest)
-            print(record)
-            let visitorResponse = VisitorForm.fetchVisitorRecord.Response.VisitResponse(visit: record)
-            print(visitorResponse)
-            presenter?.presentFetchResults(response: visitorResponse)
-            
+            for item in record{
+                print(item)
+                let visitorResponse = VisitorForm.fetchVisitorRecord.Response(visit: item)
+                presenter?.presentFetchResults(response: visitorResponse)
+            }
         }catch let error as NSError{
             print(error.description)
         }

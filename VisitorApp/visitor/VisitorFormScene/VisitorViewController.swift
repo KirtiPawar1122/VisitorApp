@@ -5,10 +5,7 @@ import AVFoundation
 import Toast_Swift
 
 protocol VisitorFormDisplayLogic{
- //   func loadData(visitorData : [Visit])
- //   func compareData(compareEmail : [Visitor])
-    func displayVisitorData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel.VisitViewModel)
-    func displayEmailData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel.VisitorViewModel)
+    func displayVisitorData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel)
 }
 
 struct VisitorViewControllerConstants {
@@ -67,7 +64,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var logoImage: UIImageView!
     
     var visitor : [Visitor] = []
-    var visit : [Visit] = []
+    //var visit : [Visit] = []
+    var visits = Visit()
     var tapCount = 0
     var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -101,8 +99,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let interactor = VisitorInteractor()
         let presenter = VisitorPresenter()
         viewController.interactor = interactor
+        viewController.router = router
         interactor.presenter = presenter
         presenter.viewObj = viewController
+        router.viewcontroller = viewController
     }
     
     override func viewDidLoad() {
@@ -198,30 +198,25 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         view.endEditing(true)
     }
 
-    func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel.VisitViewModel) {
+    func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel) {
            print(viewModel)
-        visit = viewModel.visit
-    }
-    
-    func displayEmailData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel.VisitorViewModel) {
-        visitor = viewModel.visitor
+           visits = viewModel.visit
     }
     
     func fetchData(){
-        interactor.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(name: "", email: emailTextField.text ?? "" , address: "", phoneNo: 0, companyName: "", visitPurpose: "", visitingName: "", profileImage: Data(), currentDate: ""))
+        interactor.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
     }
     
     func checkMail(checkmail: String){
         fetchData()
         print(checkmail)
-        for item in visitor {
-            if(checkmail == item.email) {
-                compareEmail = checkmail
-                let alert = UIAlertController(title: nil, message: VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
-                let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
-                alert.addAction(alertAtion)
-                present(alert, animated: true, completion: nil)
-            }
+        if(checkmail == visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String) {
+            compareEmail = checkmail
+            let alert = UIAlertController(title: nil, message:
+            VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
+            let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
+            alert.addAction(alertAtion)
+            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -272,29 +267,23 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
        textField.resignFirstResponder()
       
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-       let request = VisitorForm.fetchVisitorRecord.Request(name: "", email: emailTextField.text ?? "" , address: "", phoneNo: 0, companyName: "", visitPurpose: "", visitingName: "", profileImage: Data(), currentDate: "")
-       interactor.fetchAllData(request: request)
-        
-       for item in visit {
-          if textField.text == "" {
-              switchnextTextField(textField)
-          } else if emailTextField.text != item.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String {
-              switchnextTextField(textField)
-          } else if emailTextField.text == item.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String {
-              
-              switchnextTextField(textField)
-              companyTextField.text = item.companyName!
-               // purposeTextFeild.text = item.purpose!
-                visitTextField.text = item.visitorName!
-              userTextField.text = item.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
-              emailTextField.text = item.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
-              addressTextField.text = item.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
-              phoneTextField.text = String(item.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
-              visitorImage.image = UIImage(data: item.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as! Data)
-              purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
-              nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
-              userTextField.resignFirstResponder()
-            }
+       fetchData()
+       print(visits)
+        if textField.text == "" {
+            switchnextTextField(textField)
+        } else if emailTextField.text != visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String {
+            switchnextTextField(textField)
+        } else if emailTextField.text == visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString ) as? String {
+            companyTextField.text = visits.companyName
+            visitTextField.text = visits.visitorName
+            userTextField.text = visits.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
+            emailTextField.text = visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
+            addressTextField.text = visits.visitors?.value(forKey:VisitorViewControllerConstants.addressString) as? String
+            phoneTextField.text = String(visits.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
+            visitorImage.image = UIImage(data: visits.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as! Data)
+            purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
+            nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
+            userTextField.resignFirstResponder()
         }
         myUtterance = AVSpeechUtterance(string: nameString)
         myUtterance.rate = 0.4
@@ -306,7 +295,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
         if tapCount == VisitorViewControllerConstants.maxTapCount {
-            router.routeToVisitorList(navigationController: navigationController!)
+           // router.routeToVisitorList(navigationController: navigationController!)
+            router.routeToVisitorList()
             tapCount = VisitorViewControllerConstants.minTapCount
         } else {
             print(VisitorViewControllerConstants.errorMassage)
@@ -354,16 +344,16 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         checkMail(checkmail: email)
         
         if(compareEmail != email) {
-            saveVisitorData(request: VisitorForm.fetchVisitorRecord.Request(name: name, email: email, address: address, phoneNo: Int64(phoneNo) ?? 0, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString))
+            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
             showAlert(for: "Hello \(name), Welcome to Wurth-IT")
             
         } else {
-            saveVisitorData(request: VisitorForm.fetchVisitorRecord.Request(name: name, email: email, address: address, phoneNo: Int64(phoneNo) ?? 0, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString))
+            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
         }
         resetTextFields()
     }
 
-    func saveVisitorData(request: VisitorForm.fetchVisitorRecord.Request){
+    func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
         interactor.saveVisitorRecord(request: request)
     }
 
