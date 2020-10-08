@@ -34,6 +34,8 @@
 		9BDD18A3247D390A00828EAB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDD18A2247D390A00828EAB /* CustomTextField.swift */; };
 		9BDD18A5247FECBA00828EAB /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDD18A4247FECBA00828EAB /* CustomImageView.swift */; };
 		9BE7A235249A2D8C00AFC4C9 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */; };
+		9BECDCD9252D8560001B3279 /* VisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCD8252D8560001B3279 /* VisitorViewModel.swift */; };
+		9BECDCDD252EC593001B3279 /* VisitorListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCDC252EC593001B3279 /* VisitorListModel.swift */; };
 		9BED8B3D24E6890300B57C40 /* Visit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3924E6890300B57C40 /* Visit+CoreDataClass.swift */; };
 		9BED8B3E24E6890300B57C40 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */; };
 		9BED8B3F24E6890300B57C40 /* Visitor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */; };
@@ -71,6 +73,8 @@
 		9BDD18A2247D390A00828EAB /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		9BDD18A4247FECBA00828EAB /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		9BECDCD8252D8560001B3279 /* VisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorViewModel.swift; sourceTree = "<group>"; };
+		9BECDCDC252EC593001B3279 /* VisitorListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListModel.swift; sourceTree = "<group>"; };
 		9BED8B3924E6890300B57C40 /* Visit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 				9BA98F52248690F900C86B5C /* VisitorInteractor.swift */,
 				9BA98F542486913100C86B5C /* VisitorPresenter.swift */,
 				9BBAF780247654FF00B31A70 /* VisitorViewController.swift */,
+				9BECDCD8252D8560001B3279 /* VisitorViewModel.swift */,
 			);
 			path = VisitorFormScene;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 				9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */,
 				9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */,
 				9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */,
+				9BECDCDC252EC593001B3279 /* VisitorListModel.swift */,
 			);
 			path = VisitorListScene;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BECDCDD252EC593001B3279 /* VisitorListModel.swift in Sources */,
 				9BD5FDF22525AF32006F21DC /* VisitorChartInteractor.swift in Sources */,
 				9B7D5EFF251C57D4002C995D /* VisitorValidation.swift in Sources */,
 				9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */,
@@ -404,6 +411,7 @@
 				9BA98F53248690F900C86B5C /* VisitorInteractor.swift in Sources */,
 				9BD5FDEA25219DD8006F21DC /* VisitorListPresenter.swift in Sources */,
 				9B851BB72490CA8100FFB7F6 /* VisitorTableViewCell.swift in Sources */,
+				9BECDCD9252D8560001B3279 /* VisitorViewModel.swift in Sources */,
 				9BED8B3E24E6890300B57C40 /* Visit+CoreDataProperties.swift in Sources */,
 				9BA98F572486915500C86B5C /* VisitorRouter.swift in Sources */,
 			);

@@ -1,6 +1,11 @@
 
 import UIKit
 
+struct VisitorRouterConstants {
+    static let storyboardName = "Main"
+    static let viewName = "VisitorViewController"
+}
+ 
 protocol routerProtocol {
      var navigationController: UINavigationController? { get }
      func routeToVisitorList(navigationController: UINavigationController)
@@ -9,9 +14,9 @@ protocol routerProtocol {
 class VisitorRouter : routerProtocol {
     var navigationController: UINavigationController?
 
-    class func mainScreen() -> VisitorViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let view = storyboard.instantiateViewController(withIdentifier:"VisitorViewController") as! VisitorViewController
+   /* class func mainScreen() -> VisitorViewController {
+        let storyboard = UIStoryboard(name: VisitorRouterConstants.storyboardName, bundle: nil)
+        let view = storyboard.instantiateViewController(withIdentifier: VisitorRouterConstants.viewName) as! VisitorViewController
         
         let interactorObject = VisitorInteractor()
         let presenter = VisitorPresenter()
@@ -19,12 +24,11 @@ class VisitorRouter : routerProtocol {
         
         view.router = router
         view.interactor = interactorObject
-        interactorObject.presenterProtocol = presenter
-        presenter.viewObj = view
+        interactorObject.presenter = presenter
+        presenter.viewObj = view 
       //  router.navigationController = view.navigationController
-        
         return view
-    }
+    }  */
     
     func routeToVisitorList(navigationController: UINavigationController) {
         //let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorDataViewController

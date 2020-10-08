@@ -4,17 +4,19 @@ import CoreData
 import AVFoundation
 import Toast_Swift
 
-protocol ViewProtocol{
-    func loadData(visitorData : [Visit])
-    func compareData(compareEmail : [Visitor])
+protocol VisitorFormDisplayLogic{
+ //   func loadData(visitorData : [Visit])
+ //   func compareData(compareEmail : [Visitor])
+    func displayVisitorData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel.VisitViewModel)
+    func displayEmailData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel.VisitorViewModel)
 }
 
-struct VisitorViewControllerConstants{
+struct VisitorViewControllerConstants {
     static let selectedImageName = "no-image"
     static let personImageName = "person"
     static let addressImageName = "icon-1"
     static let phoneImageName = "phone"
-    static let emailImageName = "email"
+    static let emailString = "email"
     static let companyIamageName = "company"
     static let purposeImageName = "purpose"
     static let emailValidateMessage = "Please enter valid email ID"
@@ -30,13 +32,27 @@ struct VisitorViewControllerConstants{
     static let optionMenuSecondAction = "Interview"
     static let optionMenuThirdAction = "Meeting"
     static let optionMenuFourthAction = "Other"
+    static let checkmailAlert = "Welcome to Wurth IT"
+    static let warningTitle = "Warning"
+    static let warningImageMsg = "You don't have camera"
+    static let alertOkActionMsg = "Ok"
+    static let alertCancelMsg = "Cancel"
+    static let imageClickMsg = "Take Photo"
+    static let imageChooseMsg = "Choose Photo "
+    static let entityVisit = "Visit"
+    static let entityVisitor = "Visitor"
+    static let errorMassage = "error in function"
+    static let nameString = "name"
+    static let addressString = "address"
+    static let phoneString = "phoneNo"
+    static let profileImageString = "profileImage"
+    static let dateFormat = "MMM d, h:mm a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }
 
-class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
-    
-    
+class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic {
+
     @IBOutlet weak var submitLable: UIButton!
     @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var visitorImage: CustomImageView!
@@ -66,11 +82,35 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     var name: String = ""
     var compareEmail: String = ""
     
+    //MARK: Object lifecycle
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    {
+      super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+       setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder)
+    {
+      super.init(coder: aDecoder)
+       setup()
+    }
+
+   //MARK: Setup
+    private func setup() {
+        let viewController = self
+        let interactor = VisitorInteractor()
+        let presenter = VisitorPresenter()
+        viewController.interactor = interactor
+        interactor.presenter = presenter
+        presenter.viewObj = viewController
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
     
+    //MARK: UI Setup Method
     func setUpUI(){
         hideKeyboardTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector( VisitorViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -106,7 +146,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         let phoneImage = UIImage(named: VisitorViewControllerConstants.phoneImageName)
               addImageOntextField(textField: phoneTextField, img: phoneImage!)
 
-        let mailImage = UIImage(named: VisitorViewControllerConstants.emailImageName)
+        let mailImage = UIImage(named: VisitorViewControllerConstants.emailString)
               addImageOntextField(textField: emailTextField, img: mailImage!)
               emailTextField.delegate = self as UITextFieldDelegate
               
@@ -157,33 +197,28 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     @objc func dissmissKeyboard(){
         view.endEditing(true)
     }
-    
-    func loadData(visitorData: [Visit]) {
-        visit = visitorData
-        for item in visit{
-            name = item.visitors?.value(forKey: "name") as? String ?? ""
-        }
+
+    func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel.VisitViewModel) {
+           print(viewModel)
+        visit = viewModel.visit
     }
     
-    func compareData(compareEmail: [Visitor]) {
-           print(compareEmail)
-           visitor = compareEmail
+    func displayEmailData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel.VisitorViewModel) {
+        visitor = viewModel.visitor
     }
     
     func fetchData(){
-      //  interactor.fetchRecord()
-        interactor.fetchRecord(email: emailTextField.text!)
+        interactor.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(name: "", email: emailTextField.text ?? "" , address: "", phoneNo: 0, companyName: "", visitPurpose: "", visitingName: "", profileImage: Data(), currentDate: ""))
     }
     
     func checkMail(checkmail: String){
         fetchData()
         print(checkmail)
-         for item in visitor {
-            print(item)
-            if (checkmail == item.email){
+        for item in visitor {
+            if(checkmail == item.email) {
                 compareEmail = checkmail
-                let alert = UIAlertController(title: nil, message: "Welcome to Wurth IT", preferredStyle: .alert)
-                let alertAtion = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: nil, message: VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
+                let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
                 alert.addAction(alertAtion)
                 present(alert, animated: true, completion: nil)
             }
@@ -237,41 +272,36 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
        textField.resignFirstResponder()
       
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
+       let request = VisitorForm.fetchVisitorRecord.Request(name: "", email: emailTextField.text ?? "" , address: "", phoneNo: 0, companyName: "", visitPurpose: "", visitingName: "", profileImage: Data(), currentDate: "")
+       interactor.fetchAllData(request: request)
         
-        let fetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
-              do {
-                  let record = try context.fetch(fetchRequest)
-                  for item in record {
-                    if textField.text == "" {
-                        switchnextTextField(textField)
-                    } else if emailTextField.text != item.visitors?.value(forKey: "email") as? String {
-                        switchnextTextField(textField)
-                    } else if emailTextField.text == item.visitors?.value(forKey: "email") as? String {
-                        
-                          switchnextTextField(textField)
-                          companyTextField.text = item.companyName!
-                         // purposeTextFeild.text = item.purpose!
-                          visitTextField.text = item.visitorName!
-                          userTextField.text = item.visitors?.value(forKey: "name") as? String
-                          emailTextField.text = item.visitors?.value(forKey: "email") as? String
-                          addressTextField.text = item.visitors?.value(forKey: "address") as? String
-                          phoneTextField.text = String(item.visitors?.value(forKey: "phoneNo") as! Int64)
-                          visitorImage.image = UIImage(data: item.visitors?.value(forKey: "profileImage") as! Data)
-                          purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
-                          nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
-                          userTextField.resignFirstResponder()
-                      }
-                  }
-                  myUtterance = AVSpeechUtterance(string: nameString)
-                  myUtterance.rate = 0.4
-                  synth.speak(myUtterance)
-                  userTextField.resignFirstResponder()
-              }catch{
-                  print("error")
-              } 
+       for item in visit {
+          if textField.text == "" {
+              switchnextTextField(textField)
+          } else if emailTextField.text != item.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String {
+              switchnextTextField(textField)
+          } else if emailTextField.text == item.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String {
+              
+              switchnextTextField(textField)
+              companyTextField.text = item.companyName!
+               // purposeTextFeild.text = item.purpose!
+                visitTextField.text = item.visitorName!
+              userTextField.text = item.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
+              emailTextField.text = item.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
+              addressTextField.text = item.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
+              phoneTextField.text = String(item.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
+              visitorImage.image = UIImage(data: item.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as! Data)
+              purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
+              nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
+              userTextField.resignFirstResponder()
+            }
+        }
+        myUtterance = AVSpeechUtterance(string: nameString)
+        myUtterance.rate = 0.4
+        synth.speak(myUtterance)
+        userTextField.resignFirstResponder()
         return true
     }
-
     /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
@@ -279,7 +309,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
             router.routeToVisitorList(navigationController: navigationController!)
             tapCount = VisitorViewControllerConstants.minTapCount
         } else {
-            print("error in save button")
+            print(VisitorViewControllerConstants.errorMassage)
         }
     }
         
@@ -319,24 +349,23 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
         let now = Date()
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "MMM d, h:mm a"
+        formatter.dateFormat = VisitorViewControllerConstants.dateFormat
         let dateString = formatter.string(from: now)
         checkMail(checkmail: email)
         
         if(compareEmail != email) {
-            saveData(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString)
+            saveVisitorData(request: VisitorForm.fetchVisitorRecord.Request(name: name, email: email, address: address, phoneNo: Int64(phoneNo) ?? 0, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString))
             showAlert(for: "Hello \(name), Welcome to Wurth-IT")
             
         } else {
-            saveData(name: name, address: address, phoneNo: Int64(phoneNo) ?? 0, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString)
+            saveVisitorData(request: VisitorForm.fetchVisitorRecord.Request(name: name, email: email, address: address, phoneNo: Int64(phoneNo) ?? 0, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitorName, profileImage: profileImg, currentDate: dateString))
         }
         resetTextFields()
     }
-    
-    func saveData(name: String, address: String, phoneNo: Int64, email: String, companyName: String, visitPurpose: String, visitingName: String, profileImage: Data,currentDate: String)
-     {
-        interactor.saveRecord(name: name, address: address, phoneNo: phoneNo, email: email, companyName: companyName, visitPurpose: visitPurpose, visitingName: visitingName, profileImage: profileImage, currentDate: currentDate)
-     }
+
+    func saveVisitorData(request: VisitorForm.fetchVisitorRecord.Request){
+        interactor.saveVisitorRecord(request: request)
+    }
 
     func resetTextFields() {
         userTextField.text = ""
@@ -356,7 +385,7 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
     
     func showAlert(for alert : String) {
         let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alertAction = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
         alertController.addAction(alertAction)
         present(alertController, animated: true, completion: nil)
         myUtterance = AVSpeechUtterance(string: alertController.message!)
@@ -369,16 +398,16 @@ class VisitorViewController: UIViewController,ViewProtocol,UITextFieldDelegate{
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @objc func imageAction() {
-          let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-          alert.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: VisitorViewControllerConstants.imageClickMsg, style: .default, handler: { _ in
                self.openCamera()
           }))
-          alert.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: VisitorViewControllerConstants.imageChooseMsg, style: .default, handler: { _ in
                self.openGallary()
           }))
-          alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction.init(title: VisitorViewControllerConstants.alertCancelMsg, style: .cancel, handler: nil))
 
-          switch UIDevice.current.userInterfaceIdiom {
+        switch UIDevice.current.userInterfaceIdiom {
               case .pad:
                   alert.popoverPresentationController?.sourceView = self.view
                   alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
@@ -386,7 +415,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
               default:
                       break
           }
-          self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
       }
     
     func openCamera(){
@@ -398,8 +427,8 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
             self.present(imagePicker, animated: true, completion: nil)
         }
         else{
-            let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let alert  = UIAlertController(title: VisitorViewControllerConstants.warningTitle, message: VisitorViewControllerConstants.warningImageMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }

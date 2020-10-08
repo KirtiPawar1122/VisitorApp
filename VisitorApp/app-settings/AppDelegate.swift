@@ -9,18 +9,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        mainScreen()
+      //  mainScreen()
         return true
     }
     
-    @objc private func mainScreen(){
+   /* @objc private func mainScreen(){
         let vc = VisitorRouter.mainScreen()
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: vc)
       //  navigationController.viewControllers = [vc]
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-    }
+    }*/
 
     // MARK: - Core Data stack
 

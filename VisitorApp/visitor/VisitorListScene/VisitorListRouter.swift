@@ -20,18 +20,18 @@ class VisitorListRouter {
         viewController.visitorDataRouter = visitorListRouterObject
         viewController.interactor = visitorListInteractorObject
         visitorListInteractorObject.listPresenterProtocol = visitorListPresenterObject
-        visitorListPresenterObject.viewDataObject = viewController
+        visitorListPresenterObject.viewDataObject = viewController 
 
         return viewController
         
     }
     
     static var mainstoryboard: UIStoryboard{
-           return UIStoryboard(name:"Main",bundle: Bundle.main)
-    }
+        return UIStoryboard(name:"Main",bundle: Bundle.main)
+    } 
     
     func routeToChart(data: [Visit],navigationController : UINavigationController){
-       print("in route to chart function")
+        print("in route to chart function")
         print(data)
         let visitorChart = VisitorChartRouter.visitorChartmodule(visitData: data)
         navigationController.pushViewController(visitorChart, animated: true)
@@ -43,7 +43,6 @@ class VisitorListRouter {
         
         let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorData: fetcheddata)
         navigationController.pushViewController(visitorBarChart, animated: true)
-        
     }
 
 }

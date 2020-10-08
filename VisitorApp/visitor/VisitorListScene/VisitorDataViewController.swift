@@ -2,8 +2,9 @@
 import UIKit
 import CoreData
 
-protocol VisitorDataProtocol{
-    func viewProtocol(visitorData : [Visit])
+protocol VisitorListDisplayLogic{
+ //   func viewProtocol(visitorData : [Visit])
+    func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel)
 }
 
 struct VisitorDataViewControllerConstants{
@@ -11,9 +12,16 @@ struct VisitorDataViewControllerConstants{
     static let deleteAlertMessage = "Are you sure you would like to delete entry"
     static let confirmActionMessage = "Confirm"
     static let cancelActionMessage = "Cancel"
+    static let addressString = "address"
+    static let nameString = "name"
+    static let phoneString = "phoneNo"
+    static let profileImage = "profileImage"
+    static let emailString = "email"
+    static let defaultImage = "img.jpeg"
+    static let visitorCell = "VisitorTableViewCell"
 }
 
-class VisitorDataViewController: UIViewController, VisitorDataProtocol {
+class VisitorDataViewController: UIViewController, VisitorListDisplayLogic {
 
     @IBOutlet weak var tableview: UITableView!
     
@@ -24,21 +32,28 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    override func viewDidLoad() {
+    override func viewDidLoad(){
         super.viewDidLoad()
     
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
-        interactor.fecthAllData()
+       // interactor.fecthAllData()
+        let request = VisitorList.fetchVisitorList.Request()
+        interactor.fetchAllData(request: request)
         self.tableview.reloadData()
     }
     
-    func viewProtocol(visitorData: [Visit]) {
+    func viewProtocol(visitorData: [Visit]){
         print(visitorData)
         viewObj = visitorData
+    }
+    
+    func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
+        print(viewModel)
+        viewObj = viewModel.visit
     }
     
     func deleteConfirm(indexpath: IndexPath){
@@ -56,7 +71,7 @@ class VisitorDataViewController: UIViewController, VisitorDataProtocol {
             alert.addAction(confirmAction)
             alert.addAction(cancelAction)
             present(alert,animated: true,completion: nil)
-        }
+    }
     
     @objc func viewGraph(){
         let data = viewObj
@@ -69,29 +84,28 @@ extension VisitorDataViewController : UITableViewDataSource{
         return viewObj.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "VisitorTableViewCell", for: indexPath) as! VisitorTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
         let data = viewObj[indexPath.row]
         
         cell.companyName.text = data.companyName
         cell.date.text = data.date
         cell.visitPurpose.text = data.purpose
-        cell.address.text = data.visitors?.value(forKey: "address") as? String
-        cell.visitorName.text = data.visitors?.value(forKey: "name") as? String
-        cell.phoneNo.text = String(data.visitors?.value(forKey: "phoneNo") as! Int64)
+        cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+        cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
+        cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
         
-        if let data = data.visitors?.value(forKey: "profileImage") as? Data?{
+        if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data?{
             cell.profileImage.image = UIImage(data: data!)
         } else {
-            cell.profileImage.image = UIImage(named: "img.jpeg")
-            print("profile image is not set")
+            cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage )
         }
         return cell
     }
 }
 //MARK: - Tableview Delegate Methods
 extension VisitorDataViewController: UITableViewDelegate{
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath){
         if editingStyle == .delete{
            deleteConfirm(indexpath: indexPath)
         }
@@ -101,13 +115,13 @@ extension VisitorDataViewController: UITableViewDelegate{
         return 150
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let data = viewObj
         let item = viewObj[indexPath.row]
         var dataArray = [Visit]()
-        let selectedEmail = item.visitors?.value(forKey: "email") as! String
+        let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
         for visit in data {
-            let email = visit.visitors?.value(forKey: "email") as! String
+            let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
             if email == selectedEmail {
                 dataArray.append(visit)
             }
