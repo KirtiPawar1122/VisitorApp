@@ -64,14 +64,14 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var logoImage: UIImageView!
     
     var visitor : [Visitor] = []
-    //var visit : [Visit] = []
     var visits = Visit()
     var tapCount = 0
     var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
-    var interactor : VisitorInteractor = VisitorInteractor()
+   // var interactor : VisitorInteractor = VisitorInteractor()
+    var interactor : VisitorFormBusinessLogic?
     var router : VisitorRouter = VisitorRouter()
     let imagePicker = UIImagePickerController()
     var campareData : String = ""
@@ -204,7 +204,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func fetchData(){
-        interactor.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
+       // interactor.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
+        interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
     }
     
     func checkMail(checkmail: String){
@@ -280,7 +281,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             emailTextField.text = visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
             addressTextField.text = visits.visitors?.value(forKey:VisitorViewControllerConstants.addressString) as? String
             phoneTextField.text = String(visits.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
-            visitorImage.image = UIImage(data: visits.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as! Data)
+           // visitorImage.image = UIImage(data: (visits.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data()))
             purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
             nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
             userTextField.resignFirstResponder()
@@ -354,7 +355,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
 
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
-        interactor.saveVisitorRecord(request: request)
+      //  interactor.saveVisitorRecord(request: request)
+        interactor?.saveVisitorRecord(request: request)
     }
 
     func resetTextFields() {

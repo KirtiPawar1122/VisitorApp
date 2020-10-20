@@ -5,7 +5,6 @@ import UIKit
 import CoreData
 
 struct VisitorInteractorConstants {
-    
     static let visitorName = "name"
     static let visitorAddress = "address"
     static let visitorPhoneNo = "phoneNo"
@@ -26,17 +25,24 @@ protocol VisitorFormBusinessLogic{
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request)
 }
 
-class VisitorInteractor: VisitorFormBusinessLogic {
+protocol  VisitorFormDataStore {
+    var records : Visit? { get }
+}
 
+class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
+    
+    var records: Visit?
     var presenter : VisitorFormPrsentationLogic?
+    var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
     var visitor : [Visitor] = []
     var visit : [Visit] = []
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
       
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
+        visitorCoreData.saveVisitorRecord(request: request)
         
-        let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
+      /*  let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
         let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)
         
         visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
@@ -60,12 +66,18 @@ class VisitorInteractor: VisitorFormBusinessLogic {
              print(visitData)
         } catch let error as NSError {
              print(error.description)
-        }
+        }*/
     }
     
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {
+        
+        visitorCoreData.fetchRecord(request: request) { (records) in
+            print(records)
+            let visitorResponse = VisitorForm.fetchVisitorRecord.Response(visit: records)
+            self.presenter?.presentFetchResults(response: visitorResponse)
+        }
 
-        let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
+      /*  let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
         let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
         visitorfetchRequest.predicate = predicate
         visitorfetchRequest.fetchLimit = 1
@@ -80,7 +92,8 @@ class VisitorInteractor: VisitorFormBusinessLogic {
             }
         }catch let error as NSError{
             print(error.description)
-        }
+        }*/
+        
     }
 }
 
