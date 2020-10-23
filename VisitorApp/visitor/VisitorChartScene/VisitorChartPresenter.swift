@@ -2,17 +2,19 @@
 
 import UIKit
 
-protocol chartPrsenterProtocol {
-    func chartData(visitdata : [Visit])
+protocol VisitorChartPresentationLogic {
+    func prsentChartData(response: VisitorChart.VisitorChartData.Response)
 }
 
-class VisitorChartPresenter : chartPrsenterProtocol {
-    
-    var viewObj : loadDataOnChartProtocol?
-    
-    func chartData(visitdata: [Visit]) {
-        print(visitdata)
-        viewObj?.loadData(fetchedData: visitdata)
+class VisitorChartPresenter : VisitorChartPresentationLogic {
+   
+    var viewObj : VisitorChartDisplayLogic?
+    func prsentChartData(response: VisitorChart.VisitorChartData.Response) {
+        print(response)
+        
+        let viewModelData = response.visitData
+        let viewModel = VisitorChart.VisitorChartData.ViewModel(visitData: viewModelData)
+        viewObj?.displayChart(viewModel: viewModel)
     }
-
+    
 }

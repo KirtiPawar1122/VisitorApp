@@ -41,32 +41,7 @@ class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
       
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
         visitorCoreData.saveVisitorRecord(request: request)
-        
-      /*  let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
-        let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)
-        
-        visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
-        visitorData.setValue(request.address, forKey: VisitorInteractorConstants.visitorAddress)
-        visitorData.setValue(request.phoneNo, forKey: VisitorInteractorConstants.visitorPhoneNo)
-        visitorData.setValue(request.email, forKey: VisitorInteractorConstants.visitorEmail)
-        visitorData.setValue(request.profileImage, forKey: VisitorInteractorConstants.visitorProfileImage)
-        
-        let visitEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisit, in: context)
-        let visitData = NSManagedObject(entity: visitEntity!, insertInto: context)
-        
-        visitData.setValue(request.companyName, forKey: VisitorInteractorConstants.visitorCompanyName)
-        visitData.setValue(request.visitPurpose, forKey: VisitorInteractorConstants.visitorPurpose)
-        visitData.setValue(request.currentDate, forKey: VisitorInteractorConstants.currentDate)
-        visitData.setValue(request.visitingName, forKey: VisitorInteractorConstants.visitingPersonName)
-        visitData.setValue(visitorData, forKey: VisitorInteractorConstants.visitors)
-        //core data relationship
-        do {
-             try context.save()
-             visit.append(visitData as! Visit)
-             print(visitData)
-        } catch let error as NSError {
-             print(error.description)
-        }*/
+
     }
     
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {
@@ -76,24 +51,6 @@ class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
             let visitorResponse = VisitorForm.fetchVisitorRecord.Response(visit: records)
             self.presenter?.presentFetchResults(response: visitorResponse)
         }
-
-      /*  let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
-        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
-        visitorfetchRequest.predicate = predicate
-        visitorfetchRequest.fetchLimit = 1
-       
-        do {
-            let record = try context.fetch(visitorfetchRequest)
-            print(record)
-            for item in record{
-                print(item)
-                let visitorResponse = VisitorForm.fetchVisitorRecord.Response(visit: item)
-                presenter?.presentFetchResults(response: visitorResponse)
-            }
-        }catch let error as NSError{
-            print(error.description)
-        }*/
-        
     }
 }
 

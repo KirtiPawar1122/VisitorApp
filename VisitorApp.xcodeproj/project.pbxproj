@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1AEBD49956BD30ADC244109F /* Pods_VisitorApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619908114255828E9A84C394 /* Pods_VisitorApp.framework */; };
+		9B1E7FE9253F512200DAC863 /* VisitorListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1E7FE5253F512200DAC863 /* VisitorListViewControllerTests.swift */; };
+		9B1E7FEA253F512200DAC863 /* VisitorListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1E7FE6253F512200DAC863 /* VisitorListInteractorTests.swift */; };
+		9B1E7FEC253F512200DAC863 /* VisitorListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1E7FE8253F512200DAC863 /* VisitorListPresenterTests.swift */; };
 		9B5C960825384C5200012367 /* VisitorFormViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C960425384C5200012367 /* VisitorFormViewControllerTests.swift */; };
 		9B5C960925384C5200012367 /* VisitorFormInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C960525384C5200012367 /* VisitorFormInteractorTests.swift */; };
 		9B5C960B25384C5200012367 /* VisitorFormPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C960725384C5200012367 /* VisitorFormPresenterTests.swift */; };
@@ -15,9 +18,16 @@
 		9B63BDF42529DE5F00E8B04F /* VisitorBarChartInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */; };
 		9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */; };
 		9B6E89AF25398CCC003761BB /* VisitorCoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6E89AE25398CCC003761BB /* VisitorCoreDataStore.swift */; };
-		9B726F122500DE4700E2F9AD /* VisitorChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */; };
+		9B726F122500DE4700E2F9AD /* VisitorBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B726F112500DE4700E2F9AD /* VisitorBarChartViewController.swift */; };
+		9B76307D254192E5008420AA /* VisitorBarChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76307C254192E5008420AA /* VisitorBarChartViewModel.swift */; };
+		9B76308225419382008420AA /* VisitorChartViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76307E25419382008420AA /* VisitorChartViewControllerTests.swift */; };
+		9B76308325419382008420AA /* VisitorChartInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76307F25419382008420AA /* VisitorChartInteractorTests.swift */; };
+		9B76308525419382008420AA /* VisitorChartPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76308125419382008420AA /* VisitorChartPresenterTests.swift */; };
+		9B76308B2541F506008420AA /* VisitorBarChartViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7630872541F506008420AA /* VisitorBarChartViewControllerTests.swift */; };
+		9B76308C2541F506008420AA /* VisitorBarChartInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7630882541F506008420AA /* VisitorBarChartInteractorTests.swift */; };
+		9B76308E2541F506008420AA /* VisitorBarChartPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76308A2541F506008420AA /* VisitorBarChartPresenterTests.swift */; };
 		9B7D5EFF251C57D4002C995D /* VisitorValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D5EFE251C57D4002C995D /* VisitorValidation.swift */; };
-		9B851BB52490C9B900FFB7F6 /* VisitorDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */; };
+		9B851BB52490C9B900FFB7F6 /* VisitorListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B851BB42490C9B900FFB7F6 /* VisitorListViewController.swift */; };
 		9B851BB72490CA8100FFB7F6 /* VisitorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B851BB62490CA8100FFB7F6 /* VisitorTableViewCell.swift */; };
 		9B9B204E2533733A00FDBDDE /* VisitorFormInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9B204D2533733A00FDBDDE /* VisitorFormInteractorTest.swift */; };
 		9B9E2EF925024C9F00E54E4F /* VisitorChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9E2EF825024C9F00E54E4F /* VisitorChartTableViewCell.swift */; };
@@ -30,6 +40,7 @@
 		9BBAF787247654FF00B31A70 /* VisitorApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */; };
 		9BBAF789247654FF00B31A70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BBAF788247654FF00B31A70 /* Assets.xcassets */; };
 		9BBAF78C247654FF00B31A70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BBAF78A247654FF00B31A70 /* LaunchScreen.storyboard */; };
+		9BD3D5852540609900880E2B /* VisitorChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3D5842540609900880E2B /* VisitorChartViewModel.swift */; };
 		9BD5FDE825219D8C006F21DC /* VisitorListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */; };
 		9BD5FDEA25219DD8006F21DC /* VisitorListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */; };
 		9BD5FDEC25219E20006F21DC /* VisitorListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5FDEB25219E20006F21DC /* VisitorListRouter.swift */; };
@@ -46,7 +57,7 @@
 		9BED8B3E24E6890300B57C40 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */; };
 		9BED8B3F24E6890300B57C40 /* Visitor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */; };
 		9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */; };
-		9BEED35924F7FD1700EDE4A5 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */; };
+		9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +73,9 @@
 /* Begin PBXFileReference section */
 		045B74D927B32A5406BBA267 /* Pods-VisitorApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisitorApp.debug.xcconfig"; path = "Target Support Files/Pods-VisitorApp/Pods-VisitorApp.debug.xcconfig"; sourceTree = "<group>"; };
 		619908114255828E9A84C394 /* Pods_VisitorApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisitorApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B1E7FE5253F512200DAC863 /* VisitorListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListViewControllerTests.swift; sourceTree = "<group>"; };
+		9B1E7FE6253F512200DAC863 /* VisitorListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListInteractorTests.swift; sourceTree = "<group>"; };
+		9B1E7FE8253F512200DAC863 /* VisitorListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListPresenterTests.swift; sourceTree = "<group>"; };
 		9B5C960425384C5200012367 /* VisitorFormViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormViewControllerTests.swift; sourceTree = "<group>"; };
 		9B5C960525384C5200012367 /* VisitorFormInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormInteractorTests.swift; sourceTree = "<group>"; };
 		9B5C960725384C5200012367 /* VisitorFormPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormPresenterTests.swift; sourceTree = "<group>"; };
@@ -69,9 +83,16 @@
 		9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartInteractor.swift; sourceTree = "<group>"; };
 		9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartPresenter.swift; sourceTree = "<group>"; };
 		9B6E89AE25398CCC003761BB /* VisitorCoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorCoreDataStore.swift; sourceTree = "<group>"; };
-		9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewController.swift; sourceTree = "<group>"; };
+		9B726F112500DE4700E2F9AD /* VisitorBarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartViewController.swift; sourceTree = "<group>"; };
+		9B76307C254192E5008420AA /* VisitorBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartViewModel.swift; sourceTree = "<group>"; };
+		9B76307E25419382008420AA /* VisitorChartViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewControllerTests.swift; sourceTree = "<group>"; };
+		9B76307F25419382008420AA /* VisitorChartInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartInteractorTests.swift; sourceTree = "<group>"; };
+		9B76308125419382008420AA /* VisitorChartPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartPresenterTests.swift; sourceTree = "<group>"; };
+		9B7630872541F506008420AA /* VisitorBarChartViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartViewControllerTests.swift; sourceTree = "<group>"; };
+		9B7630882541F506008420AA /* VisitorBarChartInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartInteractorTests.swift; sourceTree = "<group>"; };
+		9B76308A2541F506008420AA /* VisitorBarChartPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartPresenterTests.swift; sourceTree = "<group>"; };
 		9B7D5EFE251C57D4002C995D /* VisitorValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorValidation.swift; sourceTree = "<group>"; };
-		9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorDataViewController.swift; sourceTree = "<group>"; };
+		9B851BB42490C9B900FFB7F6 /* VisitorListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListViewController.swift; sourceTree = "<group>"; };
 		9B851BB62490CA8100FFB7F6 /* VisitorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorTableViewCell.swift; sourceTree = "<group>"; };
 		9B9B204D2533733A00FDBDDE /* VisitorFormInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormInteractorTest.swift; sourceTree = "<group>"; };
 		9B9E2EF825024C9F00E54E4F /* VisitorChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartTableViewCell.swift; sourceTree = "<group>"; };
@@ -85,6 +106,7 @@
 		9BBAF786247654FF00B31A70 /* VisitorApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VisitorApp.xcdatamodel; sourceTree = "<group>"; };
 		9BBAF788247654FF00B31A70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9BBAF78B247654FF00B31A70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9BD3D5842540609900880E2B /* VisitorChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewModel.swift; sourceTree = "<group>"; };
 		9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListInteractor.swift; sourceTree = "<group>"; };
 		9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListPresenter.swift; sourceTree = "<group>"; };
 		9BD5FDEB25219E20006F21DC /* VisitorListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListRouter.swift; sourceTree = "<group>"; };
@@ -103,7 +125,7 @@
 		9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
+		9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewController.swift; sourceTree = "<group>"; };
 		D34AF651250F9E0A00C52C5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB434DAE4719C6DE5EBD8FD3 /* Pods-VisitorApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisitorApp.release.xcconfig"; path = "Target Support Files/Pods-VisitorApp/Pods-VisitorApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +157,36 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B1E7FE4253F50C100DAC863 /* VisitorListScene */ = {
+			isa = PBXGroup;
+			children = (
+				9B1E7FE5253F512200DAC863 /* VisitorListViewControllerTests.swift */,
+				9B1E7FE6253F512200DAC863 /* VisitorListInteractorTests.swift */,
+				9B1E7FE8253F512200DAC863 /* VisitorListPresenterTests.swift */,
+			);
+			path = VisitorListScene;
+			sourceTree = "<group>";
+		};
+		9B76306B25418590008420AA /* VisitorChartScene */ = {
+			isa = PBXGroup;
+			children = (
+				9B76307E25419382008420AA /* VisitorChartViewControllerTests.swift */,
+				9B76307F25419382008420AA /* VisitorChartInteractorTests.swift */,
+				9B76308125419382008420AA /* VisitorChartPresenterTests.swift */,
+			);
+			path = VisitorChartScene;
+			sourceTree = "<group>";
+		};
+		9B7630862541BFF1008420AA /* VisitorBarChartScene */ = {
+			isa = PBXGroup;
+			children = (
+				9B7630872541F506008420AA /* VisitorBarChartViewControllerTests.swift */,
+				9B7630882541F506008420AA /* VisitorBarChartInteractorTests.swift */,
+				9B76308A2541F506008420AA /* VisitorBarChartPresenterTests.swift */,
+			);
+			path = VisitorBarChartScene;
+			sourceTree = "<group>";
+		};
 		9B7D5EFD251C5770002C995D /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,10 +198,11 @@
 		9B7D5F03251D0384002C995D /* VisitorChartScene */ = {
 			isa = PBXGroup;
 			children = (
-				9BEED35824F7FD1700EDE4A5 /* ChartViewController.swift */,
-				9BD5FDED2525A613006F21DC /* VisitorChartRouter.swift */,
+				9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */,
 				9BD5FDEF2525AEFE006F21DC /* VisitorChartPresenter.swift */,
+				9BD5FDED2525A613006F21DC /* VisitorChartRouter.swift */,
 				9BD5FDF12525AF32006F21DC /* VisitorChartInteractor.swift */,
+				9BD3D5842540609900880E2B /* VisitorChartViewModel.swift */,
 			);
 			path = VisitorChartScene;
 			sourceTree = "<group>";
@@ -206,7 +259,7 @@
 				9BD5FDEB25219E20006F21DC /* VisitorListRouter.swift */,
 				9BD5FDE725219D8C006F21DC /* VisitorListInteractor.swift */,
 				9BD5FDE925219DD8006F21DC /* VisitorListPresenter.swift */,
-				9B851BB42490C9B900FFB7F6 /* VisitorDataViewController.swift */,
+				9B851BB42490C9B900FFB7F6 /* VisitorListViewController.swift */,
 				9BECDCDC252EC593001B3279 /* VisitorListModel.swift */,
 			);
 			path = VisitorListScene;
@@ -286,10 +339,11 @@
 		9BD5FDF32529D7AA006F21DC /* VisitorBarChartScene */ = {
 			isa = PBXGroup;
 			children = (
-				9B726F112500DE4700E2F9AD /* VisitorChartViewController.swift */,
+				9B726F112500DE4700E2F9AD /* VisitorBarChartViewController.swift */,
 				9B63BDF02529DE2D00E8B04F /* VisitorBarChartRouter.swift */,
 				9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */,
 				9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */,
+				9B76307C254192E5008420AA /* VisitorBarChartViewModel.swift */,
 			);
 			path = VisitorBarChartScene;
 			sourceTree = "<group>";
@@ -307,6 +361,9 @@
 		9BECDCE3252F392D001B3279 /* VisitorAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				9B7630862541BFF1008420AA /* VisitorBarChartScene */,
+				9B76306B25418590008420AA /* VisitorChartScene */,
+				9B1E7FE4253F50C100DAC863 /* VisitorListScene */,
 				9B9B204C253372C500FDBDDE /* VisitorFormScene */,
 				9BECDCE4252F392D001B3279 /* VisitorAppTests.swift */,
 				9BECDCE6252F392D001B3279 /* Info.plist */,
@@ -474,14 +531,15 @@
 				9BD5FDF22525AF32006F21DC /* VisitorChartInteractor.swift in Sources */,
 				9B7D5EFF251C57D4002C995D /* VisitorValidation.swift in Sources */,
 				9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */,
-				9B726F122500DE4700E2F9AD /* VisitorChartViewController.swift in Sources */,
+				9BD3D5852540609900880E2B /* VisitorChartViewModel.swift in Sources */,
+				9B726F122500DE4700E2F9AD /* VisitorBarChartViewController.swift in Sources */,
 				9BE7A235249A2D8C00AFC4C9 /* CustomView.swift in Sources */,
 				9BBAF787247654FF00B31A70 /* VisitorApp.xcdatamodeld in Sources */,
 				9BA98F552486913100C86B5C /* VisitorPresenter.swift in Sources */,
 				9B6E89AF25398CCC003761BB /* VisitorCoreDataStore.swift in Sources */,
 				9BDD18A5247FECBA00828EAB /* CustomImageView.swift in Sources */,
 				9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */,
-				9BEED35924F7FD1700EDE4A5 /* ChartViewController.swift in Sources */,
+				9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */,
 				9BED8B3D24E6890300B57C40 /* Visit+CoreDataClass.swift in Sources */,
 				9BBAF781247654FF00B31A70 /* VisitorViewController.swift in Sources */,
 				9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */,
@@ -489,7 +547,8 @@
 				9BDD18A3247D390A00828EAB /* CustomTextField.swift in Sources */,
 				9B9E2EF925024C9F00E54E4F /* VisitorChartTableViewCell.swift in Sources */,
 				9BD5FDEE2525A613006F21DC /* VisitorChartRouter.swift in Sources */,
-				9B851BB52490C9B900FFB7F6 /* VisitorDataViewController.swift in Sources */,
+				9B851BB52490C9B900FFB7F6 /* VisitorListViewController.swift in Sources */,
+				9B76307D254192E5008420AA /* VisitorBarChartViewModel.swift in Sources */,
 				9BD5FDE825219D8C006F21DC /* VisitorListInteractor.swift in Sources */,
 				9BBAF77D247654FF00B31A70 /* AppDelegate.swift in Sources */,
 				9BD5FDF02525AEFE006F21DC /* VisitorChartPresenter.swift in Sources */,
@@ -508,11 +567,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B76308525419382008420AA /* VisitorChartPresenterTests.swift in Sources */,
+				9B76308225419382008420AA /* VisitorChartViewControllerTests.swift in Sources */,
 				9BECDCE5252F392D001B3279 /* VisitorAppTests.swift in Sources */,
 				9B9B204E2533733A00FDBDDE /* VisitorFormInteractorTest.swift in Sources */,
 				9B5C960925384C5200012367 /* VisitorFormInteractorTests.swift in Sources */,
 				9B5C960825384C5200012367 /* VisitorFormViewControllerTests.swift in Sources */,
+				9B1E7FEA253F512200DAC863 /* VisitorListInteractorTests.swift in Sources */,
 				9B5C960B25384C5200012367 /* VisitorFormPresenterTests.swift in Sources */,
+				9B76308E2541F506008420AA /* VisitorBarChartPresenterTests.swift in Sources */,
+				9B76308B2541F506008420AA /* VisitorBarChartViewControllerTests.swift in Sources */,
+				9B76308C2541F506008420AA /* VisitorBarChartInteractorTests.swift in Sources */,
+				9B1E7FEC253F512200DAC863 /* VisitorListPresenterTests.swift in Sources */,
+				9B76308325419382008420AA /* VisitorChartInteractorTests.swift in Sources */,
+				9B1E7FE9253F512200DAC863 /* VisitorListViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

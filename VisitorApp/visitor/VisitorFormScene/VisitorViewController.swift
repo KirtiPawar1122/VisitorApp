@@ -72,7 +72,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     private var selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
    // var interactor : VisitorInteractor = VisitorInteractor()
     var interactor : VisitorFormBusinessLogic?
-    var router : VisitorRouter = VisitorRouter()
+    var router : VisitorRoutingLogic?
     let imagePicker = UIImagePickerController()
     var campareData : String = ""
     let synth = AVSpeechSynthesizer()
@@ -98,6 +98,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let viewController = self
         let interactor = VisitorInteractor()
         let presenter = VisitorPresenter()
+        let router = VisitorRouter()
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
@@ -204,7 +205,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func fetchData(){
-       // interactor.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
     }
     
@@ -296,8 +296,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
         if tapCount == VisitorViewControllerConstants.maxTapCount {
-           // router.routeToVisitorList(navigationController: navigationController!)
-            router.routeToVisitorList()
+            router?.routeToVisitorList()
             tapCount = VisitorViewControllerConstants.minTapCount
         } else {
             print(VisitorViewControllerConstants.errorMassage)

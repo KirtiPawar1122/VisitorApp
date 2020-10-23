@@ -20,32 +20,60 @@ struct VisitorDataViewControllerConstants{
     static let visitorCell = "VisitorTableViewCell"
 }
 
-class VisitorDataViewController: UIViewController, VisitorListDisplayLogic {
+class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 
     @IBOutlet weak var tableview: UITableView!
     
     var viewObj = [Visit]()
     var visits: Visit?
-    var interactor : VisitorListInteractor = VisitorListInteractor()
-    var visitorDataRouter : VisitorListRouter = VisitorListRouter()
+    var listInteractor : VisitorListBusinessLogic?
+    var visitorDataRouter : visitorListRoutingLogic?
+    
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    //MARK: Object lifecycle
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setup()
+    }
+       
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+      //MARK: Setup
+    private func setup() {
+        
+        let viewController = self
+        let interactor = VisitorListInteractor()
+        let presenter = VisitorListPresenter()
+        let router = VisitorListRouter()
+        viewController.listInteractor = interactor
+        viewController.visitorDataRouter = router
+        interactor.listPresenterProtocol = presenter
+        presenter.viewDataObject = viewController
+        router.viewController = viewController
+          
+    }
+    
     override func viewDidLoad(){
         super.viewDidLoad()
-    
+        fetchVisitorList()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
     }
 
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
-        fetchVisitorList()
-        self.tableview.reloadData()
+       // fetchVisitorList()
+       // self.tableview.reloadData()
     }
     
-    private func fetchVisitorList(){
+    func fetchVisitorList(){
         let request = VisitorList.fetchVisitorList.Request()
-        interactor.fetchAllData(request: request)
+        listInteractor?.fetchVisitorData(request: request)
     }
     
     func viewProtocol(visitorData: [Visit]){
@@ -77,11 +105,11 @@ class VisitorDataViewController: UIViewController, VisitorListDisplayLogic {
     
     @objc func viewGraph(){
         let data = viewObj
-        visitorDataRouter.routeToChart(data: data, navigationController: navigationController!)
+        visitorDataRouter?.routeToChart(data: data)
     }
 }
 //MARK: - Tableview DataSource methods
-extension VisitorDataViewController : UITableViewDataSource{
+extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewObj.count
     }
@@ -106,7 +134,7 @@ extension VisitorDataViewController : UITableViewDataSource{
     }
 }
 //MARK: - Tableview Delegate Methods
-extension VisitorDataViewController: UITableViewDelegate{
+extension VisitorListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath){
         if editingStyle == .delete{
            deleteConfirm(indexpath: indexPath)
@@ -128,7 +156,7 @@ extension VisitorDataViewController: UITableViewDelegate{
                 dataArray.append(visit)
             }
         }
-        visitorDataRouter.routeToBarChart(fetcheddata: dataArray, navigationController: navigationController!)
+        visitorDataRouter?.routeToBarChart(fetcheddata: dataArray)
     }
 }
 

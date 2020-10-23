@@ -2,47 +2,38 @@
 
 import UIKit
 
-protocol visitorListProtocol {
-    var navigationController: UINavigationController? { get }
+protocol visitorListRoutingLogic {
+    func routeToChart(data: [Visit])
+    func routeToBarChart(fetcheddata : [Visit])
 }
 
-class VisitorListRouter {
-    
+class VisitorListRouter : visitorListRoutingLogic {
+ 
     var navigationController: UINavigationController?
+    var viewController : VisitorListViewController?
     
-    static func VisitorListModule() -> VisitorDataViewController {
+   static func VisitorListModule() -> VisitorListViewController {
         
-        let viewController = VisitorListRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorDataViewController
-        let visitorListInteractorObject = VisitorListInteractor()
-        let visitorListPresenterObject = VisitorListPresenter()
-        let visitorListRouterObject = VisitorListRouter()
-        
-        viewController.visitorDataRouter = visitorListRouterObject
-        viewController.interactor = visitorListInteractorObject
-        visitorListInteractorObject.listPresenterProtocol = visitorListPresenterObject
-        visitorListPresenterObject.viewDataObject = viewController 
-
+        let viewController = VisitorListRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorListViewController
         return viewController
         
-    }
-    
-    static var mainstoryboard: UIStoryboard{
-        return UIStoryboard(name:"Main",bundle: Bundle.main)
     } 
     
-    func routeToChart(data: [Visit],navigationController : UINavigationController){
-        print("in route to chart function")
-        print(data)
-        let visitorChart = VisitorChartRouter.visitorChartmodule(visitData: data)
-        navigationController.pushViewController(visitorChart, animated: true)
+    static var mainstoryboard: UIStoryboard {
+        return UIStoryboard(name:"Main",bundle: Bundle.main)
     }
     
-    func routeToBarChart(fetcheddata : [Visit], navigationController : UINavigationController){
-        print("In function route to barchart")
+    func routeToChart(data: [Visit]){
+        print(data)
+        let visitorChart = VisitorChartRouter.visitorChartmodule(visitData: data)
+        viewController?.navigationController?.pushViewController(visitorChart, animated: true)
+    }
+    
+    func routeToBarChart(fetcheddata : [Visit]){
+      
         print(fetcheddata)
-        
         let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorData: fetcheddata)
-        navigationController.pushViewController(visitorBarChart, animated: true)
+        viewController?.navigationController?.pushViewController(visitorBarChart, animated: true)
     }
 
 }

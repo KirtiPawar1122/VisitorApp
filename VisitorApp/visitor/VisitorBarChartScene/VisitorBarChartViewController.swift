@@ -2,8 +2,8 @@
 import UIKit
 import Charts
 
-protocol visitorViewBarChartProtocol {
-    func laodbarChartData(loadDataObj: [Visit])
+protocol VisitorBarChartDisplayLogic {
+    func displayVisitorBarChartData(viewModel : VisitorBarChart.VisitorBarChartData.ViewModel)
 }
 
 
@@ -15,16 +15,15 @@ struct VisitorsChartViewControllerConstants {
     static let otherTitle = "Other"
 }
 
-class VisitorChartViewController: UIViewController, visitorViewBarChartProtocol {
+class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLogic {
   
-    
-    
     @IBOutlet weak var histogram: BarChartView!
     @IBOutlet weak var viewUI: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var namedataLabel : UILabel!
 
     var datavisit = [Visit]()
+    var chartData = [Visit]()
     let purpose = ["Meeting", "Interview", "Guest Visit", "Others"]
     var meeting = 0
     var interview = 0
@@ -37,8 +36,35 @@ class VisitorChartViewController: UIViewController, visitorViewBarChartProtocol 
     var items : [[String]] = []
     var sectionName = String()
     var barChartRouter : VisitorBarChartRouter = VisitorBarChartRouter()
-    var barChartInterator : VisitorBarChartInteractor = VisitorBarChartInteractor()
+    //var barChartInterator : VisitorBarChartInteractor = VisitorBarChartInteractor()
+    var barChartInteractor : VisitorBarChartBusinessLogic?
     
+      //MARK: Object lifecycle
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
+            super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+            setup()
+      }
+
+    required init?(coder aDecoder: NSCoder){
+            super.init(coder: aDecoder)
+            setup()
+      }
+
+      //MARK: Setup
+    private func setup() {
+          
+        let viewController = self
+        let router = VisitorBarChartRouter()
+        let interactor = VisitorBarChartInteractor()
+        let presenter = VisitorBarChartPresenter()
+        viewController.barChartInteractor = interactor
+        interactor.visitData = chartData
+        interactor.presenter = presenter
+        presenter.viewObject = viewController
+        viewController.barChartRouter = router
+
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.dataSource = self
@@ -47,32 +73,37 @@ class VisitorChartViewController: UIViewController, visitorViewBarChartProtocol 
         tableview.layer.borderColor = UIColor.black.cgColor
 
         self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
-        barChartInterator.loadData()
+       // barChartInterator.loadData()
+        getBarChartData()
     }
     
-    func laodbarChartData(loadDataObj: [Visit]) {
-          print(loadDataObj)
-          datavisit = loadDataObj
-        
+    func getBarChartData() {
+        let request = VisitorBarChart.VisitorBarChartData.Request()
+        barChartInteractor?.visitorBarChartData(request: request)
+    }
+    
+    func displayVisitorBarChartData(viewModel: VisitorBarChart.VisitorBarChartData.ViewModel) {
+        chartData = viewModel.visitData
+        print(datavisit)
         for item in datavisit {
-        namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
-        if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
+            namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
+            if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
                 meetingDate.append(item.date!)
                 print(meetingDate)
-        } else if item.purpose == VisitorsChartViewControllerConstants.interviewTitle{
+            } else if item.purpose == VisitorsChartViewControllerConstants.interviewTitle{
                 interview = interview + 1
                 interviewDate.append(item.date!)
-        } else if item.purpose == VisitorsChartViewControllerConstants.guestVisitTitle {
+            } else if item.purpose == VisitorsChartViewControllerConstants.guestVisitTitle {
                 guestVisit = guestVisit + 1
                 guestvisitDate.append(item.date!)
-        } else if item.purpose == VisitorsChartViewControllerConstants.otherTitle {
+            } else if item.purpose == VisitorsChartViewControllerConstants.otherTitle {
                 other = other + 1
                 otherDate.append(item.date!)
-        }
+            }
         }
         items = [meetingDate,interviewDate,guestvisitDate,otherDate]
-        
+               
         let data = [meeting,interview,guestVisit,other]
         setDataOnChart(dataPoints: purpose, values: data.map({ Double($0)}))
         
@@ -115,12 +146,12 @@ class VisitorChartViewController: UIViewController, visitorViewBarChartProtocol 
     }
 }
 
-extension VisitorChartViewController: UITableViewDelegate {
+extension VisitorBarChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
-extension VisitorChartViewController: UITableViewDataSource{
+extension VisitorBarChartViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return purpose.count
     }
@@ -131,7 +162,7 @@ extension VisitorChartViewController: UITableViewDataSource{
         return purpose[section]
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items[section].count
+        return items[section].count 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         

@@ -2,12 +2,25 @@
 
 import UIKit
 
-class VisitorBarChartInteractor {
-    
-    var presenterObj : visitorBarChartPresenterProtocol?
-    var data = [Visit]()
+protocol VisitorBarChartBusinessLogic{
+    func visitorBarChartData(request: VisitorBarChart.VisitorBarChartData.Request)
+}
 
-    func loadData(){
-        presenterObj?.visitorData(data: data)
+protocol VisitorBarChartDataStore{
+    var visitData : [Visit] { get set}
+}
+
+
+class VisitorBarChartInteractor : VisitorBarChartBusinessLogic, VisitorBarChartDataStore {
+    var visitData: [Visit] = []
+    
+    var presenter : VisitorBarChartPresentationLogic?
+
+    func visitorBarChartData(request: VisitorBarChart.VisitorBarChartData.Request) {
+        print(request)
+        let response = VisitorBarChart.VisitorBarChartData.Response(visitData: visitData)
+        presenter?.presentVisitorBarChartData(response: response)
+        
     }
+    
 }

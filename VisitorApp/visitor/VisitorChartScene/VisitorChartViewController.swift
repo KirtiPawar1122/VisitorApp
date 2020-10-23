@@ -2,8 +2,8 @@
 import UIKit
 import Charts
 
-protocol loadDataOnChartProtocol {
-    func loadData(fetchedData : [Visit])
+protocol VisitorChartDisplayLogic {
+    func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel)
 }
 
 struct ChartViewControllerConstants{
@@ -14,33 +14,67 @@ struct ChartViewControllerConstants{
     static let othersTitle = "Other"
 }
 
-class ChartViewController: UIViewController, loadDataOnChartProtocol {
+class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
    
     @IBOutlet weak var chartView: PieChartView!
     var visits = [Visit]()
+    var visitData = [Visit]()
     let purpose = ["Meeting", "Guest Visit", "Interview", "Others"]
     var meetings = 0
     var guestvisits = 0
     var interviews = 0
     var others = 0
-    var chartRouter : VisitorChartRouter = VisitorChartRouter()
-    var chartInteractor : VisitorChartInteractor = VisitorChartInteractor()
+    var chartRouter: VisitorChartRouter = VisitorChartRouter()
+   // var chartInteractor : VisitorChartInteractor = VisitorChartInteractor()
+    var chartDataInteractor: VisitorChartDataStore?
+    var chartInteractor : VisitorChartBusinessLogic?
+   // var chartRouter: VisitorChartDataPassing?
     
-    
+    //MARK: Object lifecycle
+   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
+          super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+          setup()
+    }
+
+    required init?(coder aDecoder: NSCoder){
+          super.init(coder: aDecoder)
+          setup()
+    }
+
+    //MARK: Setup
+    private func setup() {
+        let viewController = self
+        let interactor = VisitorChartInteractor()
+        let presenter = VisitorChartPresenter()
+        //let router = VisitorChartRouter()
+        
+        viewController.chartRouter = chartRouter
+        viewController.chartInteractor = interactor
+        viewController.chartDataInteractor = interactor
+        interactor.data = visits
+        interactor.presenter = presenter
+        presenter.viewObj = viewController
+
+    }
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
-        chartInteractor.loadData()
-        displayChart()
+        getChartData()
+        displayDataOnChart()
+        print(visits.count)
     }
     
-    func loadData(fetchedData: [Visit]) {
-             visits = fetchedData
-             print(visits)
-            // displayChart()
+    func getChartData(){
+        let request = VisitorChart.VisitorChartData.Request()
+        chartInteractor?.visitorsChartData(request: request)
     }
     
-    func displayChart(){
+    func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel) {
+        visitData = viewModel.visitData
+    }
+       
+    func displayDataOnChart(){
         for visit in visits {
             if let purpose = visit.purpose{
                 if purpose == ChartViewControllerConstants.meetingTitle{
@@ -73,8 +107,8 @@ class ChartViewController: UIViewController, loadDataOnChartProtocol {
         }
         let data = [meeting, guestvisit, interview, other]
         customizeChart(dataPoints: purpose, values: data)
-        
     }
+    
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
       var dataEntries: [ChartDataEntry] = []

@@ -2,7 +2,7 @@
 import UIKit
  
 protocol VisitorRoutingLogic {
-     func routeToVisitorList()
+    func routeToVisitorList()
 }
 
 class VisitorRouter : VisitorRoutingLogic {
@@ -11,8 +11,6 @@ class VisitorRouter : VisitorRoutingLogic {
     
     func routeToVisitorList() {
         let visitorList = VisitorListRouter.VisitorListModule()
-       // let visitorList = VisitorListRouter.self
         viewcontroller?.navigationController?.pushViewController(visitorList, animated: true)
     }
-    
 }

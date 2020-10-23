@@ -37,8 +37,8 @@ class VisitorCoreDataStore {
        
     }
     
-    func fetchRecord(request : VisitorForm.fetchVisitorRecord.Request,completionhanlder: @escaping(Visit) -> Void ) -> Visit {
-        var visit = Visit()
+    func fetchRecord(request : VisitorForm.fetchVisitorRecord.Request,completionhanlder: @escaping(Visit) -> Void ) {
+        //var visit = Visit()
         let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
         let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
         visitorfetchRequest.predicate = predicate
@@ -50,14 +50,12 @@ class VisitorCoreDataStore {
         for item in record {
             completionhanlder(item)
             print(item)
-            visit = item
+            visit = [item]
         }
-        
         } catch let error as NSError {
             print(error.description)
         }
-        
-        return visit
+
     }
     
     

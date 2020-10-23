@@ -2,8 +2,12 @@
 import UIKit
 import CoreData
 
+struct VisitorListInteractorConstants{
+    static let visitEntity = "Visit"
+}
+
 protocol VisitorListBusinessLogic{
-    func fetchAllData(request: VisitorList.fetchVisitorList.Request)
+    func fetchVisitorData(request: VisitorList.fetchVisitorList.Request)
 }
 
 class VisitorListInteractor: VisitorListBusinessLogic {
@@ -13,13 +17,13 @@ class VisitorListInteractor: VisitorListBusinessLogic {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
  
-    func fetchAllData(request: VisitorList.fetchVisitorList.Request) {
-        let visitorFetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
+    func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
+        let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorListInteractorConstants.visitEntity)
         do{
             let record = try context.fetch(visitorFetchRequest)
             print(record)
             let response = VisitorList.fetchVisitorList.Response(visit: record)
-            listPresenterProtocol?.presentListFetchResult(response: response)
+            listPresenterProtocol?.presentVisitorListResult(response: response)
         } catch let error as NSError{
             print(error.description)
         }
