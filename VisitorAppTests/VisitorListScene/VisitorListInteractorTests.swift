@@ -34,7 +34,6 @@ class VisitorListInteractorTests: XCTestCase
   class VisitorListPresentationLogicSpy: VisitorListPresentationLogic
   {
     
-   // var visits: [Visit] = []
     var visits = [Visit]()
     var presentFethcedDataCalled = false
     func presentVisitorListResult(response: VisitorList.fetchVisitorList.Response) {

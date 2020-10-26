@@ -34,8 +34,7 @@ class VisitorListViewControllerTests: XCTestCase
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     sut = storyboard.instantiateViewController(withIdentifier: "VisitorDataViewController") as? VisitorListViewController
 
-  }
-
+    }
   
   func loadView()
   {
@@ -51,9 +50,17 @@ class VisitorListViewControllerTests: XCTestCase
     var fetchDataCalled = false
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
         fetchDataCalled = true
+        print(request)
     }
   }
-  
+
+    class VisitorTableViewSpy : UITableView{
+        var reloadDataCalled = false
+        override func reloadData() {
+            reloadDataCalled = true
+        }
+    }
+    
   // MARK: Tests
   
   func testShouldFetchListWhenViewIsLoaded()
@@ -66,9 +73,12 @@ class VisitorListViewControllerTests: XCTestCase
     XCTAssertTrue(spy.fetchDataCalled, "request from viewcontroller is called after viewWillAppear")
   }
   
-  func testDisplaySomething()
+  func testDisplayFetchedData()
   {
     // Given
+    let tableviewSpy = VisitorTableViewSpy()
+    sut.tableview = tableviewSpy
+
     let viewModel = VisitorList.fetchVisitorList.ViewModel(visit: [])
     
     // When
@@ -76,6 +86,6 @@ class VisitorListViewControllerTests: XCTestCase
     sut.displayVisitorList(viewModel: viewModel)
     
     // Then
-    //XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")
+    //XCTAssert(tableviewSpy.reloadDataCalled, "Displaying fecthed results in visitors table")
   }
 }
