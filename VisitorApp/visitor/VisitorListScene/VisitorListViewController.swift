@@ -65,7 +65,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         super.viewDidLoad()
         fetchVisitorList()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
-        
+        tableview.keyboardDismissMode = .onDrag
     }
 
     override func viewWillAppear(_ animated: Bool){
@@ -177,4 +177,16 @@ extension VisitorListViewController: UISearchBarDelegate {
         }
         tableview.reloadData()
     }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchedData = viewObj
+        searchBar.endEditing(true)
+        tableview.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
 }

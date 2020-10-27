@@ -57,8 +57,7 @@ class VisitorCoreDataStore {
         }
 
     }
-    
-    
+
     func deleteVisitorRecord(){
         //ToDo : delete code
     }
