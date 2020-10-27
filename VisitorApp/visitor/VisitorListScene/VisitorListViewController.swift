@@ -23,11 +23,13 @@ struct VisitorDataViewControllerConstants{
 class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 
     @IBOutlet weak var tableview: UITableView!
+    @IBOutlet var searchBar: UISearchBar!
     
     var viewObj = [Visit]()
-    var visits: Visit?
+    //var visits: Visit?
     var listInteractor : VisitorListBusinessLogic?
     var visitorDataRouter : visitorListRoutingLogic?
+    var searchedData: [Visit]?
     
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -56,13 +58,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         interactor.listPresenterProtocol = presenter
         presenter.viewDataObject = viewController
         router.viewController = viewController
-          
+       // searchedData = viewObj
     }
     
     override func viewDidLoad(){
         super.viewDidLoad()
         fetchVisitorList()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
+        
     }
 
     override func viewWillAppear(_ animated: Bool){
@@ -84,6 +87,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
         print(viewModel)
         viewObj = viewModel.visit
+        searchedData = viewObj
     }
     
     func deleteConfirm(indexpath: IndexPath){
@@ -111,12 +115,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 //MARK: - Tableview DataSource methods
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewObj.count
+      //  return viewObj.count
+        return searchedData!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-        let data = viewObj[indexPath.row]
+     //   let data = viewObj[indexPath.row]
+        let data = searchedData![indexPath.row]
         
         cell.companyName.text = data.companyName
         cell.date.text = data.date
@@ -159,4 +165,16 @@ extension VisitorListViewController: UITableViewDelegate{
         visitorDataRouter?.routeToBarChart(fetcheddata: dataArray)
     }
 }
-
+extension VisitorListViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        
+        searchedData = searchText.isEmpty ? viewObj : viewObj.filter{
+            (item : Visit) -> Bool in
+            let name = item.visitors?.value(forKey: "name") as! String
+            return name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        }
+        tableview.reloadData()
+    }
+}

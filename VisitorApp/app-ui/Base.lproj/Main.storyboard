@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RNL-Bl-Qku">
-                                <rect key="frame" x="0.0" y="0.0" width="834" height="1174"/>
+                                <rect key="frame" x="0.0" y="50" width="834" height="1124"/>
                                 <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -157,17 +157,28 @@
                                     <outlet property="delegate" destination="7cf-tT-Khw" id="6xb-Dj-vwu"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="8cg-VP-IYw">
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="7cf-tT-Khw" id="JFd-ti-E1e"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ir7-kJ-oti" firstAttribute="trailing" secondItem="RNL-Bl-Qku" secondAttribute="trailing" id="9fE-6J-AUg"/>
+                            <constraint firstItem="8cg-VP-IYw" firstAttribute="top" secondItem="ir7-kJ-oti" secondAttribute="top" id="j3B-Ff-YFr"/>
+                            <constraint firstItem="8cg-VP-IYw" firstAttribute="leading" secondItem="ir7-kJ-oti" secondAttribute="leading" id="jMl-c3-yIf"/>
                             <constraint firstItem="RNL-Bl-Qku" firstAttribute="leading" secondItem="ir7-kJ-oti" secondAttribute="leading" id="lwR-BE-5ZK"/>
                             <constraint firstItem="ir7-kJ-oti" firstAttribute="bottom" secondItem="RNL-Bl-Qku" secondAttribute="bottom" id="mOF-Ug-nxE"/>
-                            <constraint firstItem="RNL-Bl-Qku" firstAttribute="top" secondItem="ir7-kJ-oti" secondAttribute="top" id="pOK-6H-BjX"/>
+                            <constraint firstItem="8cg-VP-IYw" firstAttribute="trailing" secondItem="ir7-kJ-oti" secondAttribute="trailing" id="o0v-XM-5gb"/>
+                            <constraint firstItem="RNL-Bl-Qku" firstAttribute="top" secondItem="ir7-kJ-oti" secondAttribute="top" constant="50" id="pOK-6H-BjX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ir7-kJ-oti"/>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="8cg-VP-IYw" id="Q4O-VO-46P"/>
                         <outlet property="tableview" destination="RNL-Bl-Qku" id="KCy-LF-ebP"/>
                     </connections>
                 </viewController>
@@ -233,14 +244,14 @@
                                 <rect key="frame" x="117" y="740.5" width="600" height="383.5"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="VisitorChartTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="VisitorChartTableViewCell" id="WID-Ox-Jve" customClass="VisitorChartTableViewCell" customModule="VisitorApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="62.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="62"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WID-Ox-Jve" id="X6r-jk-NB1">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="62.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pM1-Dn-rcC">
-                                                    <rect key="frame" x="10" y="20" width="261" height="22.5"/>
+                                                    <rect key="frame" x="10" y="20" width="261" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="Ifr-oH-Uoa"/>
                                                     </constraints>
@@ -249,7 +260,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MP1-Uw-Yeg">
-                                                    <rect key="frame" x="341" y="20" width="244" height="22.5"/>
+                                                    <rect key="frame" x="341" y="20" width="244" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="244" id="ChL-Ca-bvO"/>
                                                     </constraints>
