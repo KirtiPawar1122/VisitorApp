@@ -230,12 +230,12 @@
                                 <rect key="frame" x="117" y="90.5" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="600" id="2tg-7t-SJc"/>
-                                    <constraint firstAttribute="width" constant="600" id="SH7-dV-GLO"/>
+                                    <constraint firstAttribute="width" constant="600" id="3jE-r7-Yvf"/>
+                                    <constraint firstAttribute="height" constant="600" id="yjf-QS-2iZ"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYg-u7-AWG">
-                                <rect key="frame" x="187" y="30" width="460" height="20.5"/>
+                                <rect key="frame" x="395" y="30" width="44.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -289,15 +289,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="emo-Zk-hCV" firstAttribute="trailing" secondItem="tYg-u7-AWG" secondAttribute="trailing" constant="187" id="1Hu-UO-qKu"/>
-                            <constraint firstItem="emo-Zk-hCV" firstAttribute="trailing" secondItem="xTh-UH-QQm" secondAttribute="trailing" constant="117" id="DeE-As-aAl"/>
-                            <constraint firstItem="tYg-u7-AWG" firstAttribute="leading" secondItem="emo-Zk-hCV" secondAttribute="leading" constant="187" id="FeI-YC-KKM"/>
-                            <constraint firstItem="LBO-QO-ZeN" firstAttribute="leading" secondItem="emo-Zk-hCV" secondAttribute="leading" constant="117" id="O78-Sk-ISJ"/>
-                            <constraint firstItem="tYg-u7-AWG" firstAttribute="top" secondItem="emo-Zk-hCV" secondAttribute="top" constant="30" id="bdg-XS-bR2"/>
-                            <constraint firstItem="LBO-QO-ZeN" firstAttribute="top" secondItem="tYg-u7-AWG" secondAttribute="bottom" constant="40" id="fua-52-oNZ"/>
-                            <constraint firstItem="xTh-UH-QQm" firstAttribute="top" secondItem="LBO-QO-ZeN" secondAttribute="bottom" constant="50" id="gDv-fQ-NgD"/>
-                            <constraint firstItem="emo-Zk-hCV" firstAttribute="bottom" secondItem="xTh-UH-QQm" secondAttribute="bottom" constant="50" id="pyT-4i-1Le"/>
-                            <constraint firstItem="xTh-UH-QQm" firstAttribute="leading" secondItem="emo-Zk-hCV" secondAttribute="leading" constant="117" id="xam-UD-Ic7"/>
+                            <constraint firstItem="xTh-UH-QQm" firstAttribute="top" secondItem="LBO-QO-ZeN" secondAttribute="bottom" constant="50" id="7I9-aa-HvF"/>
+                            <constraint firstItem="tYg-u7-AWG" firstAttribute="centerX" secondItem="h1F-HK-aCY" secondAttribute="centerX" id="9PR-hy-ghC"/>
+                            <constraint firstItem="tYg-u7-AWG" firstAttribute="top" secondItem="emo-Zk-hCV" secondAttribute="top" constant="30" id="GhJ-SP-Hwa"/>
+                            <constraint firstItem="xTh-UH-QQm" firstAttribute="leading" secondItem="LBO-QO-ZeN" secondAttribute="leading" id="eKR-n9-83I"/>
+                            <constraint firstItem="LBO-QO-ZeN" firstAttribute="centerX" secondItem="h1F-HK-aCY" secondAttribute="centerX" id="jDe-69-AZ4"/>
+                            <constraint firstItem="xTh-UH-QQm" firstAttribute="centerX" secondItem="h1F-HK-aCY" secondAttribute="centerX" id="oQv-eg-Q3T"/>
+                            <constraint firstItem="LBO-QO-ZeN" firstAttribute="top" secondItem="tYg-u7-AWG" secondAttribute="bottom" constant="40" id="uIX-HH-dbM"/>
+                            <constraint firstItem="emo-Zk-hCV" firstAttribute="bottom" secondItem="xTh-UH-QQm" secondAttribute="bottom" constant="50" id="zl4-f7-tRQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="emo-Zk-hCV"/>
                     </view>
