@@ -33,8 +33,7 @@ class VisitorCoreDataStore {
         } catch let error as NSError {
              print(error.description)
         }
-
-       
+        
     }
     
     func fetchRecord(request : VisitorForm.fetchVisitorRecord.Request,completionhanlder: @escaping(Visit) -> Void ) {

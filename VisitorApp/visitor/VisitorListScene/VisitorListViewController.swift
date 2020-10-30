@@ -29,12 +29,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     //var visits: Visit?
     var listInteractor : VisitorListBusinessLogic?
     var visitorDataRouter : visitorListRoutingLogic?
-    var searchedData: [Visit]?
+   // var searchedData: [Visit]?
+    var searchedData = [Visit]()
+
     
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    //MARK: Object lifecycle
+    //MARK: - Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -46,7 +48,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         setup()
     }
 
-      //MARK: Setup
+    //MARK: - Setup
     private func setup() {
         
         let viewController = self
@@ -66,6 +68,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         fetchVisitorList()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
         tableview.keyboardDismissMode = .onDrag
+        hideKeyboardTappedAround()
     }
 
     override func viewWillAppear(_ animated: Bool){
@@ -74,31 +77,37 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
        // self.tableview.reloadData()
     }
     
+    func hideKeyboardTappedAround(){
+        let tap : UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dissmissKeyboard(){
+        view.endEditing(true)
+    }
+    
     func fetchVisitorList(){
         let request = VisitorList.fetchVisitorList.Request()
         listInteractor?.fetchVisitorData(request: request)
     }
-    
-    func viewProtocol(visitorData: [Visit]){
-        print(visitorData)
-        viewObj = visitorData
-    }
-    
+
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
         print(viewModel)
-        viewObj = viewModel.visit
+        viewObj = viewModel.visit!
         searchedData = viewObj
     }
-    
+   //MARK: - Delete Record from table
     func deleteConfirm(indexpath: IndexPath){
         let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
         
         let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
-                let visitorInfo = self.viewObj[indexpath.row]
-                self.context.delete(visitorInfo)
-                self.viewObj.remove(at: indexpath.row)
-                self.appDelegate.saveContext()
-                self.tableview.reloadData()
+                //let visitorInfo = self.viewObj[indexpath.row]
+                 let visitorInfo = self.searchedData[indexpath.row]
+                 self.context.delete(visitorInfo)
+                 self.searchedData.remove(at: indexpath.row)
+                 self.appDelegate.saveContext()
+                 self.tableview.reloadData()
             }
         
         let cancelAction = UIAlertAction(title: VisitorDataViewControllerConstants.cancelActionMessage, style: .cancel, handler: nil)
@@ -115,27 +124,29 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 //MARK: - Tableview DataSource methods
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      //  return viewObj.count
-        return searchedData!.count
+       // return viewObj.count
+        return searchedData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-     //   let data = viewObj[indexPath.row]
-        let data = searchedData![indexPath.row]
+    
+       // let data = viewObj[indexPath.row]
+        let data = searchedData[indexPath.row]
+        print(data as Any)
         
-        cell.companyName.text = data.companyName
         cell.date.text = data.date
-        cell.visitPurpose.text = data.purpose
+        cell.companyName.text = data.companyName
         cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
         cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
+        cell.visitPurpose.text = data.purpose
         cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
-        
-        if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data?{
-            cell.profileImage.image = UIImage(data: data!)
-        } else {
-            cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage )
+        if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
+            cell.profileImage.image = UIImage(data: data)
+        }else {
+            cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
         }
+        
         return cell
     }
 }
@@ -153,7 +164,8 @@ extension VisitorListViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let data = viewObj
-        let item = viewObj[indexPath.row]
+       // let item = viewObj[indexPath.row]
+        let item = searchedData[indexPath.row]
         var dataArray = [Visit]()
         let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
         for visit in data {
@@ -165,6 +177,7 @@ extension VisitorListViewController: UITableViewDelegate{
         visitorDataRouter?.routeToBarChart(fetcheddata: dataArray)
     }
 }
+//MARK: - SearchBar Delegate Methods
 extension VisitorListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -172,8 +185,8 @@ extension VisitorListViewController: UISearchBarDelegate {
         
         searchedData = searchText.isEmpty ? viewObj : viewObj.filter{
             (item : Visit) -> Bool in
-            let name = item.visitors?.value(forKey: "name") as! String
-            return name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            let name = item.visitors?.value(forKey: "name") as? String
+            return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         }
         tableview.reloadData()
     }

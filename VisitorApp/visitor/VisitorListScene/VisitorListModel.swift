@@ -15,10 +15,10 @@ enum VisitorList {
             
         }
         struct Response {
-            var visit : [Visit]
+            var visit : [Visit]?
         }
         struct ViewModel {
-            var visit : [Visit]
+            var visit : [Visit]?
         }
     }
 }

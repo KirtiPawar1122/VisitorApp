@@ -19,26 +19,22 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-1" translatesAutoresizingMaskIntoConstraints="NO" id="HoF-fJ-3ck">
                                 <rect key="frame" x="267" y="557" width="300" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="Kj5-Ky-HSt"/>
-                                    <constraint firstAttribute="width" constant="300" id="LNG-d1-dF0"/>
+                                    <constraint firstAttribute="width" constant="300" id="1FO-pM-STU"/>
+                                    <constraint firstAttribute="height" constant="80" id="2fd-8j-ffW"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VKJ-Of-bUP">
-                                <rect key="frame" x="335" y="450" width="153" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="DAG-Vz-blB"/>
-                                </constraints>
+                                <rect key="frame" x="340.5" y="503.5" width="153" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="0qW-QB-mLh"/>
-                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Cgx-Sp-uWV"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VKJ-Of-bUP" secondAttribute="trailing" symbolic="YES" id="D4n-LS-AUx"/>
-                            <constraint firstItem="VKJ-Of-bUP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="335" id="NjS-ZX-Hex"/>
-                            <constraint firstItem="VKJ-Of-bUP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="450" id="qQ6-67-5qT"/>
+                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Hlp-rw-IPQ"/>
+                            <constraint firstItem="VKJ-Of-bUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TLc-rT-shN"/>
+                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fqO-Op-iOw"/>
+                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="top" secondItem="VKJ-Of-bUP" secondAttribute="bottom" constant="20" id="pJC-gr-nwD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

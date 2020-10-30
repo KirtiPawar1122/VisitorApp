@@ -64,7 +64,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var logoImage: UIImageView!
     
     var visitor : [Visitor] = []
-    var visits = Visit()
+    var visit = Visit()
     var tapCount = 0
     var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -79,6 +79,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var myUtterance = AVSpeechUtterance(string: "")
     var name: String = ""
     var compareEmail: String = ""
+    var checkmail: String = ""
     
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -126,6 +127,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let tapPurposeTextFeild = UITapGestureRecognizer(target: self, action: #selector(purposeAction))
         purposeTextFeild.addGestureRecognizer(tapPurposeTextFeild)
         purposeTextFeild.isUserInteractionEnabled = true
+        
+        let tapOnNameTextFeild = UITapGestureRecognizer(target: self, action: #selector(nameAction))
+        userTextField.addGestureRecognizer(tapOnNameTextFeild)
+        userTextField.isUserInteractionEnabled = true
               
         submitLable.layer.cornerRadius = 5
         submitLable.layer.borderColor = UIColor.black.cgColor
@@ -198,27 +203,53 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @objc func dissmissKeyboard(){
         view.endEditing(true)
     }
+    
+    @objc func nameAction(){
+        fetchData(email: emailTextField.text!)
+        switchnextTextField(emailTextField)
+        if userTextField.text != "" {
+            userTextField.resignFirstResponder()
+        } else {
+            userTextField.becomeFirstResponder()
+        }
+    }
 
     func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel) {
-           print(viewModel)
-           visits = viewModel.visit
+        print(viewModel)
+        guard let visitData = viewModel.visit else {
+           return
+        }
+        visit = visitData
+        userTextField.text = visit.visitors?.value(forKey: "name") as? String
+        addressTextField.text = visit.visitors?.value(forKey: "address") as? String
+        companyTextField.text = visit.companyName
+        visitTextField.text = visit.visitorName
+        
+        phoneTextField.text = String(visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
+        emailTextField.text = visit.visitors?.value(forKey: "email") as? String
+        checkmail = emailTextField.text!
+        myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
+        myUtterance.rate = 0.4
+        synth.speak(myUtterance)
+        userTextField.resignFirstResponder()
+        //dissmissKeyboard()
     }
     
-    func fetchData(){
-        interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: emailTextField.text))
+    func fetchData(email : String){
+        interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: email))
     }
     
     func checkMail(checkmail: String){
-        fetchData()
-        print(checkmail)
-        if(checkmail == visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String) {
+        fetchData(email: checkmail)
+     // print(checkmail)
+   /* if(checkmail == visits.visitors?.value(forKey:      VisitorViewControllerConstants.emailString) as? String) {
             compareEmail = checkmail
             let alert = UIAlertController(title: nil, message:
             VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
             let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
             alert.addAction(alertAtion)
             present(alert, animated: true, completion: nil)
-        }
+        } */
     }
     
     @IBAction func submitButtonClick(_ sender: Any) {
@@ -263,34 +294,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-       var nameString : String = ""
        switchnextTextField(textField)
        textField.resignFirstResponder()
-      
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-       fetchData()
-       print(visits)
-        if textField.text == "" {
-            switchnextTextField(textField)
-        } else if emailTextField.text != visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String {
-            switchnextTextField(textField)
-        } else if emailTextField.text == visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString ) as? String {
-            companyTextField.text = visits.companyName
-            visitTextField.text = visits.visitorName
-            userTextField.text = visits.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
-            emailTextField.text = visits.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
-            addressTextField.text = visits.visitors?.value(forKey:VisitorViewControllerConstants.addressString) as? String
-            phoneTextField.text = String(visits.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
-           // visitorImage.image = UIImage(data: (visits.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data()))
-            purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .touchUpInside)
-            nameString = "Hello \(userTextField.text!), Welcome to Wurth-IT"
-            userTextField.resignFirstResponder()
-        }
-        myUtterance = AVSpeechUtterance(string: nameString)
-        myUtterance.rate = 0.4
-        synth.speak(myUtterance)
-        userTextField.resignFirstResponder()
-        return true
+       fetchData(email: emailTextField.text ?? "")
+       return true
     }
     /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {
@@ -341,14 +349,20 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = VisitorViewControllerConstants.dateFormat
         let dateString = formatter.string(from: now)
-        checkMail(checkmail: email)
         
-        if(compareEmail != email) {
+        if(checkmail != email) {
             saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
             showAlert(for: "Hello \(name), Welcome to Wurth-IT")
             
         } else {
             saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
+            
+            let alert = UIAlertController(title: nil, message:
+            VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
+            let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
+            alert.addAction(alertAtion)
+            present(alert, animated: true, completion: nil)
+            
         }
         resetTextFields()
     }
