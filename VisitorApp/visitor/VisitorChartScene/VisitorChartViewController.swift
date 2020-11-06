@@ -17,6 +17,8 @@ struct ChartViewControllerConstants{
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
    
     @IBOutlet weak var chartView: PieChartView!
+    @IBOutlet var tableview: UITableView!
+    
     var visits = [Visit]()
     var visitData = [Visit]()
     let purpose = ["Meeting", "Guest Visit", "Interview", "Others"]
@@ -63,6 +65,23 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         getChartData()
         displayDataOnChart()
         print(visits.count)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        chartView.legend.enabled = true
+        chartView.legend.textColor = UIColor.white
+        chartView.legend.orientation = .horizontal
+        chartView.legend.font = UIFont.systemFont(ofSize: 18)
+        chartView.legend.horizontalAlignment = .center
+        
+       // chartView.holeRadiusPercent = 0.6
+       // chartView.transparentCircleRadiusPercent = 0.1
+        chartView.holeColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        chartView.notifyDataSetChanged()
+
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        tableview.layer.borderColor = UIColor.white.cgColor
+        tableview.layer.borderWidth = 2
     }
     
     func getChartData(){
@@ -122,6 +141,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
       pieChartDataSet.entryLabelColor  = UIColor.white
       pieChartDataSet.entryLabelFont = UIFont(name: "futura", size: 17)
+
       if let font = UIFont(name: "futura", size: 17) {
             pieChartDataSet.valueFont = font
       } else {
@@ -141,11 +161,52 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       format.multiplier = 1.0
       format.allowsFloats = true
       format.maximumFractionDigits = 2
+
       let formatter = DefaultValueFormatter(formatter: format)
       pieChartData.setValueFormatter(formatter)
-        
+      pieChartData.setValueTextColor(.white)
       //4. Assign it to the chart’s data
       chartView.data = pieChartData
     }
+}
+
+extension VisitorChartViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+
+extension VisitorChartViewController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return purpose.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorPieChartTableViewCell", for: indexPath) as! VisitorPieChartTableViewCell
+        let data = purpose[indexPath.row]
+        cell.selectionStyle = .none
+        cell.contentView.backgroundColor = UIColor.clear
+        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.sectionTitleLabel.textColor = UIColor.white
+        cell.dataCountLabel.textColor = UIColor.white
+        cell.sectionTitleLabel.text = data
+        
+        if data == "Meeting" {
+            cell.dataCountLabel.text = String(meetings)
+            cell.backgroundColor = UIColor.systemBlue
+        } else if data == "Interview"{
+            cell.dataCountLabel.text = String(interviews)
+            cell.backgroundColor = UIColor.systemGreen
+        } else if data == "Guest Visit"{
+            cell.dataCountLabel.text = String(guestvisits)
+            cell.backgroundColor = UIColor.purple
+        } else if data == "Others"{
+            cell.dataCountLabel.text = String(others)
+            cell.backgroundColor = UIColor.systemRed
+        }
+        return cell
+    }
+    
+    
 }
 

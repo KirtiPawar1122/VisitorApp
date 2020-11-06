@@ -6,7 +6,6 @@ protocol VisitorBarChartDisplayLogic {
     func displayVisitorBarChartData(viewModel : VisitorBarChart.VisitorBarChartData.ViewModel)
 }
 
-
 struct VisitorsChartViewControllerConstants {
     static let visitorChartTitle = "Visitor Data Overview"
     static let meetingTitle = "Meeting"
@@ -70,11 +69,14 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         tableview.dataSource = self
         tableview.delegate = self
         tableview.layer.borderWidth = 2
-        tableview.layer.borderColor = UIColor.black.cgColor
+        tableview.layer.borderColor = UIColor.white.cgColor
 
         self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
-       // barChartInterator.loadData()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        // barChartInterator.loadData()
         getBarChartData()
+        histogram.legend.enabled = false
+        //histogram.backgroundColor = UIColor.white
     }
     
     func getBarChartData() {
@@ -87,6 +89,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         print(datavisit)
         for item in datavisit {
             namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
+            namedataLabel.textColor = UIColor.white
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
                 meetingDate.append(item.date!)
@@ -127,14 +130,15 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         }
         
         let barChartData = BarChartData(dataSet: barChartDataSet)
-        barChartData.barWidth = 0.7
-        
+        barChartData.barWidth = 0.6
+        barChartData.setValueTextColor(.white)
         let format = NumberFormatter()
         format.numberStyle = .none
         let formatter = DefaultValueFormatter(formatter: format)
         barChartData.setValueFormatter(formatter)
     
         histogram.xAxis.valueFormatter = IndexAxisValueFormatter(values: dataPoints)
+        histogram.xAxis.labelTextColor = UIColor.white
         histogram.xAxis.granularityEnabled = true
         histogram.xAxis.drawGridLinesEnabled = false
         histogram.xAxis.labelPosition = .bottom
@@ -142,6 +146,8 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         histogram.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInOutQuart)
         histogram.leftAxis.axisMinimum = 0
         histogram.rightAxis.axisMinimum = 0
+        histogram.rightAxis.labelTextColor = UIColor.white
+        histogram.leftAxis.labelTextColor = UIColor.white
         histogram.data = barChartData
     }
 }
@@ -151,7 +157,8 @@ extension VisitorBarChartViewController: UITableViewDelegate {
         return UITableView.automaticDimension
     }
 }
-extension VisitorBarChartViewController: UITableViewDataSource{
+
+extension VisitorBarChartViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return purpose.count
     }
@@ -169,7 +176,7 @@ extension VisitorBarChartViewController: UITableViewDataSource{
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorChartTableViewCell") as! VisitorChartTableViewCell
         let data = items[indexPath.section][indexPath.row]
         //let dataitem =  items[indexPath.row]
-        
+        cell.selectionStyle = .none
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle

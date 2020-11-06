@@ -24,7 +24,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VKJ-Of-bUP">
-                                <rect key="frame" x="340.5" y="503.5" width="153" height="33.5"/>
+                                <rect key="frame" x="340.5" y="518.5" width="153" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
@@ -34,7 +34,7 @@
                             <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Hlp-rw-IPQ"/>
                             <constraint firstItem="VKJ-Of-bUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TLc-rT-shN"/>
                             <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fqO-Op-iOw"/>
-                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="top" secondItem="VKJ-Of-bUP" secondAttribute="bottom" constant="20" id="pJC-gr-nwD"/>
+                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="top" secondItem="VKJ-Of-bUP" secondAttribute="bottom" constant="5" id="pJC-gr-nwD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -50,7 +50,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 
     //MARK: - Setup
     private func setup() {
-        
         let viewController = self
         let interactor = VisitorListInteractor()
         let presenter = VisitorListPresenter()
@@ -69,8 +68,12 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
         tableview.keyboardDismissMode = .onDrag
         hideKeyboardTappedAround()
+        self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        self.searchBar.barTintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
     }
-
+    
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
        // fetchVisitorList()
@@ -127,13 +130,24 @@ extension VisitorListViewController : UITableViewDataSource{
        // return viewObj.count
         return searchedData.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-    
+        cell.selectionStyle = .none
+       // cell.backgroundColor = UIColor.clear
+       // cell.layer.backgroundColor = UIColor.clear.cgColor
        // let data = viewObj[indexPath.row]
+        
+        cell.contentView.backgroundColor = UIColor.clear
+        cell.layer.backgroundColor = UIColor.clear.cgColor
         let data = searchedData[indexPath.row]
         print(data as Any)
+        
+        if (indexPath.row == 0 ){
+            cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
+        }else {
+            cell.subView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }
         
         cell.date.text = data.date
         cell.companyName.text = data.companyName
@@ -159,8 +173,10 @@ extension VisitorListViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 150
+       // return UITableView.automaticDimension
+        return 110
     }
+      
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let data = viewObj

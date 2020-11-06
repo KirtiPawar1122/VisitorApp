@@ -21,7 +21,6 @@ class VisitorTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
      var cornerRadius: CGFloat = 10
      var shadowOffsetWidth: Int = 0
      var shadowOffsetHeight: Int = 3
@@ -32,11 +31,13 @@ class VisitorTableViewCell: UITableViewCell {
         
         innerView.layer.cornerRadius = cornerRadius
         innerView.layer.masksToBounds = false
-        innerView.layer.shadowColor = shadowColor?.cgColor
+        innerView.backgroundColor = .clear
+       // innerView.layer.shadowColor = shadowColor?.cgColor
         subView.layer.cornerRadius = 7
         innerView.layer.shadowOffset = CGSize(width: shadowOffsetWidth, height: shadowOffsetHeight);
         innerView.layer.shadowOpacity = shadowOpacity
-        innerView.layer.borderWidth = 1.0
+        innerView.layer.borderWidth = 2.0
         innerView.layer.borderColor = UIColor.white.cgColor
+        //subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
      }
 }

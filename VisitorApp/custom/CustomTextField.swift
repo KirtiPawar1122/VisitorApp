@@ -20,7 +20,14 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         self.delegate = self
         self._placeholder = (self._placeholder != nil) ? self._placeholder : placeholder
         placeholder = self._placeholder // Make sure the placeholder is shown
+        self.setValue(UIColor.systemGray, forKey: "placeholderColor")
         self.floatingLabel = UILabel(frame: CGRect.zero)
+        self.alpha = 0.7
+        self.backgroundColor = UIColor.black
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.cornerRadius = 5
+        self.textColor = UIColor.white
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

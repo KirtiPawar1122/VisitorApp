@@ -10,12 +10,13 @@ protocol VisitorFormDisplayLogic{
 
 struct VisitorViewControllerConstants {
     static let selectedImageName = "no-image"
-    static let personImageName = "person"
-    static let addressImageName = "icon-1"
-    static let phoneImageName = "phone"
+    static let personImageName = "user"
+    static let addressImageName = "address-100"
+    static let phoneImageName = "phone-100"
     static let emailString = "email"
+    static let emailImageName = "email-100"
     static let companyIamageName = "company"
-    static let purposeImageName = "purpose"
+    static let purposeImageName = "question-100"
     static let emailValidateMessage = "Please enter valid email ID"
     static let userValidateMessage = "Please enter name"
     static let addressValidateMessage = "Please enter address"
@@ -62,6 +63,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var visitTextField: CustomTextField!
     @IBOutlet weak var loadDataButton: UIBarButtonItem!
     @IBOutlet weak var logoImage: UIImageView!
+    @IBOutlet var innerView: UIView!
     
     var visitor : [Visitor] = []
     var visit = Visit()
@@ -142,7 +144,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7621263266, green: 0.08146793395, blue: 0.1015944257, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-              
+        
+        self.innerView.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        
         let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
               addImageOntextField(textField: userTextField, img: personImage!)
 
@@ -152,7 +157,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let phoneImage = UIImage(named: VisitorViewControllerConstants.phoneImageName)
               addImageOntextField(textField: phoneTextField, img: phoneImage!)
 
-        let mailImage = UIImage(named: VisitorViewControllerConstants.emailString)
+        let mailImage = UIImage(named: VisitorViewControllerConstants.emailImageName)
               addImageOntextField(textField: emailTextField, img: mailImage!)
               emailTextField.delegate = self as UITextFieldDelegate
               
@@ -220,13 +225,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
            return
         }
         visit = visitData
-        userTextField.text = visit.visitors?.value(forKey: "name") as? String
-        addressTextField.text = visit.visitors?.value(forKey: "address") as? String
+        userTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
+        addressTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
         companyTextField.text = visit.companyName
         visitTextField.text = visit.visitorName
         
         phoneTextField.text = String(visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
-        emailTextField.text = visit.visitors?.value(forKey: "email") as? String
+        emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
         checkmail = emailTextField.text!
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
         myUtterance.rate = 0.4
@@ -314,30 +319,37 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func validate(){
         guard let email = emailTextField.text, !email.isEmpty, email.isValidEmail(mail: email) else {
             self.view.makeToast(VisitorViewControllerConstants.emailValidateMessage, duration: 3, position: .center)
+            emailTextField.shake()
             return
         }
         guard let name = userTextField.text, !name.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.userValidateMessage, duration: 3, position: .center)
+            userTextField.shake()
             return
         }
         guard let address = addressTextField.text, !address.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.addressValidateMessage, duration: 3, position: .center)
+            addressTextField.shake()
             return
         }
         guard let phoneNo = phoneTextField.text, !phoneNo.isEmpty, phoneNo.isphoneValidate(phone: phoneNo) else{
             self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
+            phoneTextField.shake()
             return
         }
         guard let companyName = companyTextField.text, !companyName.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, duration: 3, position: .center)
+            companyTextField.shake()
             return
         }
         guard let visitPurpose = purposeTextFeild.text, !visitPurpose.isEmpty else{
-            self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.purposeValidateMessage, duration: 3, position: .center)
+            purposeTextFeild.shake()
             return
         }
         guard let visitorName = visitTextField.text, !visitorName.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.visitingValidateMessage, duration: 3, position: .center)
+            visitTextField.shake()
             return
         }
         guard let profileImg = selectedImage!.pngData() else {
@@ -487,3 +499,29 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
+public extension UIView {
+
+    func shake(count : Float = 3,for duration : TimeInterval = 0.3, withTranslation translation : Float = 10) {
+        
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.repeatCount = count
+        animation.duration = duration/TimeInterval(animation.repeatCount)
+        animation.autoreverses = true
+        animation.values = [translation, -translation]
+        layer.add(animation, forKey: "shake")
+    }
+}
+
+extension CustomTextField {
+     @IBInspectable var placeholderColor: UIColor {
+           get {
+               return self.placeholderColor
+          //  return (self.attributedPlaceholder?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor)!
+            
+        }
+           set {
+               self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [.foregroundColor: newValue])
+           }
+    }
+}
