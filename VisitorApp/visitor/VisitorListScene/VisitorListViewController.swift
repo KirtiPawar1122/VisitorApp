@@ -69,9 +69,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         tableview.keyboardDismissMode = .onDrag
         hideKeyboardTappedAround()
         self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
-        self.searchBar.barTintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        
+        self.searchBar.barTintColor = #colorLiteral(red: 0.006955888588, green: 0.0941728428, blue: 0.1826652586, alpha: 0.8777022688)
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
+        searchBar.searchTextField.layer.cornerRadius = 5
+        searchBar.searchTextField.layer.borderColor = UIColor.white.cgColor
+        searchBar.searchTextField.layer.borderWidth = 2
+        searchBar.searchTextField.placeholder = "Search here"
+       // searchBar.searchTextField.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+       // searchBar.searchTextField.layer.borderWidth = 2
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -99,6 +104,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         print(viewModel)
         viewObj = viewModel.visit!
         searchedData = viewObj
+        
+        
     }
    //MARK: - Delete Record from table
     func deleteConfirm(indexpath: IndexPath){
@@ -134,21 +141,16 @@ extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
         cell.selectionStyle = .none
-       // cell.backgroundColor = UIColor.clear
-       // cell.layer.backgroundColor = UIColor.clear.cgColor
-       // let data = viewObj[indexPath.row]
-        
+        cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
+        //self.tableview.scrollToRow(at: indexPath, at: .top, animated: false)
+        //tableview.beginUpdates()
+        //self.tableview.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+        //tableview.endUpdates()
+        
         let data = searchedData[indexPath.row]
         print(data as Any)
-        
-        if (indexPath.row == 0 ){
-            cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
-        }else {
-            cell.subView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        }
-        
         cell.date.text = data.date
         cell.companyName.text = data.companyName
         cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
@@ -160,7 +162,6 @@ extension VisitorListViewController : UITableViewDataSource{
         }else {
             cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
         }
-        
         return cell
     }
 }
@@ -185,7 +186,7 @@ extension VisitorListViewController: UITableViewDelegate{
         var dataArray = [Visit]()
         let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
         for visit in data {
-            let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
+            let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
             if email == selectedEmail {
                 dataArray.append(visit)
             }

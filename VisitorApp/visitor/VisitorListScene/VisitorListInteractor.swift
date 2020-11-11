@@ -19,12 +19,15 @@ class VisitorListInteractor: VisitorListBusinessLogic {
  
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
         let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorListInteractorConstants.visitEntity)
+        let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
+        visitorFetchRequest.sortDescriptors = [sortDescriptors]
         do{
             let record = try context.fetch(visitorFetchRequest)
             print(record)
             let response = VisitorList.fetchVisitorList.Response(visit: record)
             listPresenterProtocol?.presentVisitorListResult(response: response)
         } catch let error as NSError{
+            
             print(error.description)
         }
     }

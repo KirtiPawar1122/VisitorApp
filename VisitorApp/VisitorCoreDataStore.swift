@@ -40,13 +40,14 @@ class VisitorCoreDataStore {
         //var visit = Visit()
         let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
         let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
+        let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
+        visitorfetchRequest.sortDescriptors = [sortDescriptors]
         visitorfetchRequest.predicate = predicate
         visitorfetchRequest.fetchLimit = 1
-        
         do {
         let record = try context.fetch(visitorfetchRequest)
         print(record.first?.visitors as Any)
-        for item in record {
+            for item in record {
             completionhanlder(item)
             print(item)
             visit = [item]
@@ -54,7 +55,6 @@ class VisitorCoreDataStore {
         } catch let error as NSError {
             print(error.description)
         }
-
     }
 
     func deleteVisitorRecord(){

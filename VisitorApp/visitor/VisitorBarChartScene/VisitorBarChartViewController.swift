@@ -70,13 +70,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         tableview.delegate = self
         tableview.layer.borderWidth = 2
         tableview.layer.borderColor = UIColor.white.cgColor
-
         self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
-        // barChartInterator.loadData()
         getBarChartData()
         histogram.legend.enabled = false
-        //histogram.backgroundColor = UIColor.white
     }
     
     func getBarChartData() {

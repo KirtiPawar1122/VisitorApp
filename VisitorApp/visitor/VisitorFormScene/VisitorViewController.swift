@@ -44,7 +44,7 @@ struct VisitorViewControllerConstants {
     static let addressString = "address"
     static let phoneString = "phoneNo"
     static let profileImageString = "profileImage"
-    static let dateFormat = "MMM d, h:mm a"
+    static let dateFormat = "MMM d, h:mm:ss a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }
@@ -82,7 +82,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var name: String = ""
     var compareEmail: String = ""
     var checkmail: String = ""
-    
+    var profileImage: UIImage?
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
@@ -232,6 +232,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         
         phoneTextField.text = String(visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
+        print(visit.visitors?.value(forKey: "profileImage") as? Data as Any)
+        guard let profileData = visit.visitors?.value(forKey: "profileImage") else{
+            return
+        }
+        let profileImage = UIImage(data: profileData as! Data)
+        selectedImage = profileImage
+        visitorImage.image = profileImage
         checkmail = emailTextField.text!
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
         myUtterance.rate = 0.4
@@ -352,10 +359,15 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             visitTextField.shake()
             return
         }
-        guard let profileImg = selectedImage!.pngData() else {
+        guard let profileImg = selectedImage?.pngData() else {
             self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
             return
         }
+        
+       /* guard let profileImg = profileImage?.pngData() else{
+            self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
+            return
+        } */
         let now = Date()
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
@@ -518,8 +530,7 @@ extension CustomTextField {
            get {
                return self.placeholderColor
           //  return (self.attributedPlaceholder?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor)!
-            
-        }
+           }
            set {
                self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [.foregroundColor: newValue])
            }
