@@ -16,7 +16,6 @@ class VisitorListRouter : visitorListRoutingLogic {
         
         let viewController = VisitorListRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorDataViewController") as! VisitorListViewController
         return viewController
-        
     } 
     
     static var mainstoryboard: UIStoryboard {

@@ -24,6 +24,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var filterbutton: UIButton!
     
     var viewObj = [Visit]()
     //var visits: Visit?
@@ -68,6 +69,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
         tableview.keyboardDismissMode = .onDrag
         hideKeyboardTappedAround()
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         self.searchBar.barTintColor = #colorLiteral(red: 0.006955888588, green: 0.0941728428, blue: 0.1826652586, alpha: 0.8777022688)
         searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
@@ -75,8 +77,11 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.layer.borderColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.borderWidth = 2
         searchBar.searchTextField.placeholder = "Search here"
-       // searchBar.searchTextField.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-       // searchBar.searchTextField.layer.borderWidth = 2
+        //searchBar.showsCancelButton = true
+        //searchBar.showsBookmarkButton = true
+        //searchBar.setImage(UIImage(named: ""), for: .search, state: .normal)
+        filterbutton.layer.cornerRadius = 5
+        filterbutton.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -104,8 +109,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         print(viewModel)
         viewObj = viewModel.visit!
         searchedData = viewObj
-        
-        
     }
    //MARK: - Delete Record from table
     func deleteConfirm(indexpath: IndexPath){
@@ -130,6 +133,70 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         let data = viewObj
         visitorDataRouter?.routeToChart(data: data)
     }
+    
+    @IBAction func onFilterButton(_ sender: Any) {
+        print("on Click")
+        
+        let popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopOverViewController") as! PopOverViewController
+
+        // set the presentation style
+        popController.modalPresentationStyle = UIModalPresentationStyle.popover
+
+        // set up the popover presentation controller
+        popController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
+        popController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
+        popController.popoverPresentationController?.sourceView = sender as? UIButton // button
+        popController.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
+
+        // present the popover
+        self.present(popController, animated: true, completion: nil)
+        
+      /*  let optionMenu = UIAlertController(title: nil, message: "Filter By", preferredStyle: .actionSheet)
+        optionMenu.modalPresentationStyle = .popover
+        optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
+        optionMenu.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
+        optionMenu.popoverPresentationController?.sourceView = sender as? UIButton // button
+        optionMenu.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
+       
+        let FirstAction = UIAlertAction(title: "by Name", style: .default){ (_) in
+            self.onClickByName()
+            return
+        }
+        let SecondAction = UIAlertAction(title: "by Purpose", style: .default){ (_) in
+            self.onClickByPurpose()
+            return
+        }
+        optionMenu.addAction(FirstAction)
+        optionMenu.addAction(SecondAction)
+        
+        optionMenu.popoverPresentationController?.sourceView = filterbutton
+        switch UIDevice.current.userInterfaceIdiom {
+            case .pad:
+                optionMenu.popoverPresentationController?.sourceView = self.view
+                optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: .zero, height: .zero)
+                optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+            default:
+                    break
+        }
+        self.navigationController?.present(optionMenu, animated: true, completion: nil) */
+        
+    }
+    
+    func onClickByName(){
+        print("click by Name")
+    }
+    
+    func onClickByPurpose(){
+        print("click by Purpose")
+    }
+    
+    func constructMenu(){
+       // let byPerson = UIMenuItem(title: "by Name", action: #selector(viewPersonFilter))
+    }
+    
+    @objc func viewPersonFilter(){
+        
+    }
 }
 //MARK: - Tableview DataSource methods
 extension VisitorListViewController : UITableViewDataSource{
@@ -144,10 +211,6 @@ extension VisitorListViewController : UITableViewDataSource{
         cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
-        //self.tableview.scrollToRow(at: indexPath, at: .top, animated: false)
-        //tableview.beginUpdates()
-        //self.tableview.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-        //tableview.endUpdates()
         
         let data = searchedData[indexPath.row]
         print(data as Any)
@@ -218,4 +281,15 @@ extension VisitorListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
+    
+    func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
+        print("click")
+    }
+}
+
+extension VisitorListViewController: UIPopoverPresentationControllerDelegate{
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+ 
 }

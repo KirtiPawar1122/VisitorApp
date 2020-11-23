@@ -1,10 +1,4 @@
-//
-//  VisitorListModel.swift
-//  VisitorApp
-//
-//  Created by Mayur Kamthe on 08/10/20.
-//  Copyright © 2020 Mayur Kamthe. All rights reserved.
-//
+
 
 import Foundation
 
