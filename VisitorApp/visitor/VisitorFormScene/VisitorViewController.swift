@@ -253,15 +253,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func checkMail(checkmail: String){
         fetchData(email: checkmail)
-     // print(checkmail)
-   /* if(checkmail == visits.visitors?.value(forKey:      VisitorViewControllerConstants.emailString) as? String) {
-            compareEmail = checkmail
-            let alert = UIAlertController(title: nil, message:
-            VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
-            let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
-            alert.addAction(alertAtion)
-            present(alert, animated: true, completion: nil)
-        } */
     }
     
     @IBAction func submitButtonClick(_ sender: Any) {
@@ -363,11 +354,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
             return
         }
-        
-       /* guard let profileImg = profileImage?.pngData() else{
-            self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
-            return
-        } */
+
         let now = Date()
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
@@ -384,7 +371,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             let alert = UIAlertController(title: nil, message:
             VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
             let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
+            let printAction = UIAlertAction(title: "Print", style: .default, handler: { _ in
+                self.visitorPrint()
+            })
             alert.addAction(alertAtion)
+            alert.addAction(printAction)
             present(alert, animated: true, completion: nil)
             
         }
@@ -392,7 +383,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
 
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
-      //  interactor.saveVisitorRecord(request: request)
         interactor?.saveVisitorRecord(request: request)
     }
 
@@ -415,13 +405,25 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func showAlert(for alert : String) {
         let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
         let alertAction = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
+        let printAction = UIAlertAction(title: "Print", style: .default, handler: {
+            _ in
+            self.visitorPrint()
+        })
         alertController.addAction(alertAction)
+        alertController.addAction(printAction)
         present(alertController, animated: true, completion: nil)
         myUtterance = AVSpeechUtterance(string: alertController.message!)
         myUtterance.rate = 0.4
         synth.speak(myUtterance)
     }
+    
+    func visitorPrint(){
+        print("in visitor Print")
+        print(visit)
+        router?.routeToVisitorPrint(data: visit)
+    }
 }
+
 
 // MARK: - ImageView and PurposeTextfeild Actions
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

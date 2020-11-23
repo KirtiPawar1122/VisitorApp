@@ -16,5 +16,4 @@ class VisitorChartPresenter : VisitorChartPresentationLogic {
         let viewModel = VisitorChart.VisitorChartData.ViewModel(visitData: viewModelData)
         viewObj?.displayChart(viewModel: viewModel)
     }
-    
 }

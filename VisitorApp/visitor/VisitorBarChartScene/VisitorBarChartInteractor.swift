@@ -7,7 +7,7 @@ protocol VisitorBarChartBusinessLogic{
 }
 
 protocol VisitorBarChartDataStore{
-    var visitData : [Visit] { get set}
+    var visitData: [Visit] { get set}
 }
 
 

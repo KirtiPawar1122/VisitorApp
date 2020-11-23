@@ -71,9 +71,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.legend.orientation = .horizontal
         chartView.legend.font = UIFont.systemFont(ofSize: 18)
         chartView.legend.horizontalAlignment = .center
-        
-       // chartView.holeRadiusPercent = 0.6
-       // chartView.transparentCircleRadiusPercent = 0.1
+    
         chartView.holeColor = UIColor(patternImage: UIImage(named: "backImage")!)
         chartView.notifyDataSetChanged()
 
@@ -206,7 +204,5 @@ extension VisitorChartViewController: UITableViewDataSource{
         }
         return cell
     }
-    
-    
 }
 
