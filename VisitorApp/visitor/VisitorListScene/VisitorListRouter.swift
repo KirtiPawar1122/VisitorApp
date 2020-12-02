@@ -4,7 +4,8 @@ import UIKit
 
 protocol visitorListRoutingLogic {
     func routeToChart(data: [Visit])
-    func routeToBarChart(fetcheddata : [Visit])
+    func routeToBarChart(fetcheddata: [Visit], selectedData: Visit)
+   // func routeToBarChartData(selectedData: Visit)
 }
 
 class VisitorListRouter : visitorListRoutingLogic {
@@ -28,11 +29,9 @@ class VisitorListRouter : visitorListRoutingLogic {
         viewController?.navigationController?.pushViewController(visitorChart, animated: true)
     }
     
-    func routeToBarChart(fetcheddata : [Visit]){
-      
+    func routeToBarChart(fetcheddata: [Visit], selectedData: Visit){
         print(fetcheddata)
-        let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorData: fetcheddata)
+        let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorAllData: fetcheddata, visitorData: selectedData)
         viewController?.navigationController?.pushViewController(visitorBarChart, animated: true)
     }
-
 }

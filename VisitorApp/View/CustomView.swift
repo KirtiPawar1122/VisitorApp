@@ -29,7 +29,6 @@ class CustomView: UIView {
         if let delegate = delegate{
             delegate.didStart(self)
         }
-
       }
 
       override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

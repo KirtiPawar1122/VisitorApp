@@ -77,9 +77,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.layer.borderColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.borderWidth = 2
         searchBar.searchTextField.placeholder = "Search here"
-        //searchBar.showsCancelButton = true
-        //searchBar.showsBookmarkButton = true
-        //searchBar.setImage(UIImage(named: ""), for: .search, state: .normal)
         filterbutton.layer.cornerRadius = 5
         filterbutton.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
@@ -137,24 +134,22 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     @IBAction func onFilterButton(_ sender: Any) {
         print("on Click")
         
-        let popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopOverViewController") as! PopOverViewController
-
+       let popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopOverViewController") as! PopOverViewController
         // set the presentation style
         popController.modalPresentationStyle = UIModalPresentationStyle.popover
-
         // set up the popover presentation controller
         popController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
-        popController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
+        popController.popoverPresentationController?.delegate = self 
         popController.popoverPresentationController?.sourceView = sender as? UIButton // button
         popController.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
-
         // present the popover
         self.present(popController, animated: true, completion: nil)
         
-      /*  let optionMenu = UIAlertController(title: nil, message: "Filter By", preferredStyle: .actionSheet)
+    
+       /* let optionMenu = UIAlertController(title: nil, message: "Filter By", preferredStyle: .actionSheet)
         optionMenu.modalPresentationStyle = .popover
         optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
-        optionMenu.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
+        optionMenu.popoverPresentationController?.delegate = self
         optionMenu.popoverPresentationController?.sourceView = sender as? UIButton // button
         optionMenu.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
        
@@ -184,6 +179,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     
     func onClickByName(){
         print("click by Name")
+        
     }
     
     func onClickByPurpose(){
@@ -215,7 +211,8 @@ extension VisitorListViewController : UITableViewDataSource{
         let data = searchedData[indexPath.row]
         print(data as Any)
         cell.date.text = data.date
-        cell.companyName.text = data.companyName
+        //cell.companyName.text = data.companyName
+        cell.emailID.text = data.visitors?.value(forKey: "email") as? String
         cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
         cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
         cell.visitPurpose.text = data.purpose
@@ -254,7 +251,9 @@ extension VisitorListViewController: UITableViewDelegate{
                 dataArray.append(visit)
             }
         }
-        visitorDataRouter?.routeToBarChart(fetcheddata: dataArray)
+        //visitorDataRouter?.routeToBarChartData(selectedData: item)
+       // visitorDataRouter?.routeToBarChart(fetcheddata: dataArray,selectedData: item)
+        visitorDataRouter?.routeToBarChart(fetcheddata: dataArray, selectedData: item)
     }
 }
 //MARK: - SearchBar Delegate Methods
@@ -262,11 +261,21 @@ extension VisitorListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
-        
         searchedData = searchText.isEmpty ? viewObj : viewObj.filter{
             (item : Visit) -> Bool in
             let name = item.visitors?.value(forKey: "name") as? String
-            return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil 
+            // let email = item.visitors?.value(forKey: "email") as? String
+           // return email?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            
+           /* if let name = item.visitors?.value(forKey: "name") as? String  {
+                return name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            } else if let email = item.visitors?.value(forKey: "email") as? String  {
+                return email.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            }
+            return true*/
+        
+            
         }
         tableview.reloadData()
     }

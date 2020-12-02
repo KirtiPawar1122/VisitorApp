@@ -10,6 +10,8 @@ class VisitorTableViewCell: UITableViewCell {
     @IBOutlet weak var address: UILabel!
     @IBOutlet weak var phoneNo: UILabel!
     @IBOutlet weak var companyName: UILabel!
+    
+    @IBOutlet weak var emailID: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var visitPurpose: UILabel!
     @IBOutlet weak var subView: UIView!

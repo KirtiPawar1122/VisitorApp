@@ -55,6 +55,7 @@
 		9BD93662256B581E00B16419 /* PopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD93661256B581E00B16419 /* PopOverViewController.swift */; };
 		9BDD18A3247D390A00828EAB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDD18A2247D390A00828EAB /* CustomTextField.swift */; };
 		9BDD18A5247FECBA00828EAB /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDD18A4247FECBA00828EAB /* CustomImageView.swift */; };
+		9BE196CC256FBE37008D29AC /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE196CB256FBE37008D29AC /* CardView.swift */; };
 		9BE7A235249A2D8C00AFC4C9 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */; };
 		9BECDCD9252D8560001B3279 /* VisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCD8252D8560001B3279 /* VisitorViewModel.swift */; };
 		9BECDCDD252EC593001B3279 /* VisitorListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCDC252EC593001B3279 /* VisitorListModel.swift */; };
@@ -128,6 +129,7 @@
 		9BD93661256B581E00B16419 /* PopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverViewController.swift; sourceTree = "<group>"; };
 		9BDD18A2247D390A00828EAB /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		9BDD18A4247FECBA00828EAB /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		9BE196CB256FBE37008D29AC /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		9BE7A234249A2D8C00AFC4C9 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		9BECDCD8252D8560001B3279 /* VisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorViewModel.swift; sourceTree = "<group>"; };
 		9BECDCDC252EC593001B3279 /* VisitorListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListModel.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			children = (
 				9BDD18A2247D390A00828EAB /* CustomTextField.swift */,
 				9BDD18A4247FECBA00828EAB /* CustomImageView.swift */,
+				9BE196CB256FBE37008D29AC /* CardView.swift */,
 			);
 			path = custom;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				9B9E2EF925024C9F00E54E4F /* VisitorChartTableViewCell.swift in Sources */,
 				9BD5FDEE2525A613006F21DC /* VisitorChartRouter.swift in Sources */,
 				9B851BB52490C9B900FFB7F6 /* VisitorListViewController.swift in Sources */,
+				9BE196CC256FBE37008D29AC /* CardView.swift in Sources */,
 				9B76307D254192E5008420AA /* VisitorBarChartViewModel.swift in Sources */,
 				9BD5FDE825219D8C006F21DC /* VisitorListInteractor.swift in Sources */,
 				9BBAF77D247654FF00B31A70 /* AppDelegate.swift in Sources */,

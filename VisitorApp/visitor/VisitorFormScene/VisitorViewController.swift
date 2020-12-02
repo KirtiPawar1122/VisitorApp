@@ -44,7 +44,7 @@ struct VisitorViewControllerConstants {
     static let addressString = "address"
     static let phoneString = "phoneNo"
     static let profileImageString = "profileImage"
-    static let dateFormat = "MMM d, h:mm:ss a"
+    static let dateFormat = "MMM dd h:mm:ss a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }
@@ -360,6 +360,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = VisitorViewControllerConstants.dateFormat
         let dateString = formatter.string(from: now)
+        
         
         if(checkmail != email) {
             saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))

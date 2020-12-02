@@ -4,13 +4,19 @@ import UIKit
 class PopOverViewController: UIViewController {
 
     @IBOutlet var tableview: UITableView!
-    let dataArray = ["by Name", "by Purpose"]
+    let filterTitles = ["by Name", "by Purpose"]
+    var delegate: UISearchBarDelegate?
+    let searcController = UISearchController(searchResultsController: nil)
     static let cellID = "Cell"
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.delegate = self
         tableview.dataSource = self
     }
+    
+    func filterSearchController(_ searchBar: UISearchBar){
+    }
+  //  func applyFilter(searchText: String, scope: String = "by Name"){}
 }
 
 extension PopOverViewController: UITableViewDelegate{
@@ -19,7 +25,7 @@ extension PopOverViewController: UITableViewDelegate{
 
 extension PopOverViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        return filterTitles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -27,8 +33,12 @@ extension PopOverViewController: UITableViewDataSource{
         if cell == nil {
             cell = UITableViewCell(style: .default, reuseIdentifier: PopOverViewController.cellID)
         }
-        cell?.textLabel?.text = dataArray[indexPath.row]
+        cell?.textLabel?.text = filterTitles[indexPath.row]
         return cell ?? UITableViewCell()
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dismiss(animated: true, completion: nil)
     }
 }

@@ -7,7 +7,7 @@ protocol VisitorBarChartDisplayLogic {
 }
 
 struct VisitorsChartViewControllerConstants {
-    static let visitorChartTitle = "Visitor Data Overview"
+    static let visitorChartTitle = "Visitor Details"
     static let meetingTitle = "Meeting"
     static let interviewTitle = "Interview"
     static let guestVisitTitle = "Guest Visit"
@@ -20,9 +20,21 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     @IBOutlet weak var viewUI: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var namedataLabel : UILabel!
-
+    @IBOutlet var detailView: UIView!
+    @IBOutlet var purposeLabel: UILabel!
+    @IBOutlet var companyLabel: UILabel!
+    @IBOutlet var emailLabel: UILabel!
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var profileImage: UIImageView!
+    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var onPrintBtn: UIButton!
+    @IBOutlet var addressLabel: UILabel!
+    @IBOutlet var phoneLabel: UILabel!
+    @IBOutlet var hostLabel: UILabel!
+    @IBOutlet var totalVisitCount: UILabel!
     var datavisit = [Visit]()
     var chartData = [Visit]()
+    var selectedData = Visit()
     let purpose = ["Meeting", "Interview", "Guest Visit", "Others"]
     var meeting = 0
     var interview = 0
@@ -34,9 +46,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     var otherDate = [String]()
     var items : [[String]] = []
     var sectionName = String()
-    var barChartRouter : VisitorBarChartRouter = VisitorBarChartRouter()
+    var barChartRouter : VisitorBarChartRoutingLogic?
     //var barChartInterator : VisitorBarChartInteractor = VisitorBarChartInteractor()
     var barChartInteractor : VisitorBarChartBusinessLogic?
+    //var barChartRouter: VisitorBarChartRoutingLogic?
+    
     
       //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
@@ -66,14 +80,29 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableview.dataSource = self
-        tableview.delegate = self
-        tableview.layer.borderWidth = 2
-        tableview.layer.borderColor = UIColor.white.cgColor
         self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         getBarChartData()
         histogram.legend.enabled = false
+        onPrintBtn.layer.cornerRadius = 5
+        profileImage.layer.cornerRadius = 10
+        profileImage.layer.borderWidth = 5
+        profileImage.layer.borderColor = UIColor.white.cgColor
+        
+        purposeLabel.text = selectedData.purpose
+        nameLabel.text = selectedData.visitors?.value(forKey: "name") as? String
+        emailLabel.text = selectedData.visitors?.value(forKey: "email") as? String
+        dateLabel.text = selectedData.date
+        addressLabel.text = selectedData.visitors?.value(forKey: "address") as? String
+        companyLabel.text = selectedData.companyName
+        hostLabel.text = selectedData.visitorName
+        phoneLabel.text = selectedData.visitors?.value(forKey: "phoneNo") as? String
+        totalVisitCount.text = String(datavisit.count)
+        let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
+        print(image!)
+        profileImage.image = image!
+        
+        
     }
     
     func getBarChartData() {
@@ -85,8 +114,9 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         chartData = viewModel.visitData
         print(datavisit)
         for item in datavisit {
-            namedataLabel.text = "Overall graph represenation of \(item.visitors!.value(forKey: "name"))"
-            namedataLabel.textColor = UIColor.white
+           // namedataLabel.text = "Details Of \(item.visitors!.value(forKey: "name"))"
+          //  namedataLabel.textColor = UIColor.white
+    
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
                 meetingDate.append(item.date!)
@@ -147,10 +177,17 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         histogram.leftAxis.labelTextColor = UIColor.white
         histogram.data = barChartData
     }
+
+    @IBAction func printButton(_ sender: Any) {
+        print(selectedData)
+        barChartRouter?.routeToPrintVisitors(data: selectedData)
+    }
 }
 
+/*
 extension VisitorBarChartViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt in
+ dexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
@@ -212,4 +249,4 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         }
         return cell
     }
-}
+} */
