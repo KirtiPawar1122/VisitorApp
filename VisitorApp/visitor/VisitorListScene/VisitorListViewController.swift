@@ -210,6 +210,9 @@ extension VisitorListViewController : UITableViewDataSource{
         
         let data = searchedData[indexPath.row]
         print(data as Any)
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+       // let stringDate = formatter.string(from: data.date!)
         cell.date.text = data.date
         //cell.companyName.text = data.companyName
         cell.emailID.text = data.visitors?.value(forKey: "email") as? String

@@ -41,7 +41,6 @@ class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
       
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
         visitorCoreData.saveVisitorRecord(request: request)
-
     }
     
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {

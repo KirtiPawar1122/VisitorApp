@@ -75,7 +75,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         interactor.presenter = presenter
         presenter.viewObject = viewController
         viewController.barChartRouter = router
-
     }
         
     override func viewDidLoad() {
@@ -92,7 +91,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         purposeLabel.text = selectedData.purpose
         nameLabel.text = selectedData.visitors?.value(forKey: "name") as? String
         emailLabel.text = selectedData.visitors?.value(forKey: "email") as? String
-        dateLabel.text = selectedData.date
+        //dateLabel.text = selectedData.date
         addressLabel.text = selectedData.visitors?.value(forKey: "address") as? String
         companyLabel.text = selectedData.companyName
         hostLabel.text = selectedData.visitorName
@@ -101,8 +100,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
         print(image!)
         profileImage.image = image!
-        
-        
     }
     
     func getBarChartData() {
@@ -116,7 +113,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         for item in datavisit {
            // namedataLabel.text = "Details Of \(item.visitors!.value(forKey: "name"))"
           //  namedataLabel.textColor = UIColor.white
-    
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
                 meetingDate.append(item.date!)
@@ -179,8 +175,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     }
 
     @IBAction func printButton(_ sender: Any) {
-        print(selectedData)
-        barChartRouter?.routeToPrintVisitors(data: selectedData)
+        print(selectedData.visitors?.value(forKey: "email") as Any)
+        //barChartRouter?.routeToPrintVisitors(data: selectedData)
+        //let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
+        //vc?.printVisitData = selectedData
+        //navigationController?.pushViewController(vc!, animated: true)
     }
 }
 

@@ -12,15 +12,15 @@ enum VisitorPrint {
    enum VisitorPrintData {
     
       struct Request  {
-        
+        var email: String?
        }
     
        struct Response {
-           var visitData : Visit
+           var visitData: Visit?
        }
     
        struct ViewModel {
-           var visitData : Visit
+           var visitData: Visit?
         }
     }
 }

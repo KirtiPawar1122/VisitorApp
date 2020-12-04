@@ -16,5 +16,4 @@ class VisitorPresenter : VisitorFormPrsentationLogic {
         let viewmodel = VisitorForm.fetchVisitorRecord.ViewModel(visit: viewModelList)
         viewObj?.displayVisitorData(viewModel: viewmodel)
     }
-    
 }

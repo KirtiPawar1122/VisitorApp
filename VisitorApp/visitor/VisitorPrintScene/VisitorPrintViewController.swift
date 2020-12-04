@@ -1,7 +1,13 @@
 
 import UIKit
 
-class VisitorPrintViewController: UIViewController {
+protocol VisitorPrintDisplayLogic{
+    func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel)
+}
+
+class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
+   
+    
     @IBOutlet var visitorCardView: UIView!
     @IBOutlet var profileImage: UIImageView!
     @IBOutlet var printButton: UIButton!
@@ -13,12 +19,14 @@ class VisitorPrintViewController: UIViewController {
     @IBOutlet var hostLabel: UILabel!
     
     var printData = Visit()
+    var printVisitData: Visit?
     var selectedImge = "no-image"
     var printInteractor: VisitorPrintBusinessLogic?
+    //var printPresentor: VisitorPrintPresentationLogic?
     var printRouter: VisitorPrintRouter = VisitorPrintRouter()
     var cardImage: UIImage?
-    
-    
+    var selectedEmail = String()
+    //var printData: Visit!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -34,30 +42,16 @@ class VisitorPrintViewController: UIViewController {
         
         let viewController = self
         let router = VisitorPrintRouter()
-        
+        let interactor = VisitorPrintInteractor()
+        let presenter = VisitorPrintPresenter()
+        viewController.printInteractor = interactor
+        interactor.printPresenter = presenter
+        presenter.viewPrintLogic = viewController
         viewController.printRouter = router
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(printData)
-        
-        VisitDate.text = printData.date
-       /* let dateString = printData.date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DD-MMM-YYYY"
-        let dateformat = dateFormatter.date(from: dateString!)
-        print(dateformat as! Date) */
-        
-        visitorName.text = printData.visitors?.value(forKey: "name") as? String
-        purposeLabel.text = printData.purpose
-        hostLabel.text = printData.visitorName
-        print(printData.visitors?.value(forKey: "profileImage") as! Data)
-        let image = UIImage(data: printData.visitors?.value(forKey: "profileImage") as! Data)
-        print(image!)
-        profileImage.image = image  
-        
-        //companyName.text = "Wurth IT India Pvt. Ltd."
         visitorCardView.layer.borderWidth = 3
         visitorCardView.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         visitorCardView.layer.cornerRadius = 10
@@ -75,37 +69,24 @@ class VisitorPrintViewController: UIViewController {
         printButton.layer.shadowOpacity = 1.0
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         
+        printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(email: selectedEmail))
+    }
+    
+    func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel) {
+        print(viewModel.visitData as Any)
+        VisitDate.text = viewModel.visitData?.date
+        visitorName.text = viewModel.visitData?.visitors?.value(forKey: "name") as? String
+        purposeLabel.text = viewModel.visitData?.purpose
+        hostLabel.text = viewModel.visitData?.visitorName
     }
     
     @IBAction func onPrintAction(_ sender: Any) {
         //convert view to image and store it - alert display
         print(visitorCardView as Any)
         cardImage = visitorCardView.takeSanpShot()
-        //let msg: String = "Visitor Card"
         cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
         print(pdfFilePath)
-       /* let alert = UIAlertController(title: "Saved..!", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alert,animated: true,completion: nil)*/
-        
-       /* let printInfo = UIPrintInfo(dictionary: nil)
-        printInfo.outputType = UIPrintInfo.OutputType.general
-        printInfo.jobName = "My Print Job"
-        
-        let printController = UIPrintInteractionController.shared
-        printController.printInfo = printInfo
-        
-        printController.printingItem = cardImage
-        
-        // if you want to specify
-       // guard let printURL = URL(string: "ipps://HPDC4A3E0DE24A.local.:443/ipp/print") else { return }
-       // guard let currentPrinter = UIPrinter(url: printURL) else { return }
-      //  guard let currentPrinter = UIPrinter(url: printURL) else { return }
-       // printController.print(to: currentPrinter, completionHandler: nil)
-        
-        printController.present(from: self.view.frame, in: self.view, animated: true, completionHandler: nil) */
-        
         let items = [cardImage!,pdfFilePath] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         

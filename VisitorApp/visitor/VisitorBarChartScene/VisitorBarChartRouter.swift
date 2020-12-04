@@ -24,7 +24,7 @@ class VisitorBarChartRouter : VisitorBarChartRoutingLogic {
     
     func routeToPrintVisitors(data: Visit) {
            print(data)
-        let visitorData = VisitorPrintRouter.visitorPrintmodule(visitData: data)
-        viewController?.navigationController?.pushViewController(visitorData, animated: true)
+        //let visitorData = VisitorPrintRouter.visitorPrintmodule(visitData: data)
+        //viewController?.navigationController?.pushViewController(visitorData, animated: true)
      }
 }

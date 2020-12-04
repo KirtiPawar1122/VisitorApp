@@ -4,9 +4,10 @@ import UIKit
 
 class VisitorPrintRouter {
     
-    static func visitorPrintmodule(visitData: Visit) -> VisitorPrintViewController {
+    static func visitorPrintmodule(visitorEmail: String) -> VisitorPrintViewController {
         let printVC = VisitorPrintRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorPrintViewController") as! VisitorPrintViewController
-        printVC.printData = visitData
+       // printVC.printData = visitData
+        printVC.selectedEmail = visitorEmail
         return printVC
     }
     

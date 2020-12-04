@@ -7,15 +7,15 @@ enum VisitorForm {
     
     enum fetchVisitorRecord{
         struct Request {
-            var email : String?
+            var email: String?
         }
         
         struct Response {
-            var visit : Visit?
+            var visit: Visit?
         }
         
         struct ViewModel {
-            var visit : Visit?
+            var visit: Visit?
         }
     }
     

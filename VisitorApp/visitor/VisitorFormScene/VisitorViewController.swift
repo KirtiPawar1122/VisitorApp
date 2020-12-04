@@ -67,6 +67,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     var visitor : [Visitor] = []
     var visit = Visit()
+    var visitPrintData = Visit()
+    var arr = [Any]()
+   
+    
     var tapCount = 0
     var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -225,6 +229,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
            return
         }
         visit = visitData
+        //visitPrintData = visitData
         userTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
         addressTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
         companyTextField.text = visit.companyName
@@ -240,6 +245,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         selectedImage = profileImage
         visitorImage.image = profileImage
         checkmail = emailTextField.text!
+        //visitorPrint()
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
         myUtterance.rate = 0.4
         synth.speak(myUtterance)
@@ -360,7 +366,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = VisitorViewControllerConstants.dateFormat
         let dateString = formatter.string(from: now)
-        
+       
+        print(dateString)
         
         if(checkmail != email) {
             saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
@@ -371,16 +378,18 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             
             let alert = UIAlertController(title: nil, message:
             VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
-            let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
+            let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: { _ in
+                self.resetTextFields()
+            })
             let printAction = UIAlertAction(title: "Print", style: .default, handler: { _ in
-                self.visitorPrint()
+                self.visitorPrint(email: email)
+                self.resetTextFields()
             })
             alert.addAction(alertAtion)
             alert.addAction(printAction)
             present(alert, animated: true, completion: nil)
-            
         }
-        resetTextFields()
+        //resetTextFields()
     }
 
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
@@ -405,10 +414,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func showAlert(for alert : String) {
         let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
-        let alertAction = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil)
+        let alertAction = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: { _ in
+            self.resetTextFields()
+        })
         let printAction = UIAlertAction(title: "Print", style: .default, handler: {
             _ in
-            self.visitorPrint()
+            self.visitorPrint(email: self.emailTextField.text!)
+            self.resetTextFields()
         })
         alertController.addAction(alertAction)
         alertController.addAction(printAction)
@@ -418,10 +430,15 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         synth.speak(myUtterance)
     }
     
-    func visitorPrint(){
+    func visitorPrint(email: String){
         print("in visitor Print")
-        print(visit)
-        router?.routeToVisitorPrint(data: visit)
+        print(email)
+        router?.routeToVisitorPrint( email: email)
+        //print(visitPrintData)
+        //print(emailTextField.text)
+        //print(visit)
+        //router?.routeToVisitorPrint(data: visitPrintData)
+        //router?.routeToVisitorPrint(data: visit)
     }
 }
 
