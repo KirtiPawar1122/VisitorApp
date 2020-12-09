@@ -3,7 +3,7 @@
 import UIKit
 
 protocol VisitorBarChartRoutingLogic{
-    func routeToPrintVisitors(data: Visit)
+    func routeToPrintVisitors()
 }
 
 class VisitorBarChartRouter : VisitorBarChartRoutingLogic {
@@ -22,8 +22,7 @@ class VisitorBarChartRouter : VisitorBarChartRoutingLogic {
            return UIStoryboard(name:"Main",bundle: Bundle.main)
     }
     
-    func routeToPrintVisitors(data: Visit) {
-           print(data)
+    func routeToPrintVisitors() {
         //let visitorData = VisitorPrintRouter.visitorPrintmodule(visitData: data)
         //viewController?.navigationController?.pushViewController(visitorData, animated: true)
      }

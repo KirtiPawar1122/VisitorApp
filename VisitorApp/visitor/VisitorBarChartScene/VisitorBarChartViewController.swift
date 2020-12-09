@@ -32,6 +32,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     @IBOutlet var phoneLabel: UILabel!
     @IBOutlet var hostLabel: UILabel!
     @IBOutlet var totalVisitCount: UILabel!
+    
+    @IBOutlet var leftInnerView: UIView!
+    @IBOutlet var rightInnerView: UIView!
+    
     var datavisit = [Visit]()
     var chartData = [Visit]()
     var selectedData = Visit()
@@ -50,6 +54,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     //var barChartInterator : VisitorBarChartInteractor = VisitorBarChartInteractor()
     var barChartInteractor : VisitorBarChartBusinessLogic?
     //var barChartRouter: VisitorBarChartRoutingLogic?
+    var currentDate = Date()
     
     
       //MARK: Object lifecycle
@@ -88,14 +93,25 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         profileImage.layer.borderWidth = 5
         profileImage.layer.borderColor = UIColor.white.cgColor
         
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d,yyyy"
+        //formatter.dateStyle = .medium
+        let stringDate = formatter.string(from: currentDate)
+        print(stringDate)
+        /*if selectedData.date == stringDate {
+            onPrintBtn.isHidden = false
+        } else {
+            onPrintBtn.isHidden = true
+        }*/
+        
         purposeLabel.text = selectedData.purpose
         nameLabel.text = selectedData.visitors?.value(forKey: "name") as? String
         emailLabel.text = selectedData.visitors?.value(forKey: "email") as? String
-        //dateLabel.text = selectedData.date
+        dateLabel.text = selectedData.date
         addressLabel.text = selectedData.visitors?.value(forKey: "address") as? String
         companyLabel.text = selectedData.companyName
         hostLabel.text = selectedData.visitorName
-        phoneLabel.text = selectedData.visitors?.value(forKey: "phoneNo") as? String
+        phoneLabel.text = String(selectedData.visitors?.value(forKey: "phoneNo") as! Int64)
         totalVisitCount.text = String(datavisit.count)
         let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
         print(image!)
@@ -112,7 +128,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         print(datavisit)
         for item in datavisit {
            // namedataLabel.text = "Details Of \(item.visitors!.value(forKey: "name"))"
-          //  namedataLabel.textColor = UIColor.white
+           // namedataLabel.textColor = UIColor.white
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
                 meetingDate.append(item.date!)
@@ -129,7 +145,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
             }
         }
         items = [meetingDate,interviewDate,guestvisitDate,otherDate]
-               
         let data = [meeting,interview,guestVisit,other]
         setDataOnChart(dataPoints: purpose, values: data.map({ Double($0)}))
         
@@ -177,12 +192,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     @IBAction func printButton(_ sender: Any) {
         print(selectedData.visitors?.value(forKey: "email") as Any)
         //barChartRouter?.routeToPrintVisitors(data: selectedData)
-        //let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
-        //vc?.printVisitData = selectedData
-        //navigationController?.pushViewController(vc!, animated: true)
+        let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
+        vc?.selectedEmail = selectedData.visitors?.value(forKey: "email") as! String
+        navigationController?.pushViewController(vc!, animated: true)
     }
 }
-
 /*
 extension VisitorBarChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt in

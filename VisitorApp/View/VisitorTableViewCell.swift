@@ -41,7 +41,5 @@ class VisitorTableViewCell: UITableViewCell {
         innerView.layer.borderWidth = 2.0
         innerView.layer.borderColor = UIColor.white.cgColor
         //subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
-        
-        
     }
 }

@@ -32,6 +32,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var visitorDataRouter : visitorListRoutingLogic?
    // var searchedData: [Visit]?
     var searchedData = [Visit]()
+    var currentDate = Date()
 
     
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -204,18 +205,49 @@ extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
         cell.selectionStyle = .none
-        cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
+        //cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
         
         let data = searchedData[indexPath.row]
         print(data as Any)
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-       // let stringDate = formatter.string(from: data.date!)
-        cell.date.text = data.date
+        formatter.dateFormat = "MMM d, h:mm a"
+        let stringDate = formatter.string(from: currentDate)
+       /* let todaysDate = currentDate
+        print(todaysDate)
+        print(data.date!) */
+        
+        if data.date! == stringDate {
+            cell.subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+            cell.date.text = data.date
+            cell.emailID.text = data.visitors?.value(forKey: "email") as? String
+            cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+            cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
+            cell.visitPurpose.text = data.purpose
+            cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
+            if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
+                       cell.profileImage.image = UIImage(data: data)
+            }else {
+                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+            }
+        } else {
+            cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
+            cell.date.text = data.date
+            cell.emailID.text = data.visitors?.value(forKey: "email") as? String
+            cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+            cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
+            cell.visitPurpose.text = data.purpose
+            cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
+            if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
+                       cell.profileImage.image = UIImage(data: data)
+            }else {
+                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+            }
+        }
+       // cell.date.text = data.date
         //cell.companyName.text = data.companyName
-        cell.emailID.text = data.visitors?.value(forKey: "email") as? String
+/*cell.emailID.text = data.visitors?.value(forKey: "email") as? String
         cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
         cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
         cell.visitPurpose.text = data.purpose
@@ -224,7 +256,7 @@ extension VisitorListViewController : UITableViewDataSource{
             cell.profileImage.image = UIImage(data: data)
         }else {
             cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-        }
+        } */
         return cell
     }
 }
@@ -268,7 +300,7 @@ extension VisitorListViewController: UISearchBarDelegate {
             (item : Visit) -> Bool in
             let name = item.visitors?.value(forKey: "name") as? String
             return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil 
-            // let email = item.visitors?.value(forKey: "email") as? String
+           // let email = item.visitors?.value(forKey: "email") as? String
            // return email?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             
            /* if let name = item.visitors?.value(forKey: "name") as? String  {
@@ -277,8 +309,6 @@ extension VisitorListViewController: UISearchBarDelegate {
                 return email.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             }
             return true*/
-        
-            
         }
         tableview.reloadData()
     }

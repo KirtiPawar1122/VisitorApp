@@ -44,7 +44,7 @@ struct VisitorViewControllerConstants {
     static let addressString = "address"
     static let phoneString = "phoneNo"
     static let profileImageString = "profileImage"
-    static let dateFormat = "MMM dd h:mm:ss a"
+    static let dateFormat = "MMM d, h:mm a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }
@@ -69,8 +69,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var visit = Visit()
     var visitPrintData = Visit()
     var arr = [Any]()
-   
-    
     var tapCount = 0
     var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -87,6 +85,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var compareEmail: String = ""
     var checkmail: String = ""
     var profileImage: UIImage?
+    
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
@@ -116,6 +115,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+       // print(currentDate)
     }
     
     //MARK: UI Setup Method

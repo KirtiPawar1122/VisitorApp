@@ -78,6 +78,10 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         visitorName.text = viewModel.visitData?.visitors?.value(forKey: "name") as? String
         purposeLabel.text = viewModel.visitData?.purpose
         hostLabel.text = viewModel.visitData?.visitorName
+        //let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
+        let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: "profileImage") as! Data)
+        print(image!)
+        profileImage.image = image!
     }
     
     @IBAction func onPrintAction(_ sender: Any) {
@@ -89,7 +93,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         print(pdfFilePath)
         let items = [cardImage!,pdfFilePath] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
         }
@@ -111,7 +114,6 @@ extension UIView {
     
     
     func createPDFfromView() -> String {
-        
         let pdfPageFrame = self.bounds
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, pdfPageFrame, nil)
@@ -120,7 +122,6 @@ extension UIView {
         self.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()
         return self.saveViewPdf(data: pdfData)
-        
     }
     
     func saveViewPdf(data: NSMutableData) -> String {
