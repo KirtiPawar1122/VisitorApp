@@ -90,8 +90,10 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         cardImage = visitorCardView.takeSanpShot()
         cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
+        let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
+        print(pdfURL)
         print(pdfFilePath)
-        let items = [cardImage!,pdfFilePath] as [Any]
+        let items = [cardImage!, pdfURL] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
@@ -111,7 +113,6 @@ extension UIView {
        print(image as Any)
        return image
     }
-    
     
     func createPDFfromView() -> String {
         let pdfPageFrame = self.bounds

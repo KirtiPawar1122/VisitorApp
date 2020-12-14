@@ -134,9 +134,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         purposeTextFeild.addGestureRecognizer(tapPurposeTextFeild)
         purposeTextFeild.isUserInteractionEnabled = true
         
-        let tapOnNameTextFeild = UITapGestureRecognizer(target: self, action: #selector(nameAction))
-        userTextField.addGestureRecognizer(tapOnNameTextFeild)
-        userTextField.isUserInteractionEnabled = true
+       // let tapOnNameTextFeild = UITapGestureRecognizer(target: self, action: #selector(nameAction))
+       // userTextField.addGestureRecognizer(tapOnNameTextFeild)
+       // userTextField.isUserInteractionEnabled = true
               
         submitLable.layer.cornerRadius = 5
         submitLable.layer.borderColor = UIColor.black.cgColor
@@ -149,7 +149,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7621263266, green: 0.08146793395, blue: 0.1015944257, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         
-        self.innerView.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        self.innerView.backgroundColor = .clear
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         
         let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
@@ -213,7 +213,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         view.endEditing(true)
     }
     
-    @objc func nameAction(){
+   /* @objc func nameAction(){
         fetchData(email: emailTextField.text!)
         switchnextTextField(emailTextField)
         if userTextField.text != "" {
@@ -221,7 +221,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         } else {
             userTextField.becomeFirstResponder()
         }
-    }
+    }*/
 
     func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel) {
         print(viewModel)

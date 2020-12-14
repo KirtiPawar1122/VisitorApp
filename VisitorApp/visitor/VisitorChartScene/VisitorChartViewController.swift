@@ -128,30 +128,39 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
-      var dataEntries: [ChartDataEntry] = []
+      //var dataEntries: [ChartDataEntry] = []
+        var dataEntries: [PieChartDataEntry] = []
         for i in 0..<dataPoints.count {
         let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data: dataPoints[i] as AnyObject)
             if (dataEntry.y != 0) {
                dataEntries.append(dataEntry)
             }
+            //dataEntries.append(dataEntry)
       }
       // 2. Set ChartDataSet
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
       pieChartDataSet.entryLabelColor  = UIColor.white
       pieChartDataSet.entryLabelFont = UIFont(name: "futura", size: 17)
-
       if let font = UIFont(name: "futura", size: 17) {
             pieChartDataSet.valueFont = font
       } else {
             print("error in to set font")
       }
-      var colors: [UIColor] = []
-      colors.append(UIColor.systemBlue)
-      colors.append(UIColor.purple)
-      colors.append(UIColor.systemGreen)
-      colors.append(UIColor.systemRed)
-      pieChartDataSet.colors = colors
         
+      var colors: [UIColor] = []
+      for item in dataEntries {
+            if item.label == "Meeting"{
+                colors.append(UIColor.systemBlue)
+            } else if item.label == "Guest Visit" {
+                colors.append(UIColor.purple)
+            } else if item.label == "Interview" {
+                colors.append(UIColor.systemGreen)
+            } else if item.label == "Others" {
+                colors.append(UIColor.systemRed)
+            }
+        }
+     pieChartDataSet.colors = colors
+
       // 3. Set ChartData
       let pieChartData = PieChartData(dataSet: pieChartDataSet)
       let format = NumberFormatter()
@@ -189,7 +198,7 @@ extension VisitorChartViewController: UITableViewDataSource{
         cell.dataCountLabel.textColor = UIColor.white
         cell.sectionTitleLabel.text = data
         
-        if data == "Meeting" {
+       /* if data == "Meeting" {
             cell.dataCountLabel.text = String(meetings)
             cell.backgroundColor = UIColor.systemBlue
         } else if data == "Interview"{
@@ -201,6 +210,28 @@ extension VisitorChartViewController: UITableViewDataSource{
         } else if data == "Others"{
             cell.dataCountLabel.text = String(others)
             cell.backgroundColor = UIColor.systemRed
+        } */
+    
+        if indexPath.row == 0 {
+            if data == "Meeting" {
+            cell.dataCountLabel.text = String(meetings)
+            cell.backgroundColor = UIColor.systemBlue
+            }
+        } else if indexPath.row == 1{
+            if data == "Guest Visit"{
+                cell.dataCountLabel.text = String(guestvisits)
+                cell.backgroundColor = UIColor.purple
+            }
+        } else if indexPath.row == 2{
+            if data == "Interview"{
+                cell.dataCountLabel.text = String(interviews)
+                cell.backgroundColor = UIColor.systemGreen
+            }
+        } else if indexPath.row == 3{
+            if data == "Others"{
+                cell.dataCountLabel.text = String(others)
+                cell.backgroundColor = UIColor.systemRed
+            }
         }
         return cell
     }

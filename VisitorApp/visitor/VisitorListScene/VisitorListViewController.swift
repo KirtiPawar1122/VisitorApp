@@ -80,6 +80,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.placeholder = "Search here"
         filterbutton.layer.cornerRadius = 5
         filterbutton.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        self.tableview.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool){
