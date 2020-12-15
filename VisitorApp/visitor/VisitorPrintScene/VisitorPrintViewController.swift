@@ -88,12 +88,12 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         //convert view to image and store it - alert display
         print(visitorCardView as Any)
         cardImage = visitorCardView.takeSanpShot()
-        cardImage?.saveToPhotoLibrary(self, nil)
+        //cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
         print(pdfURL)
         print(pdfFilePath)
-        let items = [cardImage!, pdfURL] as [Any]
+        let items = [pdfURL] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
