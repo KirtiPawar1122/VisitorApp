@@ -146,42 +146,10 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         popController.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
         // present the popover
         self.present(popController, animated: true, completion: nil)
-        
-    
-       /* let optionMenu = UIAlertController(title: nil, message: "Filter By", preferredStyle: .actionSheet)
-        optionMenu.modalPresentationStyle = .popover
-        optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
-        optionMenu.popoverPresentationController?.delegate = self
-        optionMenu.popoverPresentationController?.sourceView = sender as? UIButton // button
-        optionMenu.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
-       
-        let FirstAction = UIAlertAction(title: "by Name", style: .default){ (_) in
-            self.onClickByName()
-            return
-        }
-        let SecondAction = UIAlertAction(title: "by Purpose", style: .default){ (_) in
-            self.onClickByPurpose()
-            return
-        }
-        optionMenu.addAction(FirstAction)
-        optionMenu.addAction(SecondAction)
-        
-        optionMenu.popoverPresentationController?.sourceView = filterbutton
-        switch UIDevice.current.userInterfaceIdiom {
-            case .pad:
-                optionMenu.popoverPresentationController?.sourceView = self.view
-                optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: .zero, height: .zero)
-                optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-            default:
-                    break
-        }
-        self.navigationController?.present(optionMenu, animated: true, completion: nil) */
-        
     }
     
     func onClickByName(){
         print("click by Name")
-        
     }
     
     func onClickByPurpose(){
@@ -213,8 +181,9 @@ extension VisitorListViewController : UITableViewDataSource{
         print(data as Any)
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorViewControllerConstants.dateFormat
-        let compareDate = data.date!
-        let compareDbDate = formatter.date(from: compareDate)
+       // guard let compareDate = data.date else { return  }
+        let compareDate = data.date
+        let compareDbDate = formatter.date(from: compareDate!)
        
         let timedata = getDateDiff(start: compareDbDate!, end: currentDate)
         print(timedata)
