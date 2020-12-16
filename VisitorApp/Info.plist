@@ -10,6 +10,8 @@
 	<string>app needs card image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>app needs card image</string>
+	<key>NSCameraUsageDescription</key>
+	<string>app needs camera access</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>Bundle name</key>
