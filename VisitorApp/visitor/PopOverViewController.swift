@@ -12,6 +12,7 @@ class PopOverViewController: UIViewController {
         super.viewDidLoad()
         tableview.delegate = self
         tableview.dataSource = self
+        tableview.isScrollEnabled = false
         preferredContentSize = CGSize(width: 150, height: 180)
     }
     
