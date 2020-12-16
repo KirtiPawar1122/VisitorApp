@@ -44,7 +44,7 @@ struct VisitorViewControllerConstants {
     static let addressString = "address"
     static let phoneString = "phoneNo"
     static let profileImageString = "profileImage"
-    static let dateFormat = "MMM d, h:mm a"
+    static let dateFormat = "dd/MM/yyyy hh:mm a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }

@@ -179,7 +179,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
 
 extension VisitorChartViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+       return UITableView.automaticDimension
     }
 }
 

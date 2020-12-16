@@ -4,7 +4,7 @@ import UIKit
 class PopOverViewController: UIViewController {
 
     @IBOutlet var tableview: UITableView!
-    let filterTitles = ["by Name", "by Purpose"]
+    let filterTitles = ["Meeting", "Interview", "Guest Visit", "Other"]
     var delegate: UISearchBarDelegate?
     let searcController = UISearchController(searchResultsController: nil)
     static let cellID = "Cell"
@@ -12,6 +12,7 @@ class PopOverViewController: UIViewController {
         super.viewDidLoad()
         tableview.delegate = self
         tableview.dataSource = self
+        preferredContentSize = CGSize(width: 150, height: 180)
     }
     
     func filterSearchController(_ searchBar: UISearchBar){
@@ -20,7 +21,9 @@ class PopOverViewController: UIViewController {
 }
 
 extension PopOverViewController: UITableViewDelegate{
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 }
 
 extension PopOverViewController: UITableViewDataSource{
