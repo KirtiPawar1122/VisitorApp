@@ -84,6 +84,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var name: String = ""
     var compareEmail: String = ""
     var checkmail: String = ""
+    var checkphoneNo: String = ""
     var profileImage: UIImage?
     
     //MARK: Object lifecycle
@@ -155,8 +156,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
               addImageOntextField(textField: userTextField, img: personImage!)
 
-        let addressImage = UIImage(named: VisitorViewControllerConstants.addressImageName )
-              addImageOntextField(textField: addressTextField, img: addressImage!)
+       /* let addressImage = UIImage(named: VisitorViewControllerConstants.addressImageName )
+              addImageOntextField(textField: addressTextField, img: addressImage!) */
 
         let phoneImage = UIImage(named: VisitorViewControllerConstants.phoneImageName)
               addImageOntextField(textField: phoneTextField, img: phoneImage!)
@@ -231,11 +232,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visit = visitData
         //visitPrintData = visitData
         userTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
-        addressTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
+        //addressTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
         companyTextField.text = visit.companyName
         visitTextField.text = visit.visitorName
-        
-        phoneTextField.text = String(visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
+        //phoneTextField.text = String(visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
+        phoneTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
         print(visit.visitors?.value(forKey: "profileImage") as? Data as Any)
         guard let profileData = visit.visitors?.value(forKey: "profileImage") else{
@@ -245,6 +246,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         selectedImage = profileImage
         visitorImage.image = profileImage
         checkmail = emailTextField.text!
+        checkphoneNo = phoneTextField.text!
         //visitorPrint()
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
         myUtterance.rate = 0.4
@@ -253,12 +255,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         //dissmissKeyboard()
     }
     
-    func fetchData(email : String){
-        interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(email: email))
+    func fetchData(email : String, phoneNo : String){
+        interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
     
-    func checkMail(checkmail: String){
-        fetchData(email: checkmail)
+    func checkMail(checkmail: String, phoneNo: String){
+        fetchData(email: checkmail, phoneNo: phoneNo)
     }
     
     @IBAction func submitButtonClick(_ sender: Any) {
@@ -267,16 +269,16 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     //MARK: TextFeilds methods
     private func switchnextTextField(_ textField: UITextField){
         switch textField {
+        case self.phoneTextField:
+            self.emailTextField.becomeFirstResponder()
+            
         case self.emailTextField:
             self.userTextField.becomeFirstResponder()
             
+       /* case self.addressTextField:
+            self.phoneTextField.becomeFirstResponder() */
+            
         case self.userTextField:
-            self.addressTextField.becomeFirstResponder()
-            
-        case self.addressTextField:
-            self.phoneTextField.becomeFirstResponder()
-            
-        case self.phoneTextField:
             self.companyTextField.becomeFirstResponder()
             
         case self.companyTextField:
@@ -306,7 +308,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
        switchnextTextField(textField)
        textField.resignFirstResponder()
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-       fetchData(email: emailTextField.text ?? "")
+       fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
        return true
     }
     /* Navigation bar hide button */
@@ -321,6 +323,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
         
     func validate(){
+        
+        guard let phoneNo = phoneTextField.text, !phoneNo.isEmpty, phoneNo.isphoneValidate(phone: phoneNo) else{
+            self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
+            phoneTextField.shake()
+            return
+        }
         guard let email = emailTextField.text, !email.isEmpty, email.isValidEmail(mail: email) else {
             self.view.makeToast(VisitorViewControllerConstants.emailValidateMessage, duration: 3, position: .center)
             emailTextField.shake()
@@ -331,16 +339,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             userTextField.shake()
             return
         }
-        guard let address = addressTextField.text, !address.isEmpty else{
+       /* guard let address = addressTextField.text, !address.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.addressValidateMessage, duration: 3, position: .center)
             addressTextField.shake()
             return
-        }
-        guard let phoneNo = phoneTextField.text, !phoneNo.isEmpty, phoneNo.isphoneValidate(phone: phoneNo) else{
-            self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
-            phoneTextField.shake()
-            return
-        }
+        } */
         guard let companyName = companyTextField.text, !companyName.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, duration: 3, position: .center)
             companyTextField.shake()
@@ -366,15 +369,15 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = VisitorViewControllerConstants.dateFormat
         let dateString = formatter.string(from: now)
-       
+        let stringtoDate = formatter.date(from: dateString)
         print(dateString)
         
-        if(checkmail != email) {
-            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
+        if(checkphoneNo != phoneNo) {
+            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, email: email, phoneNo: phoneNo, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: stringtoDate))
             showAlert(for: "Hello \(name), Welcome to Wurth-IT")
             
         } else {
-            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, address: address, email: email, phoneNo: Int64(phoneNo) ?? 0, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: dateString))
+            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, email: email, phoneNo: phoneNo, visitPurpose: visitPurpose, visitingName: visitorName, companyName: companyName, profileImage: profileImg, currentDate: stringtoDate))
             
             let alert = UIAlertController(title: nil, message:
             VisitorViewControllerConstants.checkmailAlert, preferredStyle: .alert)
@@ -382,7 +385,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                 self.resetTextFields()
             })
             let printAction = UIAlertAction(title: "Print", style: .default, handler: { _ in
-                self.visitorPrint(email: email)
+                self.visitorPrint(phoneNo: phoneNo)
                 self.resetTextFields()
             })
             alert.addAction(alertAtion)
@@ -398,7 +401,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
 
     func resetTextFields() {
         userTextField.text = ""
-        addressTextField.text = ""
+        //addressTextField.text = ""
         emailTextField.text = ""
         phoneTextField.text = ""
         companyTextField.text = ""
@@ -419,7 +422,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         })
         let printAction = UIAlertAction(title: "Print", style: .default, handler: {
             _ in
-            self.visitorPrint(email: self.emailTextField.text!)
+            self.visitorPrint(phoneNo: self.phoneTextField.text!)
             self.resetTextFields()
         })
         alertController.addAction(alertAction)
@@ -430,10 +433,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         synth.speak(myUtterance)
     }
     
-    func visitorPrint(email: String){
+    func visitorPrint(phoneNo: String){
         print("in visitor Print")
-        print(email)
-        router?.routeToVisitorPrint( email: email)
+        print(phoneNo)
+        router?.routeToVisitorPrint(phoneNo: phoneNo)
         //print(visitPrintData)
         //print(emailTextField.text)
         //print(visit)
@@ -492,7 +495,8 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        selectedImage = image
+        let orienatationFixedImage = image.fixOrientation()
+        selectedImage = orienatationFixedImage
         visitorImage.image = selectedImage
         self.dismiss(animated: true, completion: nil)
         
@@ -554,5 +558,21 @@ extension CustomTextField {
            set {
                self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [.foregroundColor: newValue])
            }
+    }
+}
+
+extension UIImage {
+    func fixOrientation() -> UIImage {
+        if self.imageOrientation == UIImage.Orientation.up {
+            return self
+        }
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        if let normalizedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext() {
+            UIGraphicsEndImageContext()
+            return normalizedImage
+        } else {
+            return self
+        }
     }
 }

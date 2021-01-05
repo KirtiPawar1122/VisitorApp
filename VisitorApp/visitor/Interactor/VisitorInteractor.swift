@@ -17,7 +17,7 @@ struct VisitorInteractorConstants {
     static let visitors = "visitors"
     static let entityVisitor = "Visitor"
     static let entityVisit = "Visit"
-    static let predicateString = "visitors.email == %@"
+    static let predicateString = "visitors.phoneNo == %@"
 }
 
 protocol VisitorFormBusinessLogic{

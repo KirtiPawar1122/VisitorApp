@@ -3,7 +3,7 @@ import UIKit
  
 protocol VisitorRoutingLogic {
     func routeToVisitorList()
-    func routeToVisitorPrint(email: String)
+    func routeToVisitorPrint(phoneNo: String)
 }
 
 class VisitorRouter : VisitorRoutingLogic {
@@ -15,10 +15,10 @@ class VisitorRouter : VisitorRoutingLogic {
         viewcontroller?.navigationController?.pushViewController(visitorList, animated: true)
     }
     
-    func routeToVisitorPrint( email: String) {
+    func routeToVisitorPrint(phoneNo: String) {
         //print(data)
-        print(email)
-        let visitorPrint = VisitorPrintRouter.visitorPrintmodule(visitorEmail: email)
+        print(phoneNo)
+        let visitorPrint = VisitorPrintRouter.visitorPrintmodule(visitorPhoneNo: phoneNo)
         viewcontroller?.navigationController?.pushViewController(visitorPrint, animated: true)
     }
 }

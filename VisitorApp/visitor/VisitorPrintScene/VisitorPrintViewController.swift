@@ -26,6 +26,8 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     var printRouter: VisitorPrintRouter = VisitorPrintRouter()
     var cardImage: UIImage?
     var selectedEmail = String()
+    var selectedPhoneNo = String()
+    var currentDate = Date()
     //var printData: Visit!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -39,7 +41,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     
     //MARK: Setup
     private func setup() {
-        
         let viewController = self
         let router = VisitorPrintRouter()
         let interactor = VisitorPrintInteractor()
@@ -69,18 +70,22 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         printButton.layer.shadowOpacity = 1.0
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         
-        printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(email: selectedEmail))
+        printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
     }
     
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel) {
         print(viewModel.visitData as Any)
-        VisitDate.text = viewModel.visitData?.date
+        let formatter = DateFormatter()
+        //currentDate = viewModel.visitData!.date!
+        formatter.dateFormat = "MMM d,yyyy"
+        let displayDate = formatter.string(from: viewModel.visitData!.date!)
+        VisitDate.text = displayDate
         visitorName.text = viewModel.visitData?.visitors?.value(forKey: "name") as? String
         purposeLabel.text = viewModel.visitData?.purpose
         hostLabel.text = viewModel.visitData?.visitorName
         //let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
-        let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: "profileImage") as! Data)
-        print(image!)
+        let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: "profileImage") as! Data )
+        //print(image!)
         profileImage.image = image!
     }
     
@@ -100,6 +105,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         }
         present(ac, animated: true, completion: nil)
     }
+   
 }
 
 extension UIView {
@@ -143,5 +149,4 @@ extension UIImage{
                UIImageWriteToSavedPhotosAlbum(self, completionTarget, completionSelector, nil)
            }
        }
-    
 }

@@ -22,5 +22,4 @@ class VisitorBarChartInteractor : VisitorBarChartBusinessLogic, VisitorBarChartD
         presenter?.presentVisitorBarChartData(response: response)
         
     }
-    
 }

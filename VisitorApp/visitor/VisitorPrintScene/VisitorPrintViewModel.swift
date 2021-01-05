@@ -12,7 +12,8 @@ enum VisitorPrint {
    enum VisitorPrintData {
     
       struct Request  {
-        var email: String?
+        //var email: String?
+        var phoneNo: String?
        }
     
        struct Response {

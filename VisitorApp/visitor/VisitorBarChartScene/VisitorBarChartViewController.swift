@@ -35,6 +35,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     
     @IBOutlet var leftInnerView: UIView!
     @IBOutlet var rightInnerView: UIView!
+    @IBOutlet var scrollView: UIScrollView!
     
     var datavisit = [Visit]()
     var chartData = [Visit]()
@@ -94,28 +95,37 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         profileImage.layer.borderColor = UIColor.white.cgColor
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d,yyyy"
+        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
         //formatter.dateStyle = .medium
-        let stringDate = formatter.string(from: currentDate)
+        let currentSelectedDate = selectedData.date
+        let stringDate = formatter.string(from: currentSelectedDate!)
+        let selectedDate = formatter.date(from: stringDate)
+        let timedata = getDateDiff(start: selectedDate!, end: currentDate)
         print(stringDate)
-        /*if selectedData.date == stringDate {
+     
+        if timedata <= 8 {
             onPrintBtn.isHidden = false
         } else {
             onPrintBtn.isHidden = true
-        }*/
+        }
         
         purposeLabel.text = selectedData.purpose
         nameLabel.text = selectedData.visitors?.value(forKey: "name") as? String
         emailLabel.text = selectedData.visitors?.value(forKey: "email") as? String
-        dateLabel.text = selectedData.date
-        addressLabel.text = selectedData.visitors?.value(forKey: "address") as? String
+        dateLabel.text = stringDate
+        //addressLabel.text = selectedData.visitors?.value(forKey: "address") as? String
         companyLabel.text = selectedData.companyName
         hostLabel.text = selectedData.visitorName
-        phoneLabel.text = String(selectedData.visitors?.value(forKey: "phoneNo") as! Int64)
+        phoneLabel.text = selectedData.visitors?.value(forKey: "phoneNo") as? String
         totalVisitCount.text = String(datavisit.count)
         let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
         print(image!)
         profileImage.image = image!
+        viewUI.backgroundColor = .clear
+        tableview.backgroundColor = .clear
+        tableview.layer.borderColor = UIColor.white.cgColor
+        tableview.layer.borderWidth = 2
+        //scrollView.contentSize = CGSize(width: self.viewUI.frame.width, height: self.viewUI.frame.height + 100)
     }
     
     func getBarChartData() {
@@ -126,22 +136,29 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     func displayVisitorBarChartData(viewModel: VisitorBarChart.VisitorBarChartData.ViewModel) {
         chartData = viewModel.visitData
         print(datavisit)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
         for item in datavisit {
            // namedataLabel.text = "Details Of \(item.visitors!.value(forKey: "name"))"
            // namedataLabel.textColor = UIColor.white
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
-                meetingDate.append(item.date!)
+                //meetingDate.append(item.date!)
+                let meetingDateString = formatter.string(from: item.date!)
+                meetingDate.append(meetingDateString)
                 print(meetingDate)
             } else if item.purpose == VisitorsChartViewControllerConstants.interviewTitle{
                 interview = interview + 1
-                interviewDate.append(item.date!)
+                let interviewDateString = formatter.string(from: item.date!)
+                interviewDate.append(interviewDateString)
             } else if item.purpose == VisitorsChartViewControllerConstants.guestVisitTitle {
                 guestVisit = guestVisit + 1
-                guestvisitDate.append(item.date!)
+                let guestVisitDateString = formatter.string(from: item.date!)
+                guestvisitDate.append(guestVisitDateString)
             } else if item.purpose == VisitorsChartViewControllerConstants.otherTitle {
                 other = other + 1
-                otherDate.append(item.date!)
+                let otherDateString = formatter.string(from: item.date!)
+                otherDate.append(otherDateString)
             }
         }
         items = [meetingDate,interviewDate,guestvisitDate,otherDate]
@@ -193,15 +210,26 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         print(selectedData.visitors?.value(forKey: "email") as Any)
         //barChartRouter?.routeToPrintVisitors(data: selectedData)
         let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
-        vc?.selectedEmail = selectedData.visitors?.value(forKey: "email") as! String
+        //vc?.selectedEmail = selectedData.visitors?.value(forKey: "email") as! String
+        vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: "phoneNo") as! String
         navigationController?.pushViewController(vc!, animated: true)
     }
+    
+     
+    func getDateDiff(start: Date, end: Date) -> Int  {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([Calendar.Component.second], from: start, to: end)
+
+        let seconds = dateComponents.second
+        return Int(seconds! / 3600)
+    }
+    
 }
-/*
+
 extension VisitorBarChartViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt in
- dexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+        //return 100
     }
 }
 
@@ -224,6 +252,8 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         let data = items[indexPath.section][indexPath.row]
         //let dataitem =  items[indexPath.row]
         cell.selectionStyle = .none
+        //cell.sectionLabel.textColor = .white
+        //cell.dataLabel.textColor = .white
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle
@@ -262,4 +292,4 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         }
         return cell
     }
-} */
+}

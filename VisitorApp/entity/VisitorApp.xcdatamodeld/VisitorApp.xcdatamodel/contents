@@ -3,22 +3,21 @@
     <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class"/>
     <entity name="Visit" representedClassName=".Visit" syncable="YES">
         <attribute name="companyName" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="purpose" optional="YES" attributeType="String"/>
         <attribute name="visitorName" optional="YES" attributeType="String"/>
         <relationship name="visitors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Visitor" inverseName="visits" inverseEntity="Visitor"/>
     </entity>
     <entity name="Visitor" representedClassName=".Visitor" syncable="YES">
-        <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="phoneNo" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="phoneNo" attributeType="String"/>
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Visit" inverseName="visitors" inverseEntity="Visit"/>
     </entity>
     <elements>
         <element name="Category" positionX="-27" positionY="90" width="128" height="45"/>
         <element name="Visit" positionX="-36" positionY="81" width="128" height="118"/>
-        <element name="Visitor" positionX="-36" positionY="9" width="128" height="133"/>
+        <element name="Visitor" positionX="-36" positionY="9" width="128" height="118"/>
     </elements>
 </model>

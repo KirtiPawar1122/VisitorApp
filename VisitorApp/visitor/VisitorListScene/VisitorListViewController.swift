@@ -180,22 +180,24 @@ extension VisitorListViewController : UITableViewDataSource{
         let data = searchedData[indexPath.row]
         print(data as Any)
         let formatter = DateFormatter()
-        formatter.dateFormat = VisitorViewControllerConstants.dateFormat
-       // guard let compareDate = data.date else { return  }
+        //formatter.dateFormat = VisitorViewControllerConstants.dateFormat
+        //guard let compareDate = data.date else { return  }
+        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
         let compareDate = data.date
-        let compareDbDate = formatter.date(from: compareDate!)
-       
-        let timedata = getDateDiff(start: compareDbDate!, end: currentDate)
+        let compareDbDate = formatter.string(from: compareDate!)
+        let compareDateDbDate = formatter.date(from: compareDbDate)
+        let timedata = getDateDiff(start: compareDateDbDate!, end: currentDate)
         print(timedata)
         if timedata <= 8 {
             print("green")
             cell.subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-            cell.date.text = data.date
+            cell.date.text = compareDbDate
             cell.emailID.text = data.visitors?.value(forKey: "email") as? String
-            cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+            //cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+            cell.companyName.text = data.companyName
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
+            cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
             if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
                        cell.profileImage.image = UIImage(data: data)
             }else {
@@ -204,12 +206,13 @@ extension VisitorListViewController : UITableViewDataSource{
         } else {
             print("Red")
             cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
-            cell.date.text = data.date
+            cell.date.text = compareDbDate
             cell.emailID.text = data.visitors?.value(forKey: "email") as? String
-            cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+            //cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
+            cell.companyName.text = data.companyName
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
+            cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
             if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
                        cell.profileImage.image = UIImage(data: data)
             }else {

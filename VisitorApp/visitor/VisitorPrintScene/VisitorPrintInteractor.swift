@@ -17,7 +17,7 @@ class VisitorPrintInteractor: VisitorPrintBusinessLogic {
     
     func fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request) {
        let visitorfetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
-       let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
+        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.phoneNo ?? "")
        visitorfetchRequest.predicate = predicate
        let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
        visitorfetchRequest.sortDescriptors = [sortDescriptors]

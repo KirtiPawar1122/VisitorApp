@@ -18,7 +18,7 @@ class PopOverViewController: UIViewController {
     
     func filterSearchController(_ searchBar: UISearchBar){
     }
-  //  func applyFilter(searchText: String, scope: String = "by Name"){}
+    //func applyFilter(searchText: String, scope: String = "by Name"){}
 }
 
 extension PopOverViewController: UITableViewDelegate{

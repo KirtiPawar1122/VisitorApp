@@ -7,7 +7,8 @@ enum VisitorForm {
     
     enum fetchVisitorRecord{
         struct Request {
-            var email: String?
+            //var email: String?
+            var phoneNo: String?
         }
         
         struct Response {
@@ -22,14 +23,13 @@ enum VisitorForm {
     enum saveVisitorRecord {
         struct Request {
             var name: String?
-            var address: String?
             var email: String
-            var phoneNo: Int64
+            var phoneNo: String?
             var visitPurpose: String?
             var visitingName: String?
             var companyName: String?
             var profileImage: Data
-            var currentDate: String?
+            var currentDate: Date?
         }
         
         struct Response {

@@ -1,10 +1,8 @@
-//
 //  CardView.swift
 //  VisitorApp
 //
 //  Created by Mayur Kamthe on 26/11/20.
 //  Copyright © 2020 Mayur Kamthe. All rights reserved.
-//
 
 import Foundation
 import UIKit

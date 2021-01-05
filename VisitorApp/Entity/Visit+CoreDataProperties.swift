@@ -10,7 +10,7 @@ extension Visit {
         return NSFetchRequest<Visit>(entityName: "Visit")
     }
 
-    @NSManaged public var date: String?
+    @NSManaged public var date: Date?
     @NSManaged public var visitorName: String?
     @NSManaged public var purpose: String?
     @NSManaged public var companyName: String?

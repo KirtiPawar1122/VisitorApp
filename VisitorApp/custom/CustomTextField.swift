@@ -51,7 +51,6 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         }
         self.bringSubviewToFront(subviews.last!)
         self.setNeedsDisplay()
-    
     }
 
     @objc func removeFloatingLabel() {

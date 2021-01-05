@@ -10,10 +10,9 @@ extension Visitor {
         return NSFetchRequest<Visitor>(entityName: "Visitor")
     }
 
-    @NSManaged public var address: String?
     @NSManaged public var email: String?
     @NSManaged public var name: String?
-    @NSManaged public var phoneNo: Int64
+    @NSManaged public var phoneNo: String?
     @NSManaged public var profileImage: Data
     @NSManaged public var visits: NSSet?
 

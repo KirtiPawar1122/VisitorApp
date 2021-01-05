@@ -12,7 +12,7 @@ class VisitorCoreDataStore {
         let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)
         
         visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
-        visitorData.setValue(request.address, forKey: VisitorInteractorConstants.visitorAddress)
+        //visitorData.setValue(request.address, forKey: VisitorInteractorConstants.visitorAddress)
         visitorData.setValue(request.phoneNo, forKey: VisitorInteractorConstants.visitorPhoneNo)
         visitorData.setValue(request.email, forKey: VisitorInteractorConstants.visitorEmail)
         visitorData.setValue(request.profileImage, forKey: VisitorInteractorConstants.visitorProfileImage)
@@ -38,7 +38,7 @@ class VisitorCoreDataStore {
     func fetchRecord(request : VisitorForm.fetchVisitorRecord.Request,completionhanlder: @escaping(Visit) -> Void ) {
         //var visit = Visit()
         let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
-        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.email ?? "")
+        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.phoneNo ?? "")
         let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
         visitorfetchRequest.sortDescriptors = [sortDescriptors]
         visitorfetchRequest.predicate = predicate
