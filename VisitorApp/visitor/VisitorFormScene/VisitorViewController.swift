@@ -64,6 +64,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var loadDataButton: UIBarButtonItem!
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var innerView: UIView!
+    @IBOutlet var resetLabel: UIButton!
     
     var visitor : [Visitor] = []
     var visit = Visit()
@@ -135,7 +136,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         purposeTextFeild.addGestureRecognizer(tapPurposeTextFeild)
         purposeTextFeild.isUserInteractionEnabled = true
         
-       // let tapOnNameTextFeild = UITapGestureRecognizer(target: self, action: #selector(nameAction))
+        let tapOnEmailTextFeild = UITapGestureRecognizer(target: self, action: #selector(emailAction))
+        emailTextField.addGestureRecognizer(tapOnEmailTextFeild)
+        emailTextField.isUserInteractionEnabled = true
        // userTextField.addGestureRecognizer(tapOnNameTextFeild)
        // userTextField.isUserInteractionEnabled = true
               
@@ -145,13 +148,20 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         submitLable.layer.shadowOffset = CGSize(width: 5, height: 5)
         submitLable.layer.shadowRadius = 5
         submitLable.layer.shadowOpacity = 1.0
-              
+
+        resetLabel.layer.cornerRadius = 5
+        resetLabel.layer.borderColor = UIColor.black.cgColor
+        resetLabel.layer.shadowColor = UIColor.black.cgColor
+        resetLabel.layer.shadowOffset = CGSize(width: 5, height: 5)
+        resetLabel.layer.shadowRadius = 5
+        resetLabel.layer.shadowOpacity = 1.0
+        
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7621263266, green: 0.08146793395, blue: 0.1015944257, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        //self.innerView.backgroundColor = .clear
+        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
         
-        self.innerView.backgroundColor = .clear
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         
         let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
               addImageOntextField(textField: userTextField, img: personImage!)
@@ -310,6 +320,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
        fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
        return true
+    }
+    
+    @objc func emailAction(){
+        print("tap on email action")
+        fetchData(email: emailTextField.text ?? "" , phoneNo: phoneTextField.text ?? "")
     }
     /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {

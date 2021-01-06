@@ -22,12 +22,12 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         placeholder = self._placeholder // Make sure the placeholder is shown
         self.setValue(UIColor.systemGray, forKey: "placeholderColor")
         self.floatingLabel = UILabel(frame: CGRect.zero)
-        self.alpha = 0.7
-        self.backgroundColor = UIColor.black
+        //self.alpha = 0.7
+        self.backgroundColor = UIColor.white
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.white.cgColor
         self.layer.cornerRadius = 5
-        self.textColor = UIColor.white
+        self.textColor = UIColor.black
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

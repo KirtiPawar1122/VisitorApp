@@ -70,8 +70,9 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
         tableview.keyboardDismissMode = .onDrag
         hideKeyboardTappedAround()
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
-        self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        //self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        self.tableview.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
         self.searchBar.barTintColor = #colorLiteral(red: 0.006955888588, green: 0.0941728428, blue: 0.1826652586, alpha: 0.8777022688)
         searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
         searchBar.searchTextField.layer.cornerRadius = 5

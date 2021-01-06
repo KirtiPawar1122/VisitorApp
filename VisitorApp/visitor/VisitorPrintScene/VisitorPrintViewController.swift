@@ -68,7 +68,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         printButton.layer.shadowOffset = CGSize(width: 5, height: 5)
         printButton.layer.shadowRadius = 5
         printButton.layer.shadowOpacity = 1.0
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
         
         printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
     }
@@ -92,13 +92,13 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     @IBAction func onPrintAction(_ sender: Any) {
         //convert view to image and store it - alert display
         print(visitorCardView as Any)
-        cardImage = visitorCardView.takeSanpShot()
+        cardImage = visitorCardView.takeSnapShot()
         //cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
-        print(pdfURL)
-        print(pdfFilePath)
-        let items = [pdfURL] as [Any]
+        //print(pdfURL)
+        //print(pdfFilePath)
+        let items = [cardImage!] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
@@ -109,10 +109,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
 }
 
 extension UIView {
-    
-    func takeSanpShot() -> UIImage? {
-        UIGraphicsBeginImageContext(CGSize(width: self.frame.size.width, height: self.frame.size.height ))
-       let rect = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width, height: self.frame.size.height)
+    func takeSnapShot() -> UIImage? {
+       UIGraphicsBeginImageContext(CGSize(width: 30, height: 20 ))
+       let rect = CGRect(x: 0.0, y: 0.0, width: 30, height: 20)
        drawHierarchy(in: rect, afterScreenUpdates: true)
        let image = UIGraphicsGetImageFromCurrentImageContext()
        UIGraphicsEndImageContext()
@@ -121,7 +120,7 @@ extension UIView {
     }
     
     func createPDFfromView() -> String {
-        let pdfPageFrame = self.bounds
+        let pdfPageFrame = self.frame
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, pdfPageFrame, nil)
         UIGraphicsBeginPDFPageWithInfo(pdfPageFrame, nil)

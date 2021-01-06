@@ -65,19 +65,19 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         getChartData()
         displayDataOnChart()
         print(visits.count)
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
         chartView.legend.enabled = true
         chartView.legend.textColor = UIColor.white
         chartView.legend.orientation = .horizontal
         chartView.legend.font = UIFont.systemFont(ofSize: 18)
         chartView.legend.horizontalAlignment = .center
     
-        chartView.holeColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        chartView.holeColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
         chartView.notifyDataSetChanged()
 
         tableview.delegate = self
         tableview.dataSource = self
-        tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
+        tableview.backgroundColor = .clear
         tableview.layer.borderColor = UIColor.white.cgColor
         tableview.layer.borderWidth = 2
     }
