@@ -86,10 +86,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
-        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        self.view.backgroundColor = #colorLiteral(red: 0.999904573, green: 1, blue: 0.9998808503, alpha: 1)
         getBarChartData()
         histogram.legend.enabled = false
-        onPrintBtn.layer.cornerRadius = 5
+        onPrintBtn.layer.cornerRadius = onPrintBtn.frame.height/2
         profileImage.layer.cornerRadius = 10
         profileImage.layer.borderWidth = 5
         profileImage.layer.borderColor = UIColor.white.cgColor
@@ -122,6 +122,9 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         print(image!)
         profileImage.image = image!
         viewUI.backgroundColor = .clear
+        histogram.backgroundColor = #colorLiteral(red: 0.9800941781, green: 0.9787296661, blue: 0.9814319349, alpha: 1)
+        
+        
         tableview.backgroundColor = .clear
         tableview.layer.borderColor = UIColor.white.cgColor
         tableview.layer.borderWidth = 2
@@ -176,7 +179,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         }
     
         let barChartDataSet = BarChartDataSet(entries: dataEntries, label: "Visitor Data")
-        barChartDataSet.colors = [UIColor.systemBlue, UIColor.systemYellow, UIColor.systemGreen,UIColor.systemRed]
+        barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
 
         if let font = UIFont(name: "Arial", size: 17) {
             barChartDataSet.valueFont = font
@@ -186,14 +189,14 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
         let barChartData = BarChartData(dataSet: barChartDataSet)
         barChartData.barWidth = 0.6
-        barChartData.setValueTextColor(.white)
+        barChartData.setValueTextColor(.black)
         let format = NumberFormatter()
         format.numberStyle = .none
         let formatter = DefaultValueFormatter(formatter: format)
         barChartData.setValueFormatter(formatter)
     
         histogram.xAxis.valueFormatter = IndexAxisValueFormatter(values: dataPoints)
-        histogram.xAxis.labelTextColor = UIColor.white
+        histogram.xAxis.labelTextColor = UIColor.black
         histogram.xAxis.granularityEnabled = true
         histogram.xAxis.drawGridLinesEnabled = false
         histogram.xAxis.labelPosition = .bottom
@@ -201,8 +204,8 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         histogram.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInOutQuart)
         histogram.leftAxis.axisMinimum = 0
         histogram.rightAxis.axisMinimum = 0
-        histogram.rightAxis.labelTextColor = UIColor.white
-        histogram.leftAxis.labelTextColor = UIColor.white
+        histogram.rightAxis.labelTextColor = UIColor.black
+        histogram.leftAxis.labelTextColor = UIColor.black
         histogram.data = barChartData
     }
 
@@ -261,7 +264,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                 cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            cell.backgroundColor = UIColor.systemBlue
+            cell.backgroundColor = #colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1)
         }
         if (indexPath.section == 1){
             if (indexPath.row == 0) {
@@ -271,7 +274,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
             }
             cell.dataLabel.text = data
             //cell.backgroundColor = UIColor.orange
-            cell.backgroundColor = UIColor.systemYellow
+            cell.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1)
         }
         if (indexPath.section == 2) {
             if (indexPath.row == 0) {
@@ -281,7 +284,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
             }
             cell.dataLabel.text = data
             //cell.backgroundColor = UIColor.systemYellow
-            cell.backgroundColor = UIColor.systemGreen
+            cell.backgroundColor = #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1)
         }
         if (indexPath.section == 3){
             if (indexPath.row == 0) {
@@ -291,7 +294,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
             }
             cell.dataLabel.text = data
             //cell.backgroundColor = UIColor.systemGreen
-            cell.backgroundColor = UIColor.systemRed
+            cell.backgroundColor = #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)
         }
         return cell
     }

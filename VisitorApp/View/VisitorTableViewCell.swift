@@ -31,15 +31,19 @@ class VisitorTableViewCell: UITableViewCell {
     
      override func layoutSubviews() {
         
-        innerView.layer.cornerRadius = cornerRadius
+        //innerView.layer.cornerRadius = cornerRadius
         innerView.layer.masksToBounds = false
-        innerView.backgroundColor = .clear
+        innerView.backgroundColor = #colorLiteral(red: 0.9530216518, green: 0.9518444257, blue: 0.9521387322, alpha: 1)
        // innerView.layer.shadowColor = shadowColor?.cgColor
-        subView.layer.cornerRadius = 7
-        innerView.layer.shadowOffset = CGSize(width: shadowOffsetWidth, height: shadowOffsetHeight);
-        innerView.layer.shadowOpacity = shadowOpacity
-        innerView.layer.borderWidth = 2.0
-        innerView.layer.borderColor = UIColor.white.cgColor
+        //subView.layer.cornerRadius = 5
+        //innerView.layer.shadowOffset = CGSize(width: shadowOffsetWidth, height: shadowOffsetHeight);
+        //innerView.layer.shadowOpacity = shadowOpacity
+        innerView.layer.borderWidth = 0
+        innerView.layer.borderColor = UIColor.black.cgColor
         //subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
+        date.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        visitorName.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        visitPurpose.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        //profileImage.contentMode = .scaleAspectFit
     }
 }

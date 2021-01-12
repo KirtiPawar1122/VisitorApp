@@ -17,9 +17,9 @@ import UIKit
     
     override func layoutSubviews() {
         layer.cornerRadius = self.conrnerRadius
-        //layer.shadowColor = self.color.cgColor
+        layer.shadowColor = self.color.cgColor
         //layer.shadowOffset = CGSize(width: self.offsetWidth, height: self.offsetHeight)
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: self.conrnerRadius).cgPath
+        //layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: self.conrnerRadius).cgPath
         layer.shadowOpacity = self.offsetShadowOpacity
     }
 }

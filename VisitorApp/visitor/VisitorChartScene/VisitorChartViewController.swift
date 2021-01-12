@@ -65,16 +65,24 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         getChartData()
         displayDataOnChart()
         print(visits.count)
-        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         chartView.legend.enabled = true
-        chartView.legend.textColor = UIColor.white
+        chartView.legend.textColor = UIColor.black
         chartView.legend.orientation = .horizontal
         chartView.legend.font = UIFont.systemFont(ofSize: 18)
         chartView.legend.horizontalAlignment = .center
     
-        chartView.holeColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        //chartView.centerText = String(visits.count)
+        let centerTextStrings = NSMutableAttributedString()
+        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: "Arial",size:17) as Any])
+        let centerText2 = NSMutableAttributedString(string: "\n   \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: "Arial",size:40) as Any])
+        
+        centerTextStrings.append(centerText1)
+        centerTextStrings.append(centerText2)
+        chartView.centerAttributedText = centerTextStrings
+        //chartView.centerText = String(visits.count)
         chartView.notifyDataSetChanged()
-
         tableview.delegate = self
         tableview.dataSource = self
         tableview.backgroundColor = .clear
@@ -129,8 +137,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
       //var dataEntries: [ChartDataEntry] = []
-        var dataEntries: [PieChartDataEntry] = []
-        for i in 0..<dataPoints.count {
+      var dataEntries: [PieChartDataEntry] = []
+      for i in 0..<dataPoints.count {
         let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data: dataPoints[i] as AnyObject)
             if (dataEntry.y != 0) {
                dataEntries.append(dataEntry)
@@ -139,6 +147,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       }
       // 2. Set ChartDataSet
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
+        
       pieChartDataSet.entryLabelColor  = UIColor.white
       pieChartDataSet.entryLabelFont = UIFont(name: "futura", size: 17)
       if let font = UIFont(name: "futura", size: 17) {
@@ -150,14 +159,16 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       var colors: [UIColor] = []
       for item in dataEntries {
             if item.label == "Meeting"{
-                colors.append(UIColor.systemBlue)
+                 colors.append(#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1))
             } else if item.label == "Guest Visit" {
-                colors.append(UIColor.purple)
+                colors.append(#colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1))
+                
             } else if item.label == "Interview" {
-                colors.append(UIColor.systemGreen)
+                colors.append(#colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1))
             } else if item.label == "Others" {
-                colors.append(UIColor.systemRed)
-            }
+                colors.append(#colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1))
+                
+        }
         }
      pieChartDataSet.colors = colors
 
@@ -173,6 +184,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       pieChartData.setValueFormatter(formatter)
       pieChartData.setValueTextColor(.white)
       //4. Assign it to the chart’s data
+      
       chartView.data = pieChartData
     }
 }
@@ -215,22 +227,22 @@ extension VisitorChartViewController: UITableViewDataSource{
         if indexPath.row == 0 {
             if data == "Meeting" {
             cell.dataCountLabel.text = String(meetings)
-            cell.backgroundColor = UIColor.systemBlue
+            cell.backgroundColor = #colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1)
             }
         } else if indexPath.row == 1{
             if data == "Guest Visit"{
                 cell.dataCountLabel.text = String(guestvisits)
-                cell.backgroundColor = UIColor.purple
+                cell.backgroundColor = #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1)
             }
         } else if indexPath.row == 2{
             if data == "Interview"{
                 cell.dataCountLabel.text = String(interviews)
-                cell.backgroundColor = UIColor.systemGreen
+                cell.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1)
             }
         } else if indexPath.row == 3{
             if data == "Others"{
                 cell.dataCountLabel.text = String(others)
-                cell.backgroundColor = UIColor.systemRed
+                cell.backgroundColor = #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)
             }
         }
         return cell

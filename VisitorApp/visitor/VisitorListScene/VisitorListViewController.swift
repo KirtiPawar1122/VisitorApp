@@ -16,7 +16,7 @@ struct VisitorDataViewControllerConstants{
     static let phoneString = "phoneNo"
     static let profileImage = "profileImage"
     static let emailString = "email"
-    static let defaultImage = "img.jpeg"
+    static let defaultImage = "profile"
     static let visitorCell = "VisitorTableViewCell"
 }
 
@@ -70,17 +70,20 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
         tableview.keyboardDismissMode = .onDrag
         hideKeyboardTappedAround()
-        view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         //self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
-        self.tableview.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
-        self.searchBar.barTintColor = #colorLiteral(red: 0.006955888588, green: 0.0941728428, blue: 0.1826652586, alpha: 0.8777022688)
+        self.tableview.backgroundColor = .clear
+        self.searchBar.barTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
         searchBar.searchTextField.layer.cornerRadius = 5
         searchBar.searchTextField.layer.borderColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.borderWidth = 2
         searchBar.searchTextField.placeholder = "Search here"
-        filterbutton.layer.cornerRadius = 5
-        filterbutton.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        searchBar.searchTextField.frame.size.height = 100
+        
+        //filterbutton.layer.cornerRadius = 2
+        //filterbutton.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        //filterbutton.layer.borderWidth = 1.0
         self.tableview.tableFooterView = UIView()
     }
     
@@ -174,7 +177,7 @@ extension VisitorListViewController : UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-        cell.selectionStyle = .none
+        //cell.selectionStyle = .none
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
         
@@ -183,7 +186,7 @@ extension VisitorListViewController : UITableViewDataSource{
         let formatter = DateFormatter()
         //formatter.dateFormat = VisitorViewControllerConstants.dateFormat
         //guard let compareDate = data.date else { return  }
-        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
+        formatter.dateFormat = "dd/MM/yyyy   hh:mm a"
         let compareDate = data.date
         let compareDbDate = formatter.string(from: compareDate!)
         let compareDateDbDate = formatter.date(from: compareDbDate)
@@ -193,12 +196,12 @@ extension VisitorListViewController : UITableViewDataSource{
             print("green")
             cell.subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
             cell.date.text = compareDbDate
-            cell.emailID.text = data.visitors?.value(forKey: "email") as? String
+            //cell.emailID.text = data.visitors?.value(forKey: "email") as? String
             //cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
-            cell.companyName.text = data.companyName
+            //cell.companyName.text = data.companyName
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
+            //cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
             if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
                        cell.profileImage.image = UIImage(data: data)
             }else {
@@ -208,45 +211,19 @@ extension VisitorListViewController : UITableViewDataSource{
             print("Red")
             cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
             cell.date.text = compareDbDate
-            cell.emailID.text = data.visitors?.value(forKey: "email") as? String
+            //cell.emailID.text = data.visitors?.value(forKey: "email") as? String
             //cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
-            cell.companyName.text = data.companyName
+            //cell.companyName.text = data.companyName
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
+            //cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
             if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
                        cell.profileImage.image = UIImage(data: data)
             }else {
                 cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
             }
         }
-       /* if data.date! == stringDate {
-            cell.subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-            cell.date.text = data.date
-            cell.emailID.text = data.visitors?.value(forKey: "email") as? String
-            cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
-            cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
-            cell.visitPurpose.text = data.purpose
-            cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
-            if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                       cell.profileImage.image = UIImage(data: data)
-            }else {
-                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-            }
-        } else {
-            cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
-            cell.date.text = data.date
-            cell.emailID.text = data.visitors?.value(forKey: "email") as? String
-            cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
-            cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
-            cell.visitPurpose.text = data.purpose
-            cell.phoneNo.text = String(data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as! Int64)
-            if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                       cell.profileImage.image = UIImage(data: data)
-            }else {
-                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-            }
-        } */
+       
         return cell
     }
 }
@@ -259,9 +236,10 @@ extension VisitorListViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-       // return UITableView.automaticDimension
-        return 110
+        return UITableView.automaticDimension
+        //return 100
     }
+
       
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -275,6 +253,7 @@ extension VisitorListViewController: UITableViewDelegate{
                 dataArray.append(visit)
             }
         }
+        tableview.deselectRow(at: indexPath, animated: true)
         visitorDataRouter?.routeToBarChart(fetcheddata: dataArray, selectedData: item)
     }
 }

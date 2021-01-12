@@ -51,7 +51,7 @@ struct VisitorViewControllerConstants {
 
 class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic {
 
-    @IBOutlet weak var submitLable: UIButton!
+    @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var visitorImage: CustomImageView!
     @IBOutlet weak var userTextField: CustomTextField!
@@ -136,34 +136,26 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         purposeTextFeild.addGestureRecognizer(tapPurposeTextFeild)
         purposeTextFeild.isUserInteractionEnabled = true
         
-        let tapOnEmailTextFeild = UITapGestureRecognizer(target: self, action: #selector(emailAction))
+       /* let tapOnEmailTextFeild = UITapGestureRecognizer(target: self, action: #selector(emailAction))
         emailTextField.addGestureRecognizer(tapOnEmailTextFeild)
-        emailTextField.isUserInteractionEnabled = true
+        emailTextField.isUserInteractionEnabled = true */
        // userTextField.addGestureRecognizer(tapOnNameTextFeild)
        // userTextField.isUserInteractionEnabled = true
               
-        submitLable.layer.cornerRadius = 5
-        submitLable.layer.borderColor = UIColor.black.cgColor
-        submitLable.layer.shadowColor = UIColor.black.cgColor
-        submitLable.layer.shadowOffset = CGSize(width: 5, height: 5)
-        submitLable.layer.shadowRadius = 5
-        submitLable.layer.shadowOpacity = 1.0
-
-        resetLabel.layer.cornerRadius = 5
-        resetLabel.layer.borderColor = UIColor.black.cgColor
-        resetLabel.layer.shadowColor = UIColor.black.cgColor
-        resetLabel.layer.shadowOffset = CGSize(width: 5, height: 5)
-        resetLabel.layer.shadowRadius = 5
-        resetLabel.layer.shadowOpacity = 1.0
+        submitButton.layer.cornerRadius = submitButton.frame.height/2
+        submitButton.layer.borderColor = UIColor.black.cgColor
+        
+        let resetIcon = UIImage(named: "refresh")
+        navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: resetIcon, style: .plain, target: self, action: nil)
         
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7621263266, green: 0.08146793395, blue: 0.1015944257, alpha: 1)
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.8291091919, green: 0, blue: 0.002712239977, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        //self.innerView.backgroundColor = .clear
-        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        self.innerView.backgroundColor = .clear
+        self.view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         
-        let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
+       /* let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
               addImageOntextField(textField: userTextField, img: personImage!)
 
        /* let addressImage = UIImage(named: VisitorViewControllerConstants.addressImageName )
@@ -183,7 +175,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
               addImageOntextField(textField: visitTextField, img: visitImage!)
 
         let purposeImage = UIImage(named: VisitorViewControllerConstants.purposeImageName )
-              addImageOntextField(textField: purposeTextFeild, img: purposeImage!)
+              addImageOntextField(textField: purposeTextFeild, img: purposeImage!) */
               
     }
 
@@ -298,10 +290,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             self.visitTextField.becomeFirstResponder()
             
         case self.visitTextField:
-            self.submitLable.becomeFirstResponder()
+            self.submitButton.becomeFirstResponder()
             
         default:
-            self.submitLable.becomeFirstResponder()
+            self.submitButton.becomeFirstResponder()
         }
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -321,10 +313,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
        fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
        return true
     }
+
     
     @objc func emailAction(){
         print("tap on email action")
         fetchData(email: emailTextField.text ?? "" , phoneNo: phoneTextField.text ?? "")
+        switchnextTextField(userTextField)
     }
     /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {
@@ -452,11 +446,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         print("in visitor Print")
         print(phoneNo)
         router?.routeToVisitorPrint(phoneNo: phoneNo)
-        //print(visitPrintData)
-        //print(emailTextField.text)
-        //print(visit)
-        //router?.routeToVisitorPrint(data: visitPrintData)
-        //router?.routeToVisitorPrint(data: visit)
     }
 }
 

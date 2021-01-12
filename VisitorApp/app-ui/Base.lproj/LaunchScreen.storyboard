@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,28 +12,26 @@
             <objects>
                 <viewController storyboardIdentifier="splashScreen" id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="visitor00" translatesAutoresizingMaskIntoConstraints="NO" id="A1R-Kg-0Qr">
+                                <rect key="frame" x="61" y="245" width="646" height="534"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-1" translatesAutoresizingMaskIntoConstraints="NO" id="HoF-fJ-3ck">
-                                <rect key="frame" x="267" y="557" width="300" height="80"/>
+                                <rect key="frame" x="234" y="799" width="300" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="1FO-pM-STU"/>
-                                    <constraint firstAttribute="height" constant="80" id="2fd-8j-ffW"/>
+                                    <constraint firstAttribute="height" constant="80" id="CVw-YA-5ac"/>
+                                    <constraint firstAttribute="width" constant="300" id="VHX-sX-4Ic"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VKJ-Of-bUP">
-                                <rect key="frame" x="340.5" y="518.5" width="153" height="33.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Hlp-rw-IPQ"/>
-                            <constraint firstItem="VKJ-Of-bUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TLc-rT-shN"/>
-                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fqO-Op-iOw"/>
-                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="top" secondItem="VKJ-Of-bUP" secondAttribute="bottom" constant="5" id="pJC-gr-nwD"/>
+                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="top" secondItem="A1R-Kg-0Qr" secondAttribute="bottom" constant="20" id="1du-pp-tae"/>
+                            <constraint firstItem="A1R-Kg-0Qr" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Czz-2g-EvW"/>
+                            <constraint firstItem="A1R-Kg-0Qr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kun-3D-qvV"/>
+                            <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="q85-nY-Nvu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -45,5 +43,6 @@
     </scenes>
     <resources>
         <image name="logo-1" width="206" height="51"/>
+        <image name="visitor00" width="323" height="267"/>
     </resources>
 </document>

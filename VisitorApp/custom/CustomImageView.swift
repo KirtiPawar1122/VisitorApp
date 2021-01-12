@@ -18,13 +18,15 @@ class CustomImageView: UIImageView,UIImagePickerControllerDelegate, UINavigation
             self.layer.masksToBounds = false
             self.layer.borderColor = UIColor.gray.cgColor
             self.layer.cornerRadius = self.frame.size.width/2
-            self.layer.shadowColor = UIColor.black.cgColor
-            self.layer.shadowOffset = CGSize.zero
-            self.layer.shadowRadius = 1
-            self.layer.shadowOpacity = 0.5
-            self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
             self.clipsToBounds = true
-            
+            self.layer.shadowColor = UIColor.black.cgColor
+            self.layer.shadowOffset = CGSize(width: 5, height: 5)
+            self.layer.shadowRadius = 5
+            self.layer.shadowOpacity = 1
+            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds,cornerRadius: self.layer.cornerRadius).cgPath
+            //self.clipsToBounds = false
+            //self.layer.cornerRadius = self.frame.size.width/2
+            //self.clipsToBounds = true
         }
 }
 

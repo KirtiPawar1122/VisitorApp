@@ -53,22 +53,23 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        visitorCardView.layer.borderWidth = 3
-        visitorCardView.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        visitorCardView.layer.borderWidth = 1
+        visitorCardView.layer.borderColor = #colorLiteral(red: 0.4407853214, green: 0.4373977654, blue: 0.4395006303, alpha: 1)
         visitorCardView.layer.cornerRadius = 10
         visitorCardView.layer.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
 
-        profileImage.layer.borderWidth = 3
-        profileImage.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        profileImage.layer.cornerRadius = 10
+        profileImage.layer.borderWidth = 1
+        profileImage.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        //profileImage.layer.cornerRadius = 10
                 
-        printButton.layer.cornerRadius = 5
+        printButton.layer.cornerRadius = printButton.frame.height/2
         printButton.layer.borderColor = UIColor.black.cgColor
-        printButton.layer.shadowColor = UIColor.black.cgColor
-        printButton.layer.shadowOffset = CGSize(width: 5, height: 5)
-        printButton.layer.shadowRadius = 5
-        printButton.layer.shadowOpacity = 1.0
-        self.view.backgroundColor = #colorLiteral(red: 0.1221894994, green: 0.1234087124, blue: 0.2142429054, alpha: 1)
+        //printButton.layer.shadowColor = UIColor.black.cgColor
+        //printButton.layer.shadowOffset = CGSize(width: 5, height: 5)
+        //printButton.layer.shadowRadius = 5
+        //printButton.layer.shadowOpacity = 1.0
+        self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.navigationItem.title = "Visitor Pass Preview"
         
         printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
     }
@@ -96,7 +97,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         //cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
-        //print(pdfURL)
+        print(pdfURL)
         //print(pdfFilePath)
         let items = [cardImage!] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
