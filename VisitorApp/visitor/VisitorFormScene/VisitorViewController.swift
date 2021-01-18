@@ -117,11 +117,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-       // print(currentDate)
     }
     
     //MARK: UI Setup Method
     func setUpUI(){
+        
         hideKeyboardTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector( VisitorViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -155,6 +155,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         self.view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         
+        //addBottomBorder()
        /* let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
               addImageOntextField(textField: userTextField, img: personImage!)
 
@@ -178,7 +179,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
               addImageOntextField(textField: purposeTextFeild, img: purposeImage!) */
               
     }
-
+    
     func addImageOntextField(textField : CustomTextField,img : UIImage){
         let imageView = UIImageView()
         imageView.image = img
@@ -562,6 +563,16 @@ extension CustomTextField {
            set {
                self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [.foregroundColor: newValue])
            }
+    }
+    
+    func setBottomBorder(){
+           let border = CALayer()
+           let borderWidth = CGFloat(1.0)
+           border.borderColor = UIColor.black.cgColor
+           border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: 0.5)
+           border.borderWidth = borderWidth
+           self.borderStyle = .none
+           self.layer.addSublayer(border)
     }
 }
 
