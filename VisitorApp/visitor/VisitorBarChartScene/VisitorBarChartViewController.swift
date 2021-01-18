@@ -16,6 +16,7 @@ struct VisitorsChartViewControllerConstants {
 
 class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLogic {
   
+    @IBOutlet var BarChartOuterView: UIView!
     @IBOutlet weak var histogram: BarChartView!
     @IBOutlet weak var viewUI: UIView!
     @IBOutlet weak var tableview: UITableView!
@@ -90,7 +91,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         getBarChartData()
         histogram.legend.enabled = false
         onPrintBtn.layer.cornerRadius = onPrintBtn.frame.height/2
-        profileImage.layer.cornerRadius = 10
+        profileImage.layer.cornerRadius = profileImage.frame.height/2
         profileImage.layer.borderWidth = 5
         profileImage.layer.borderColor = UIColor.white.cgColor
         
@@ -122,9 +123,8 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         print(image!)
         profileImage.image = image!
         viewUI.backgroundColor = .clear
-        histogram.backgroundColor = #colorLiteral(red: 0.9800941781, green: 0.9787296661, blue: 0.9814319349, alpha: 1)
-        
-        
+        histogram.backgroundColor = .clear
+        BarChartOuterView.backgroundColor = #colorLiteral(red: 0.9811108733, green: 0.9797196062, blue: 0.9815657106, alpha: 1)
         tableview.backgroundColor = .clear
         tableview.layer.borderColor = UIColor.white.cgColor
         tableview.layer.borderWidth = 2
@@ -142,8 +142,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy hh:mm a"
         for item in datavisit {
-           // namedataLabel.text = "Details Of \(item.visitors!.value(forKey: "name"))"
-           // namedataLabel.textColor = UIColor.white
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
                 //meetingDate.append(item.date!)
@@ -181,14 +179,14 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let barChartDataSet = BarChartDataSet(entries: dataEntries, label: "Visitor Data")
         barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
 
-        if let font = UIFont(name: "Arial", size: 17) {
+        if let font = UIFont(name: "Roboto", size: 17) {
             barChartDataSet.valueFont = font
         } else {
             print("error in to set font")
         }
         
         let barChartData = BarChartData(dataSet: barChartDataSet)
-        barChartData.barWidth = 0.6
+        barChartData.barWidth = 0.4
         barChartData.setValueTextColor(.black)
         let format = NumberFormatter()
         format.numberStyle = .none
@@ -199,11 +197,15 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         histogram.xAxis.labelTextColor = UIColor.black
         histogram.xAxis.granularityEnabled = true
         histogram.xAxis.drawGridLinesEnabled = false
+        histogram.leftAxis.drawGridLinesEnabled = false
+        histogram.rightAxis.drawGridLinesEnabled = false
         histogram.xAxis.labelPosition = .bottom
-        histogram.xAxis.labelFont = UIFont(name: "Arial", size: 17)!
+        histogram.xAxis.labelFont = UIFont(name: "Roboto", size: 17)!
         histogram.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInOutQuart)
         histogram.leftAxis.axisMinimum = 0
         histogram.rightAxis.axisMinimum = 0
+        histogram.rightAxis.drawAxisLineEnabled = false
+        histogram.rightAxis.drawLabelsEnabled = false
         histogram.rightAxis.labelTextColor = UIColor.black
         histogram.leftAxis.labelTextColor = UIColor.black
         histogram.data = barChartData
@@ -213,7 +215,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         print(selectedData.visitors?.value(forKey: "email") as Any)
         //barChartRouter?.routeToPrintVisitors(data: selectedData)
         let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
-        //vc?.selectedEmail = selectedData.visitors?.value(forKey: "email") as! String
         vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: "phoneNo") as! String
         navigationController?.pushViewController(vc!, animated: true)
     }
@@ -222,7 +223,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     func getDateDiff(start: Date, end: Date) -> Int  {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([Calendar.Component.second], from: start, to: end)
-
         let seconds = dateComponents.second
         return Int(seconds! / 3600)
     }
@@ -255,8 +255,8 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         let data = items[indexPath.section][indexPath.row]
         //let dataitem =  items[indexPath.row]
         cell.selectionStyle = .none
-        //cell.sectionLabel.textColor = .white
-        //cell.dataLabel.textColor = .white
+        cell.sectionLabel.font = UIFont(name: "Roboto", size: 17)
+        cell.dataLabel.font = UIFont(name: "Roboto", size: 17)
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle

@@ -75,8 +75,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         //chartView.centerText = String(visits.count)
         let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: "Arial",size:17) as Any])
-        let centerText2 = NSMutableAttributedString(string: "\n   \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: "Arial",size:40) as Any])
+        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:17) as Any])
+        let centerText2 = NSMutableAttributedString(string: "\n    \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:40) as Any])
         
         centerTextStrings.append(centerText1)
         centerTextStrings.append(centerText2)
@@ -149,8 +149,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
         
       pieChartDataSet.entryLabelColor  = UIColor.white
-      pieChartDataSet.entryLabelFont = UIFont(name: "futura", size: 17)
-      if let font = UIFont(name: "futura", size: 17) {
+      pieChartDataSet.entryLabelFont = UIFont(name: "Roboto", size: 17)
+      if let font = UIFont(name: "Roboto", size: 17) {
             pieChartDataSet.valueFont = font
       } else {
             print("error in to set font")
@@ -206,23 +206,11 @@ extension VisitorChartViewController: UITableViewDataSource{
         cell.selectionStyle = .none
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.sectionTitleLabel.font = UIFont(name: "Roboto-Bold", size: 17)
+        cell.dataCountLabel.font = UIFont(name: "Roboto-Bold", size: 17)
         cell.sectionTitleLabel.textColor = UIColor.white
         cell.dataCountLabel.textColor = UIColor.white
         cell.sectionTitleLabel.text = data
-        
-       /* if data == "Meeting" {
-            cell.dataCountLabel.text = String(meetings)
-            cell.backgroundColor = UIColor.systemBlue
-        } else if data == "Interview"{
-            cell.dataCountLabel.text = String(interviews)
-            cell.backgroundColor = UIColor.systemGreen
-        } else if data == "Guest Visit"{
-            cell.dataCountLabel.text = String(guestvisits)
-            cell.backgroundColor = UIColor.purple
-        } else if data == "Others"{
-            cell.dataCountLabel.text = String(others)
-            cell.backgroundColor = UIColor.systemRed
-        } */
     
         if indexPath.row == 0 {
             if data == "Meeting" {

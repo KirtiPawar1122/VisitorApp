@@ -143,23 +143,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2A81130D-1F22-4F08-B114-32448BC974D0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
-            timestampString = "0"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "addImageOntextField(textField:img:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "4E71DE43-4E9B-49EC-B216-F14E7B2B5FBA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -413,23 +396,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7A22FF78-C6DF-41B2-8858-DBE634E7A025"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
-            timestampString = "0"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "emailAction()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A358DA0A-324F-4F25-A47E-2EC4F6D3A97E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -438,9 +404,9 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
-            landmarkName = "savedData(_:)"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
+            landmarkName = "validate()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -506,8 +472,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "switchnextTextField(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,23 +492,6 @@
             startingLineNumber = "185"
             endingLineNumber = "185"
             landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "809376D2-173B-47CE-9910-4A7788FDA0F6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VisitorApp/custom/CustomTextField.swift"
-            timestampString = "0"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "init(coder:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -704,8 +653,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "347"
+            endingLineNumber = "347"
             landmarkName = "validate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -738,8 +687,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -789,8 +738,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -823,8 +772,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "displayVisitorData(viewModel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -840,10 +789,10 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "VisitorViewController"
-            landmarkType = "3">
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "displayVisitorData(viewModel:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -857,10 +806,10 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
-            landmarkName = "VisitorViewController"
-            landmarkType = "3">
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "displayVisitorData(viewModel:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -908,8 +857,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "setDataOnChart(dataPoints:values:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -942,8 +891,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "389"
-            endingLineNumber = "389"
+            startingLineNumber = "402"
+            endingLineNumber = "402"
             landmarkName = "validate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -959,42 +908,10 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "426"
-            endingLineNumber = "426"
-            landmarkName = "VisitorViewController"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "CB660297-A3E1-4DEC-A781-8E6F4FE391E2 - e123d63142e582d0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "VisitorApp.VisitorViewController.showAlert(for: Swift.String) -&gt; ()"
-                  moduleName = "VisitorApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wn00113901/Work/VisitorMaster/VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "433"
-                  endingLineNumber = "433"
-                  offsetFromSymbolStart = "344">
-               </Location>
-               <Location
-                  uuid = "CB660297-A3E1-4DEC-A781-8E6F4FE391E2 - 9b7812227de8ba76"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (__C.UIAlertAction) -&gt; () in VisitorApp.VisitorViewController.showAlert(for: Swift.String) -&gt; ()"
-                  moduleName = "VisitorApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wn00113901/Work/VisitorMaster/VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "435"
-                  endingLineNumber = "435"
-                  offsetFromSymbolStart = "72">
-               </Location>
-            </Locations>
+            startingLineNumber = "439"
+            endingLineNumber = "439"
+            landmarkName = "showAlert(for:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1025,8 +942,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "setDataOnChart(dataPoints:values:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1042,8 +959,8 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1059,10 +976,10 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
-            landmarkName = "VisitorViewController"
-            landmarkType = "3">
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "switchnextTextField(_:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "0CF4CC47-B358-427B-8F39-79973C5CDF80 - 3e626439e29ad13c"
@@ -1168,10 +1085,10 @@
             timestampString = "0"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
-            landmarkName = "hideKeyboardTappedAround()"
-            landmarkType = "7">
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "VisitorViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1316,8 +1233,8 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "378"
-            endingLineNumber = "378"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "validate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1332,9 +1249,9 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
-            landmarkName = "savedData(_:)"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
+            landmarkName = "validate()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1348,25 +1265,25 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
-            landmarkName = "textField(_:shouldChangeCharactersIn:replacementString:)"
-            landmarkType = "7">
+            startingLineNumber = "317"
+            endingLineNumber = "317"
+            landmarkName = "VisitorViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "449D5695-2E49-4AD5-ADB5-E23295D3B11C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "emailAction()"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "savedData(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1380,9 +1297,9 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "displayVisitorData(viewModel:)"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "submitButtonClick(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1412,10 +1329,10 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
-            landmarkName = "showAlert(for:)"
-            landmarkType = "7">
+            startingLineNumber = "453"
+            endingLineNumber = "453"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1428,8 +1345,8 @@
             filePath = "VisitorApp/visitor/VisitorBarChartScene/VisitorBarChartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "setDataOnChart(dataPoints:values:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1444,8 +1361,8 @@
             filePath = "VisitorApp/visitor/VisitorBarChartScene/VisitorBarChartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "displayVisitorBarChartData(viewModel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1460,8 +1377,8 @@
             filePath = "VisitorApp/visitor/VisitorBarChartScene/VisitorBarChartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "displayVisitorBarChartData(viewModel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1476,8 +1393,8 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "setUpUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1492,9 +1409,9 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "307"
-            endingLineNumber = "307"
-            landmarkName = "textField(_:shouldChangeCharactersIn:replacementString:)"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "emailAction()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1508,9 +1425,25 @@
             filePath = "VisitorApp/visitor/VisitorFormScene/VisitorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
-            landmarkName = "textFieldShouldReturn(_:)"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
+            landmarkName = "savedData(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "89CFB1D3-23BC-4D93-B8D4-6A0FC17210B9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VisitorApp/visitor/VisitorBarChartScene/VisitorBarChartViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "setDataOnChart(dataPoints:values:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -11,23 +11,39 @@ class CustomImageView: UIImageView,UIImagePickerControllerDelegate, UINavigation
 
         required init?(coder aDecoder: NSCoder) {
             super.init(coder: aDecoder)
+            addRoundedCorner()
+            //addShadow()
         }
     
         override func layoutSubviews() {
-            self.layer.borderWidth = 1
+           /* self.layer.borderWidth = 1
             self.layer.masksToBounds = false
             self.layer.borderColor = UIColor.gray.cgColor
             self.layer.cornerRadius = self.frame.size.width/2
-            self.clipsToBounds = true
-            self.layer.shadowColor = UIColor.black.cgColor
+            self.clipsToBounds = true*/
+            /*self.layer.shadowColor = UIColor.black.cgColor
             self.layer.shadowOffset = CGSize(width: 5, height: 5)
             self.layer.shadowRadius = 5
             self.layer.shadowOpacity = 1
-            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds,cornerRadius: self.layer.cornerRadius).cgPath
+            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds,cornerRadius: self.layer.cornerRadius).cgPath */
             //self.clipsToBounds = false
             //self.layer.cornerRadius = self.frame.size.width/2
             //self.clipsToBounds = true
         }
+    
+    
+     func addRoundedCorner(){
+        self.layer.cornerRadius = self.frame.size.width/2
+        self.clipsToBounds = true
+     }
+    
+    func addShadow(){
+        self.clipsToBounds = false
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 5, height: 5)
+        self.layer.shadowRadius = 5
+        self.layer.shadowOpacity = 1
+    }
 }
 
 
@@ -52,5 +68,3 @@ class CustomImageView: UIImageView,UIImagePickerControllerDelegate, UINavigation
 
 
 
-
-//super.layoutSubviews()
