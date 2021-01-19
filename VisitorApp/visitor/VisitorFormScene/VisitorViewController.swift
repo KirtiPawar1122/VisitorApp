@@ -9,7 +9,7 @@ protocol VisitorFormDisplayLogic{
 }
 
 struct VisitorViewControllerConstants {
-    static let selectedImageName = "no-image"
+    static let selectedImageName = "camera-1"
     static let personImageName = "user"
     static let addressImageName = "address-100"
     static let phoneImageName = "phone-100"
@@ -316,9 +316,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         // code for fetch data
-    
-        print("on textfeild")
-        fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
+        if (phoneTextField.text != "" && emailTextField.text == "") {
+          fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
+        }
         return true
     }
     
@@ -338,6 +338,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
        //textField.resignFirstResponder()
         
         switchnextTextField(textField)
+        textField.resignFirstResponder()
         purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
       // fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
        return true

@@ -839,7 +839,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuj-d2-Zpt">
                                                 <rect key="frame" x="412" y="30" width="200" height="200"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo-camera" translatesAutoresizingMaskIntoConstraints="NO" id="jz9-wI-2vx" customClass="CustomImageView" customModule="VisitorApp" customModuleProvider="target">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera-1" translatesAutoresizingMaskIntoConstraints="NO" id="jz9-wI-2vx" customClass="CustomImageView" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" red="0.29121762509999999" green="0.34381711479999999" blue="0.40393003820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -895,7 +895,7 @@
                                                             <outlet property="delegate" destination="wdu-m9-DQN" id="atw-bC-bPf"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your company Name *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I5k-GE-mbP" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your company name *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I5k-GE-mbP" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="286.5" width="924" height="75.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -1040,9 +1040,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera-1" width="640" height="640"/>
         <image name="logo-1" width="206" height="51"/>
         <image name="no-image" width="300" height="200"/>
-        <image name="photo-camera" width="64" height="51"/>
         <image name="visitor01" width="768" height="233"/>
     </resources>
 </document>
