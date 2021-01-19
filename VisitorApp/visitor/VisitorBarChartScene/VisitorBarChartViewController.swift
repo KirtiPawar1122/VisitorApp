@@ -12,6 +12,8 @@ struct VisitorsChartViewControllerConstants {
     static let interviewTitle = "Interview"
     static let guestVisitTitle = "Guest Visit"
     static let otherTitle = "Other"
+    static let font = "Roboto-Regular"
+    
 }
 
 class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLogic {
@@ -140,7 +142,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         chartData = viewModel.visitData
         print(datavisit)
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
+        formatter.dateFormat = "dd/MM/yyyy   hh:mm a"
         for item in datavisit {
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
@@ -179,7 +181,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let barChartDataSet = BarChartDataSet(entries: dataEntries, label: "Visitor Data")
         barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
 
-        if let font = UIFont(name: "Roboto", size: 17) {
+        if let font = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17) {
             barChartDataSet.valueFont = font
         } else {
             print("error in to set font")
@@ -187,12 +189,15 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
         let barChartData = BarChartData(dataSet: barChartDataSet)
         barChartData.barWidth = 0.4
+        //barChartData.groupBars(fromX: 1, groupSpace: 0.3, barSpace: 0.05)
         barChartData.setValueTextColor(.black)
         let format = NumberFormatter()
         format.numberStyle = .none
         let formatter = DefaultValueFormatter(formatter: format)
         barChartData.setValueFormatter(formatter)
     
+        histogram.layer.cornerRadius = 0.5
+        histogram.clipsToBounds = true
         histogram.xAxis.valueFormatter = IndexAxisValueFormatter(values: dataPoints)
         histogram.xAxis.labelTextColor = UIColor.black
         histogram.xAxis.granularityEnabled = true
@@ -200,7 +205,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         histogram.leftAxis.drawGridLinesEnabled = false
         histogram.rightAxis.drawGridLinesEnabled = false
         histogram.xAxis.labelPosition = .bottom
-        histogram.xAxis.labelFont = UIFont(name: "Roboto", size: 17)!
+        histogram.xAxis.labelFont = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17)!
         histogram.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInOutQuart)
         histogram.leftAxis.axisMinimum = 0
         histogram.rightAxis.axisMinimum = 0
@@ -254,9 +259,9 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorChartTableViewCell") as! VisitorChartTableViewCell
         let data = items[indexPath.section][indexPath.row]
         //let dataitem =  items[indexPath.row]
-        cell.selectionStyle = .none
-        cell.sectionLabel.font = UIFont(name: "Roboto", size: 17)
-        cell.dataLabel.font = UIFont(name: "Roboto", size: 17)
+        //cell.selectionStyle = .none
+        cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17)
+        cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17)
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle
@@ -273,7 +278,6 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                 cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            //cell.backgroundColor = UIColor.orange
             cell.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1)
         }
         if (indexPath.section == 2) {
@@ -283,7 +287,6 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            //cell.backgroundColor = UIColor.systemYellow
             cell.backgroundColor = #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1)
         }
         if (indexPath.section == 3){
@@ -293,7 +296,6 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            //cell.backgroundColor = UIColor.systemGreen
             cell.backgroundColor = #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)
         }
         return cell

@@ -35,9 +35,6 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         setBorderTextfeild()
     }
     
-    func addFont(){
-        
-    }
     
     func setBorderTextfeild(){
         let border = CALayer()

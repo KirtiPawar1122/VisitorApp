@@ -73,17 +73,18 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         //self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         self.tableview.backgroundColor = .clear
-        self.searchBar.barTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
+        self.searchBar.barTintColor = #colorLiteral(red: 0.9519745291, green: 0.953713613, blue: 0.9518942637, alpha: 1)
+        searchBar.barStyle = .default
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor.white.cgColor
+        searchBar.searchTextField.backgroundColor = .clear
         searchBar.searchTextField.layer.cornerRadius = 5
-        searchBar.searchTextField.layer.borderColor = UIColor.white.cgColor
+        searchBar.searchTextField.layer.borderColor = UIColor.clear.cgColor
         searchBar.searchTextField.layer.borderWidth = 2
-        searchBar.searchTextField.placeholder = "Search here"
-        searchBar.searchTextField.frame.size.height = 100
-        
-        //filterbutton.layer.cornerRadius = 2
-        //filterbutton.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        //filterbutton.layer.borderWidth = 1.0
+        searchBar.searchTextField.font = UIFont(name: "Roboto", size: 17)
+        searchBar.searchTextField.textColor = UIColor.black
+        searchBar.searchTextField.placeholder = " Search here"
+    
         self.tableview.tableFooterView = UIView()
     }
     
@@ -91,6 +92,22 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         super.viewWillAppear(animated)
        // fetchVisitorList()
        // self.tableview.reloadData()
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let newheight = 60
+        
+        for subView in searchBar.subviews{
+            for subsubViews in subView.subviews{
+                if let textField = subsubViews as? UITextView{
+                    var currentTextFieldBounds = textField.bounds
+                    currentTextFieldBounds.size.height = CGFloat(newheight)
+                    textField.bounds = currentTextFieldBounds
+                }
+            }
+        }
     }
     
     func hideKeyboardTappedAround(){
@@ -177,7 +194,7 @@ extension VisitorListViewController : UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-        //cell.selectionStyle = .none
+        cell.selectionStyle = .none
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
         
@@ -239,8 +256,6 @@ extension VisitorListViewController: UITableViewDelegate{
         return UITableView.automaticDimension
         //return 100
     }
-
-      
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let data = viewObj

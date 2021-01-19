@@ -54,6 +54,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var visitorImage: CustomImageView!
+    @IBOutlet var containerView: UIView!
     @IBOutlet weak var userTextField: CustomTextField!
     @IBOutlet weak var addressTextField: CustomTextField!
     @IBOutlet weak var emailTextField: CustomTextField!
@@ -71,7 +72,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var visitPrintData = Visit()
     var arr = [Any]()
     var tapCount = 0
-    var containerView = UIView()
+    //var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
@@ -88,6 +89,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var checkphoneNo: String = ""
     var profileImage: UIImage?
     
+      
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
@@ -147,13 +149,14 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         
         let resetIcon = UIImage(named: "refresh")
         navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: resetIcon, style: .plain, target: self, action: nil)
-        
+       
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.8291091919, green: 0, blue: 0.002712239977, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.innerView.backgroundColor = .clear
         self.view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        
+        setUpShadow()
         
         //addBottomBorder()
        /* let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
@@ -189,6 +192,19 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         textField.leftView = leftView;
         textField.leftViewMode = .always
         textField.returnKeyType = .next
+    }
+    
+    func setUpShadow(){
+        containerView.clipsToBounds = false
+        containerView.layer.shadowColor = UIColor.systemGray.cgColor
+        containerView.layer.shadowOpacity = 1
+        containerView.layer.shadowOffset = CGSize.zero
+        containerView.layer.shadowRadius = 7
+        containerView.layer.cornerRadius = containerView.frame.height/2
+        
+        containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: containerView.frame.height/2).cgPath
+        visitorImage.clipsToBounds = true
+        visitorImage.layer.cornerRadius = visitorImage.frame.height/2
     }
     
     //MARK: Keyboards related methods
@@ -297,6 +313,15 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             self.submitButton.becomeFirstResponder()
         }
     }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        // code for fetch data
+    
+        print("on textfeild")
+        fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
         case phoneTextField:
@@ -307,11 +332,14 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             return true
         }
     }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-       switchnextTextField(textField)
-       textField.resignFirstResponder()
-       purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-       fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
+       //switchnextTextField(textField)
+       //textField.resignFirstResponder()
+        
+        switchnextTextField(textField)
+        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
+      // fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
        return true
     }
 
@@ -565,7 +593,7 @@ extension CustomTextField {
            }
     }
     
-    func setBottomBorder(){
+   /* func setBottomBorder(){
            let border = CALayer()
            let borderWidth = CGFloat(1.0)
            border.borderColor = UIColor.black.cgColor
@@ -573,7 +601,7 @@ extension CustomTextField {
            border.borderWidth = borderWidth
            self.borderStyle = .none
            self.layer.addSublayer(border)
-    }
+    } */
 }
 
 extension UIImage {

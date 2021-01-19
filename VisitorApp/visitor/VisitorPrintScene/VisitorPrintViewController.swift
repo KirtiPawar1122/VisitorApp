@@ -60,14 +60,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
 
         profileImage.layer.borderWidth = 1
         profileImage.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        //profileImage.layer.cornerRadius = 10
-                
+        
         printButton.layer.cornerRadius = printButton.frame.height/2
         printButton.layer.borderColor = UIColor.black.cgColor
-        //printButton.layer.shadowColor = UIColor.black.cgColor
-        //printButton.layer.shadowOffset = CGSize(width: 5, height: 5)
-        //printButton.layer.shadowRadius = 5
-        //printButton.layer.shadowOpacity = 1.0
         self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.navigationItem.title = "Visitor Pass Preview"
         
@@ -93,13 +88,14 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     @IBAction func onPrintAction(_ sender: Any) {
         //convert view to image and store it - alert display
         print(visitorCardView as Any)
+        print("visitorCardView size - \(visitorCardView.frame)")
         cardImage = visitorCardView.takeSnapShot()
         //cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
         print(pdfURL)
         //print(pdfFilePath)
-        let items = [cardImage!] as [Any]
+        let items = [pdfURL] as [Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
@@ -122,6 +118,8 @@ extension UIView {
     
     func createPDFfromView() -> String {
         let pdfPageFrame = self.frame
+        
+          print("self.frame size - \(self.frame)")
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, pdfPageFrame, nil)
         UIGraphicsBeginPDFPageWithInfo(pdfPageFrame, nil)
