@@ -5,6 +5,20 @@ protocol VisitorPrintDisplayLogic{
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel)
 }
 
+struct VisitorPrintViewControllerConstant{
+    
+      static let selectedImageName = "camera-1"
+      static let navBarTitle = "Visitor Pass Preview"
+      static let dateFormat = "MMM d,yyyy"
+      static let xValue = -150
+      static let yValue = 300
+      static let width = 794
+      static let height = 1123
+    
+}
+
+
+
 class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
    
     
@@ -64,7 +78,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         printButton.layer.cornerRadius = printButton.frame.height/2
         printButton.layer.borderColor = UIColor.black.cgColor
         self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        self.navigationItem.title = "Visitor Pass Preview"
+        self.navigationItem.title = VisitorPrintViewControllerConstant.navBarTitle
         
         printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
     }
@@ -73,7 +87,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         print(viewModel.visitData as Any)
         let formatter = DateFormatter()
         //currentDate = viewModel.visitData!.date!
-        formatter.dateFormat = "MMM d,yyyy"
+        formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat
         let displayDate = formatter.string(from: viewModel.visitData!.date!)
         VisitDate.text = displayDate
         visitorName.text = viewModel.visitData?.visitors?.value(forKey: "name") as? String
@@ -89,13 +103,16 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         //convert view to image and store it - alert display
         print(visitorCardView as Any)
         print("visitorCardView size - \(visitorCardView.frame)")
-        cardImage = visitorCardView.takeSnapShot()
+        //cardImage = visitorCardView.takeSnapShot()
+        //cardImage = view.takeSnapShot()
         //cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
+        
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
-        print(pdfURL)
+        
+        //print(pdfURL)
         //print(pdfFilePath)
-        let items = [pdfURL] as [Any]
+        let items = [ pdfURL as Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
@@ -107,8 +124,8 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
 
 extension UIView {
     func takeSnapShot() -> UIImage? {
-       UIGraphicsBeginImageContext(CGSize(width: 30, height: 20 ))
-       let rect = CGRect(x: 0.0, y: 0.0, width: 30, height: 20)
+       UIGraphicsBeginImageContext(CGSize(width: self.frame.width, height: self.frame.height ))
+       let rect = CGRect(x: 0.0, y: 0.0, width: self.frame.width, height: self.frame.height)
        drawHierarchy(in: rect, afterScreenUpdates: true)
        let image = UIGraphicsGetImageFromCurrentImageContext()
        UIGraphicsEndImageContext()
@@ -117,12 +134,13 @@ extension UIView {
     }
     
     func createPDFfromView() -> String {
-        let pdfPageFrame = self.frame
-        
-          print("self.frame size - \(self.frame)")
+        // Fixed height and width to set alignment as center to print preview
+        let pdfPageFrame = CGRect(x: VisitorPrintViewControllerConstant.xValue, y: VisitorPrintViewControllerConstant.yValue, width: VisitorPrintViewControllerConstant.width, height: VisitorPrintViewControllerConstant.height)
         let pdfData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdfData, pdfPageFrame, nil)
+        
+        UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
         UIGraphicsBeginPDFPageWithInfo(pdfPageFrame, nil)
+        //UIGraphicsBeginPDFPage()
         guard let pdfContext = UIGraphicsGetCurrentContext() else { return "" }
         self.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()

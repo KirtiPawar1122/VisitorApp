@@ -75,7 +75,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         //chartView.centerText = String(visits.count)
         let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:17) as Any])
+        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:20) as Any])
         let centerText2 = NSMutableAttributedString(string: "\n    \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:40) as Any])
         
         centerTextStrings.append(centerText1)
