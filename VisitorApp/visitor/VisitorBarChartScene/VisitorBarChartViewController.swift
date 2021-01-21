@@ -106,11 +106,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let timedata = getDateDiff(start: selectedDate!, end: currentDate)
         print(stringDate)
      
-        if timedata <= 8 {
+        /*if timedata <= 8 {
             onPrintBtn.isHidden = false
         } else {
             onPrintBtn.isHidden = true
-        }
+        } */
         
         purposeLabel.text = selectedData.purpose
         nameLabel.text = selectedData.visitors?.value(forKey: "name") as? String
@@ -221,6 +221,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         //barChartRouter?.routeToPrintVisitors(data: selectedData)
         let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
         vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: "phoneNo") as! String
+        vc?.printVisitData = selectedData
         navigationController?.pushViewController(vc!, animated: true)
     }
     

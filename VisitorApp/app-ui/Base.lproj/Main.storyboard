@@ -255,15 +255,15 @@
                                                             <constraint firstAttribute="height" constant="160" id="vU0-Zw-9iE"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vSH-x4-G0n">
+                                                    <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vSH-x4-G0n">
                                                         <rect key="frame" x="50" y="190" width="824" height="190"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rrV-wP-EzX">
-                                                                <rect key="frame" x="0.0" y="0.0" width="113" height="190"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="190"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AGT-nf-MDb">
-                                                                <rect key="frame" x="133" y="0.0" width="268.5" height="190"/>
+                                                                <rect key="frame" x="148" y="0.0" width="323" height="190"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="myU-E7-U5Q">
                                                                         <rect key="frame" x="5" y="5" width="137" height="30"/>
@@ -363,7 +363,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XAr-pc-zZd">
-                                                                <rect key="frame" x="421.5" y="0.0" width="269" height="190"/>
+                                                                <rect key="frame" x="491" y="0.0" width="333" height="190"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="5l4-S7-2IH">
                                                                         <rect key="frame" x="5" y="5" width="124" height="30"/>
@@ -460,10 +460,6 @@
                                                                     <constraint firstItem="5l4-S7-2IH" firstAttribute="leading" secondItem="XAr-pc-zZd" secondAttribute="leading" constant="5" id="xoc-up-Eby"/>
                                                                     <constraint firstItem="hm5-78-Ihq" firstAttribute="top" secondItem="wLd-Ui-fmp" secondAttribute="bottom" constant="20" id="zvy-6M-fnJ"/>
                                                                 </constraints>
-                                                            </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uzI-CX-kSi">
-                                                                <rect key="frame" x="710.5" y="0.0" width="113.5" height="190"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             </view>
                                                         </subviews>
                                                     </stackView>
@@ -834,7 +830,7 @@
                                 <rect key="frame" x="0.0" y="50" width="1024" height="1246"/>
                                 <subviews>
                                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="GZa-8V-Iaz">
-                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1246"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1376"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuj-d2-Zpt">
                                                 <rect key="frame" x="412" y="30" width="200" height="200"/>
@@ -868,10 +864,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="bzq-tm-hO6">
-                                                <rect key="frame" x="50" y="330" width="924" height="514"/>
+                                                <rect key="frame" x="50" y="330" width="924" height="450"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your phone number *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8bq-X2-JQr" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="924" height="69"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         <connections>
@@ -879,7 +875,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your email *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pZf-g8-9ix" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="89" width="924" height="69"/>
+                                                        <rect key="frame" x="0.0" y="78.5" width="924" height="58"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress"/>
@@ -888,7 +884,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your name *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YY7-P5-1sl" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="178" width="924" height="69"/>
+                                                        <rect key="frame" x="0.0" y="156.5" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -896,7 +892,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your company name *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I5k-GE-mbP" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="267" width="924" height="69"/>
+                                                        <rect key="frame" x="0.0" y="235" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -904,7 +900,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Purpose of Visit *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X99-05-cA2" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="356" width="924" height="69"/>
+                                                        <rect key="frame" x="0.0" y="313.5" width="924" height="58"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -912,7 +908,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Whom do you want to visit? *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NA2-Vk-Fb5" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="445" width="924" height="69"/>
+                                                        <rect key="frame" x="0.0" y="391.5" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -921,11 +917,11 @@
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="514" id="f7L-61-2FG"/>
+                                                    <constraint firstAttribute="height" constant="450" id="f7L-61-2FG"/>
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVF-T9-QXH">
-                                                <rect key="frame" x="50" y="894" width="924" height="50"/>
+                                                <rect key="frame" x="50" y="830" width="924" height="50"/>
                                                 <color key="backgroundColor" red="0.8907855308219178" green="0.0" blue="0.10628991756575343" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="Cx0-gW-ySa"/>
@@ -939,7 +935,7 @@
                                                 </connections>
                                             </button>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="visitor01" translatesAutoresizingMaskIntoConstraints="NO" id="r4m-ZB-FZ2">
-                                                <rect key="frame" x="20" y="1013" width="984" height="233"/>
+                                                <rect key="frame" x="20" y="910" width="984" height="466"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

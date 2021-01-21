@@ -81,7 +81,31 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         self.navigationItem.title = VisitorPrintViewControllerConstant.navBarTitle
         
         printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
+        
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
+        //formatter.dateStyle = .medium
+        let currentSelectedDate = printVisitData?.date
+        let stringDate = formatter.string(from: currentSelectedDate!)
+        let selectedDate = formatter.date(from: stringDate)
+        let timedata = getDateDiff(start: selectedDate!, end: currentDate)
+        print(stringDate)
+        
+        if timedata <= 8 {
+            printButton.isHidden = false
+        } else {
+            printButton.isHidden = true
+        }
     }
+    
+    func getDateDiff(start: Date, end: Date) -> Int  {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([Calendar.Component.second], from: start, to: end)
+        let seconds = dateComponents.second
+        return Int(seconds! / 3600)
+    }
+    
     
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel) {
         print(viewModel.visitData as Any)
