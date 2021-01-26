@@ -39,7 +39,7 @@ class VisitorListPresenterTests: XCTestCase
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel) {
         displayVisitorListCalled = true
         let viewModelList = viewModel.visit
-        displayVisit = viewModelList
+        displayVisit = viewModelList!
     }
 
   }

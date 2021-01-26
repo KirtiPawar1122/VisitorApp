@@ -30,12 +30,12 @@ class VisitorFormInteractorTest: XCTestCase {
     func testFetchRecord() {
         
         //Given
-        let email = "k@gmail.com"
+        let phoneNo = "8411912075"
         let visitorFormPresentationLogicTest = VisitorFormPresentationLogicTest()
         interactorTest.presenter = visitorFormPresentationLogicTest
         
         //When
-        let request = VisitorForm.fetchVisitorRecord.Request(email: email)
+        let request = VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo)
         interactorTest.fetchRequest(request: request)
         
         //Then
@@ -45,8 +45,10 @@ class VisitorFormInteractorTest: XCTestCase {
     //MARK: test for Save Data
     func testSaveData(){
         
+        let todaysDate = Date()
+        
         //Given
-        let requestSave = VisitorForm.saveVisitorRecord.Request(name: "abc", address: "abc", email: "k@gmail.com", phoneNo: 1234567890, visitPurpose: "Other", visitingName: "HR", companyName: "Wurth", profileImage: Data(), currentDate: "")
+        let requestSave = VisitorForm.saveVisitorRecord.Request(name: "abc", email: "k@gmail.com", phoneNo: "8411912075", visitPurpose: "Other", visitingName: "HR", companyName: "Wurth", profileImage: Data(), currentDate:  todaysDate)
         
         //When
         interactorTest.saveVisitorRecord(request: requestSave)

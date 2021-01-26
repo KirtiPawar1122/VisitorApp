@@ -9,11 +9,15 @@ struct VisitorPrintViewControllerConstant{
     
       static let selectedImageName = "camera-1"
       static let navBarTitle = "Visitor Pass Preview"
-      static let dateFormat = "MMM d,yyyy"
+      static let dateFormat = "MMM d, yyyy"
+      static let dateFormat1 = "dd/MM/yyyy hh:mm a"
+      static let nameString = "name"
+      static let profileImage = "profileImage"
       static let xValue = -150
       static let yValue = 300
       static let width = 794
       static let height = 1123
+      static let timeLimit = 8
     
 }
 
@@ -36,13 +40,12 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     var printVisitData: Visit?
     var selectedImge = "no-image"
     var printInteractor: VisitorPrintBusinessLogic?
-    //var printPresentor: VisitorPrintPresentationLogic?
     var printRouter: VisitorPrintRouter = VisitorPrintRouter()
     var cardImage: UIImage?
     var selectedEmail = String()
     var selectedPhoneNo = String()
     var currentDate = Date()
-    //var printData: Visit!
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -53,7 +56,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         setup()
     }
     
-    //MARK: Setup
+    //MARK: - Setup
     private func setup() {
         let viewController = self
         let router = VisitorPrintRouter()
@@ -67,6 +70,13 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        setupUI()
+        printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
+
+    }
+    
+    func setupUI(){
         visitorCardView.layer.borderWidth = 1
         visitorCardView.layer.borderColor = #colorLiteral(red: 0.4407853214, green: 0.4373977654, blue: 0.4395006303, alpha: 1)
         visitorCardView.layer.cornerRadius = 10
@@ -74,25 +84,22 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
 
         profileImage.layer.borderWidth = 1
         profileImage.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        
+               
         printButton.layer.cornerRadius = printButton.frame.height/2
         printButton.layer.borderColor = UIColor.black.cgColor
         self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.navigationItem.title = VisitorPrintViewControllerConstant.navBarTitle
         
-        printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
-        
-        
+        let todaysDate = Date()
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
-        //formatter.dateStyle = .medium
+        formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat1
         let currentSelectedDate = printVisitData?.date
-        let stringDate = formatter.string(from: currentSelectedDate!)
+        let stringDate = formatter.string(from: currentSelectedDate ?? todaysDate)
         let selectedDate = formatter.date(from: stringDate)
         let timedata = getDateDiff(start: selectedDate!, end: currentDate)
         print(stringDate)
         
-        if timedata <= 8 {
+        if timedata <= VisitorPrintViewControllerConstant.timeLimit {
             printButton.isHidden = false
         } else {
             printButton.isHidden = true
@@ -105,21 +112,17 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         let seconds = dateComponents.second
         return Int(seconds! / 3600)
     }
-    
-    
+
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel) {
         print(viewModel.visitData as Any)
         let formatter = DateFormatter()
-        //currentDate = viewModel.visitData!.date!
         formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat
         let displayDate = formatter.string(from: viewModel.visitData!.date!)
         VisitDate.text = displayDate
-        visitorName.text = viewModel.visitData?.visitors?.value(forKey: "name") as? String
+        visitorName.text = viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
         purposeLabel.text = viewModel.visitData?.purpose
         hostLabel.text = viewModel.visitData?.visitorName
-        //let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
-        let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: "profileImage") as! Data )
-        //print(image!)
+        let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data )
         profileImage.image = image!
     }
     
@@ -128,14 +131,8 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         print(visitorCardView as Any)
         print("visitorCardView size - \(visitorCardView.frame)")
         //cardImage = visitorCardView.takeSnapShot()
-        //cardImage = view.takeSnapShot()
-        //cardImage?.saveToPhotoLibrary(self, nil)
         let pdfFilePath = visitorCardView.createPDFfromView()
-        
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
-        
-        //print(pdfURL)
-        //print(pdfFilePath)
         let items = [ pdfURL as Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {

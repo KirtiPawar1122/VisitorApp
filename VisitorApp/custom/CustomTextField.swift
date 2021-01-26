@@ -29,8 +29,6 @@ class CustomTextField: UITextField, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        //addBottomBorder()
-        //setBorderTextfeild()
         super.layoutSubviews()
         setBorderTextfeild()
     }
@@ -52,8 +50,7 @@ class CustomTextField: UITextField, UITextFieldDelegate {
         textField.returnKeyType = .next
         return true
     }
-    
-    
+
     @objc func addFloatingLabel(){
         if self.text == "" {
             self.floatingLabel.textColor = UIColor.black

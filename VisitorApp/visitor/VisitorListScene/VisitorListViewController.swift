@@ -18,6 +18,9 @@ struct VisitorDataViewControllerConstants{
     static let emailString = "email"
     static let defaultImage = "profile"
     static let visitorCell = "VisitorTableViewCell"
+    static let timeLimit = 8
+    static let fontFamily = "Roboto-Regular"
+    static let fontSize : CGFloat = 17
 }
 
 class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
@@ -27,10 +30,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     @IBOutlet var filterbutton: UIButton!
     
     var viewObj = [Visit]()
-    //var visits: Visit?
     var listInteractor : VisitorListBusinessLogic?
     var visitorDataRouter : visitorListRoutingLogic?
-   // var searchedData: [Visit]?
     var searchedData = [Visit]()
     var currentDate = Date()
 
@@ -67,11 +68,15 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     override func viewDidLoad(){
         super.viewDidLoad()
         fetchVisitorList()
+        setUpUI()
+
+    }
+    
+    func setUpUI(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: VisitorDataViewControllerConstants.navRightBarTitle, style: .plain, target: self, action: #selector(viewGraph))
         tableview.keyboardDismissMode = .onDrag
         hideKeyboardTappedAround()
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        //self.tableview.backgroundColor = UIColor(patternImage: UIImage(named: "backImage")!)
         self.tableview.backgroundColor = .clear
         self.searchBar.barTintColor = #colorLiteral(red: 0.9519745291, green: 0.953713613, blue: 0.9518942637, alpha: 1)
         searchBar.barStyle = .default
@@ -81,34 +86,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.layer.cornerRadius = 5
         searchBar.searchTextField.layer.borderColor = UIColor.clear.cgColor
         searchBar.searchTextField.layer.borderWidth = 2
-        searchBar.searchTextField.font = UIFont(name: "Roboto", size: 17)
+        searchBar.searchTextField.font = UIFont(name: VisitorDataViewControllerConstants.fontFamily, size: VisitorDataViewControllerConstants.fontSize)
         searchBar.searchTextField.textColor = UIColor.black
-        searchBar.searchTextField.placeholder = " Search here"
-    
+        searchBar.searchTextField.placeholder = "Search here"
         self.tableview.tableFooterView = UIView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool){
-        super.viewWillAppear(animated)
-       // fetchVisitorList()
-       // self.tableview.reloadData()
-    }
-    
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let newheight = 60
+        tableview.separatorStyle = .none
         
-        for subView in searchBar.subviews{
-            for subsubViews in subView.subviews{
-                if let textField = subsubViews as? UITextView{
-                    var currentTextFieldBounds = textField.bounds
-                    currentTextFieldBounds.size.height = CGFloat(newheight)
-                    textField.bounds = currentTextFieldBounds
-                }
-            }
-        }
     }
+    
     
     func hideKeyboardTappedAround(){
         let tap : UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyboard))
@@ -120,17 +105,21 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         view.endEditing(true)
     }
     
+    //MARK: - Fetch Request
     func fetchVisitorList(){
         let request = VisitorList.fetchVisitorList.Request()
         listInteractor?.fetchVisitorData(request: request)
     }
-
+    
+   //MARK: - Fetch Response
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
         print(viewModel)
         viewObj = viewModel.visit!
         searchedData = viewObj
     }
+    
    //MARK: - Delete Record from table
+    
     func deleteConfirm(indexpath: IndexPath){
         let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
         
@@ -155,8 +144,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
     
     @IBAction func onFilterButton(_ sender: Any) {
-        print("on Click")
-        
+       
        let popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopOverViewController") as! PopOverViewController
         // set the presentation style
         popController.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -177,7 +165,9 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         print("click by Purpose")
     }
     
-    func getDateDiff(start: Date, end: Date) -> Int  {
+    //MARK: - Date Difference For dipslay VisitorCard
+    
+    func getDateDifference(start: Date, end: Date) -> Int  {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([Calendar.Component.second], from: start, to: end)
 
@@ -186,6 +176,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
 }
 //MARK: - Tableview DataSource methods
+
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        // return viewObj.count
@@ -197,54 +188,49 @@ extension VisitorListViewController : UITableViewDataSource{
         cell.selectionStyle = .none
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.cellConfigure()
         
         let data = searchedData[indexPath.row]
         print(data as Any)
         let formatter = DateFormatter()
-        //formatter.dateFormat = VisitorViewControllerConstants.dateFormat
-        //guard let compareDate = data.date else { return  }
         formatter.dateFormat = "dd/MM/yyyy   hh:mm a"
         let compareDate = data.date
         let compareDbDate = formatter.string(from: compareDate!)
         let compareDateDbDate = formatter.date(from: compareDbDate)
-        let timedata = getDateDiff(start: compareDateDbDate!, end: currentDate)
+        let timedata = getDateDifference(start: compareDateDbDate!, end: currentDate)
         print(timedata)
-        if timedata <= 8 {
+        //Comment: 8 hrs time limit
+        if timedata <= VisitorDataViewControllerConstants.timeLimit {
             print("green")
             cell.subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
             cell.date.text = compareDbDate
-            //cell.emailID.text = data.visitors?.value(forKey: "email") as? String
-            //cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
-            //cell.companyName.text = data.companyName
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            //cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
+            
             if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                       cell.profileImage.image = UIImage(data: data)
+                                      cell.profileImage.image = UIImage(data: data)
             }else {
                 cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
             }
+
         } else {
             print("Red")
             cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
             cell.date.text = compareDbDate
-            //cell.emailID.text = data.visitors?.value(forKey: "email") as? String
-            //cell.address.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.addressString) as? String
-            //cell.companyName.text = data.companyName
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            //cell.phoneNo.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.phoneString) as? String
+            
             if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                       cell.profileImage.image = UIImage(data: data)
+                cell.profileImage.image = UIImage(data: data)
             }else {
                 cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
             }
         }
-       
         return cell
     }
 }
 //MARK: - Tableview Delegate Methods
+
 extension VisitorListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath){
         if editingStyle == .delete{
@@ -254,7 +240,6 @@ extension VisitorListViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
         return UITableView.automaticDimension
-        //return 100
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -272,38 +257,43 @@ extension VisitorListViewController: UITableViewDelegate{
         visitorDataRouter?.routeToBarChart(fetcheddata: dataArray, selectedData: item)
     }
 }
+
 //MARK: - SearchBar Delegate Methods
+
 extension VisitorListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
         searchedData = searchText.isEmpty ? viewObj : viewObj.filter{
             (item : Visit) -> Bool in
-            let name = item.visitors?.value(forKey: "name") as? String
+            let name = item.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         }
-        tableview.reloadData()
+        
+        DispatchQueue.main.async {
+            self.tableview.reloadData()
+        }
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchedData = viewObj
         searchBar.endEditing(true)
-        tableview.reloadData()
+        DispatchQueue.main.async {
+            self.tableview.reloadData()
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-    
-    func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
-        print("click")
-    }
+
 }
+
+//MARK: - Popover delegate Method
 
 extension VisitorListViewController: UIPopoverPresentationControllerDelegate{
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
- 
 }

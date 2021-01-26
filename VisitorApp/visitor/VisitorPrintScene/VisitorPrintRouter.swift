@@ -6,8 +6,6 @@ class VisitorPrintRouter {
     
     static func visitorPrintmodule(visitorPhoneNo: String) -> VisitorPrintViewController {
         let printVC = VisitorPrintRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorPrintViewController") as! VisitorPrintViewController
-       // printVC.printData = visitData
-        //printVC.selectedEmail = visitorEmail
         printVC.selectedPhoneNo = visitorPhoneNo
         return printVC
     }

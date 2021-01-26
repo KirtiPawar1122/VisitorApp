@@ -7,20 +7,20 @@ class VisitorFormInteractorTests: XCTestCase
   // MARK: Subject under test
   
   var sut: VisitorInteractor!
-  var email: String?
+  var phoneNo: String?
   // MARK: Test lifecycle
   
   override func setUp()
   {
     super.setUp()
     setupVisitorFormInteractor()
-    email = "k@gmail.com"
+    phoneNo = "8411912075"
   }
   
   override func tearDown()
   {
     super.tearDown()
-    email = nil
+    phoneNo = nil
   }
   
   // MARK: Test setup
@@ -50,14 +50,13 @@ class VisitorFormInteractorTests: XCTestCase
     // Given
     let spy = VisitorFormPresentationLogicSpy()
     sut.presenter = spy
-    let requestData = VisitorForm.fetchVisitorRecord.Request(email: email)
+    let requestData = VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo)
     
     // When
     sut.fetchRequest(request: requestData)
     
     // Then
     XCTAssertNotNil(spy.presentFetchRecordCalled, "Present Fetch Record is called")
-    
   }
     
 }

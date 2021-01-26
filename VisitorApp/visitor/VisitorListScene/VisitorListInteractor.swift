@@ -31,5 +31,4 @@ class VisitorListInteractor: VisitorListBusinessLogic {
             print(error.description)
         }
     }
-      
 }

@@ -12,6 +12,9 @@ struct ChartViewControllerConstants{
     static let guestVisitTitle = "Guest Visit"
     static let interviewTitle = "Interview"
     static let othersTitle = "Other"
+    static let font = "Roboto-Regular"
+    static let boldFont = "Roboto-Bold"
+    static let fontSize: CGFloat = 17
 }
 
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
@@ -21,16 +24,14 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     var visits = [Visit]()
     var visitData = [Visit]()
-    let purpose = ["Meeting", "Guest Visit", "Interview", "Others"]
+    let purpose = ["Meeting", "Guest Visit", "Interview", "Other"]
     var meetings = 0
     var guestvisits = 0
     var interviews = 0
     var others = 0
     var chartRouter: VisitorChartRouter = VisitorChartRouter()
-   // var chartInteractor : VisitorChartInteractor = VisitorChartInteractor()
     var chartDataInteractor: VisitorChartDataStore?
     var chartInteractor : VisitorChartBusinessLogic?
-   // var chartRouter: VisitorChartDataPassing?
     
     //MARK: Object lifecycle
    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
@@ -64,32 +65,34 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
         getChartData()
         displayDataOnChart()
-        print(visits.count)
-        self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        chartView.legend.enabled = true
-        chartView.legend.textColor = UIColor.black
-        chartView.legend.orientation = .horizontal
-        chartView.legend.font = UIFont.systemFont(ofSize: 18)
-        chartView.legend.horizontalAlignment = .center
-    
-        chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        //chartView.centerText = String(visits.count)
-        let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:20) as Any])
-        let centerText2 = NSMutableAttributedString(string: "\n    \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: "Roboto",size:40) as Any])
-        
-        centerTextStrings.append(centerText1)
-        centerTextStrings.append(centerText2)
-        chartView.centerAttributedText = centerTextStrings
-        //chartView.centerText = String(visits.count)
-        chartView.notifyDataSetChanged()
+        setupUI()
+    }
+
+    func setupUI(){
         tableview.delegate = self
         tableview.dataSource = self
         tableview.backgroundColor = .clear
         tableview.layer.borderColor = UIColor.white.cgColor
         tableview.layer.borderWidth = 2
+        
+        self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        chartView.legend.enabled = true
+        chartView.legend.textColor = UIColor.black
+        chartView.legend.orientation = .horizontal
+        chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize)!
+        chartView.legend.horizontalAlignment = .center
+        
+        chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let centerTextStrings = NSMutableAttributedString()
+        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:20) as Any])
+        let centerText2 = NSMutableAttributedString(string: "\n    \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:40) as Any])
+            
+        centerTextStrings.append(centerText1)
+        centerTextStrings.append(centerText2)
+        chartView.centerAttributedText = centerTextStrings
+        chartView.notifyDataSetChanged()
+        
     }
-    
     func getChartData(){
         let request = VisitorChart.VisitorChartData.Request()
         chartInteractor?.visitorsChartData(request: request)
@@ -136,21 +139,19 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
-      //var dataEntries: [ChartDataEntry] = []
       var dataEntries: [PieChartDataEntry] = []
       for i in 0..<dataPoints.count {
         let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data: dataPoints[i] as AnyObject)
             if (dataEntry.y != 0) {
                dataEntries.append(dataEntry)
             }
-            //dataEntries.append(dataEntry)
       }
       // 2. Set ChartDataSet
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
         
       pieChartDataSet.entryLabelColor  = UIColor.white
-      pieChartDataSet.entryLabelFont = UIFont(name: "Roboto", size: 17)
-      if let font = UIFont(name: "Roboto", size: 17) {
+        pieChartDataSet.entryLabelFont = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize)
+        if let font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize) {
             pieChartDataSet.valueFont = font
       } else {
             print("error in to set font")
@@ -158,18 +159,16 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         
       var colors: [UIColor] = []
       for item in dataEntries {
-            if item.label == "Meeting"{
+        if item.label == ChartViewControllerConstants.meetingTitle{
                  colors.append(#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1))
-            } else if item.label == "Guest Visit" {
+        } else if item.label == ChartViewControllerConstants.guestVisitTitle{
                 colors.append(#colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1))
-                
-            } else if item.label == "Interview" {
+        } else if item.label == ChartViewControllerConstants.interviewTitle{
                 colors.append(#colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1))
-            } else if item.label == "Others" {
+        } else if item.label == ChartViewControllerConstants.othersTitle{
                 colors.append(#colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1))
-                
         }
-        }
+      }
      pieChartDataSet.colors = colors
 
       // 3. Set ChartData
@@ -184,7 +183,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       pieChartData.setValueFormatter(formatter)
       pieChartData.setValueTextColor(.white)
       //4. Assign it to the chart’s data
-      
       chartView.data = pieChartData
     }
 }
@@ -206,29 +204,29 @@ extension VisitorChartViewController: UITableViewDataSource{
         cell.selectionStyle = .none
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
-        cell.sectionTitleLabel.font = UIFont(name: "Roboto-Bold", size: 17)
-        cell.dataCountLabel.font = UIFont(name: "Roboto-Bold", size: 17)
+        cell.sectionTitleLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.fontSize)
+        cell.dataCountLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.fontSize)
         cell.sectionTitleLabel.textColor = UIColor.white
         cell.dataCountLabel.textColor = UIColor.white
         cell.sectionTitleLabel.text = data
     
         if indexPath.row == 0 {
-            if data == "Meeting" {
+            if data == ChartViewControllerConstants.meetingTitle {
             cell.dataCountLabel.text = String(meetings)
             cell.backgroundColor = #colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1)
             }
         } else if indexPath.row == 1{
-            if data == "Guest Visit"{
+            if data == ChartViewControllerConstants.guestVisitTitle{
                 cell.dataCountLabel.text = String(guestvisits)
                 cell.backgroundColor = #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1)
             }
         } else if indexPath.row == 2{
-            if data == "Interview"{
+            if data == ChartViewControllerConstants.interviewTitle{
                 cell.dataCountLabel.text = String(interviews)
                 cell.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1)
             }
         } else if indexPath.row == 3{
-            if data == "Others"{
+            if data == ChartViewControllerConstants.othersTitle{
                 cell.dataCountLabel.text = String(others)
                 cell.backgroundColor = #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)
             }

@@ -138,12 +138,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         purposeTextFeild.addGestureRecognizer(tapPurposeTextFeild)
         purposeTextFeild.isUserInteractionEnabled = true
         
-       /* let tapOnEmailTextFeild = UITapGestureRecognizer(target: self, action: #selector(emailAction))
-        emailTextField.addGestureRecognizer(tapOnEmailTextFeild)
-        emailTextField.isUserInteractionEnabled = true */
-       // userTextField.addGestureRecognizer(tapOnNameTextFeild)
-       // userTextField.isUserInteractionEnabled = true
-              
         submitButton.layer.cornerRadius = submitButton.frame.height/2
         submitButton.layer.borderColor = UIColor.black.cgColor
         
@@ -151,36 +145,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: resetIcon, style: .plain, target: self, action: nil)
        
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.8291091919, green: 0, blue: 0.002712239977, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.innerView.backgroundColor = .clear
         self.view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         setUpShadow()
-        
-        //addBottomBorder()
-       /* let personImage = UIImage(named: VisitorViewControllerConstants.personImageName)
-              addImageOntextField(textField: userTextField, img: personImage!)
-
-       /* let addressImage = UIImage(named: VisitorViewControllerConstants.addressImageName )
-              addImageOntextField(textField: addressTextField, img: addressImage!) */
-
-        let phoneImage = UIImage(named: VisitorViewControllerConstants.phoneImageName)
-              addImageOntextField(textField: phoneTextField, img: phoneImage!)
-
-        let mailImage = UIImage(named: VisitorViewControllerConstants.emailImageName)
-              addImageOntextField(textField: emailTextField, img: mailImage!)
-              emailTextField.delegate = self as UITextFieldDelegate
-              
-        let companyImage = UIImage(named: VisitorViewControllerConstants.companyIamageName)
-              addImageOntextField(textField: companyTextField, img: companyImage!)
-
-        let visitImage = UIImage(named: VisitorViewControllerConstants.personImageName)
-              addImageOntextField(textField: visitTextField, img: visitImage!)
-
-        let purposeImage = UIImage(named: VisitorViewControllerConstants.purposeImageName )
-              addImageOntextField(textField: purposeTextFeild, img: purposeImage!) */
-              
     }
     
     func addImageOntextField(textField : CustomTextField,img : UIImage){
@@ -233,28 +202,15 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         view.endEditing(true)
     }
     
-   /* @objc func nameAction(){
-        fetchData(email: emailTextField.text!)
-        switchnextTextField(emailTextField)
-        if userTextField.text != "" {
-            userTextField.resignFirstResponder()
-        } else {
-            userTextField.becomeFirstResponder()
-        }
-    }*/
-
     func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel) {
         print(viewModel)
         guard let visitData = viewModel.visit else {
            return
         }
         visit = visitData
-        //visitPrintData = visitData
         userTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.nameString) as? String
-        //addressTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.addressString) as? String
         companyTextField.text = visit.companyName
         visitTextField.text = visit.visitorName
-        //phoneTextField.text = String(visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as! Int64)
         phoneTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
         print(visit.visitors?.value(forKey: "profileImage") as? Data as Any)
@@ -266,12 +222,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitorImage.image = profileImage
         checkmail = emailTextField.text!
         checkphoneNo = phoneTextField.text!
-        //visitorPrint()
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
         myUtterance.rate = 0.4
         synth.speak(myUtterance)
         userTextField.resignFirstResponder()
-        //dissmissKeyboard()
     }
     
     func fetchData(email : String, phoneNo : String){
@@ -285,6 +239,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBAction func submitButtonClick(_ sender: Any) {
         validate()
     }
+    
     //MARK: TextFeilds methods
     private func switchnextTextField(_ textField: UITextField){
         switch textField {
@@ -293,9 +248,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             
         case self.emailTextField:
             self.userTextField.becomeFirstResponder()
-            
-       /* case self.addressTextField:
-            self.phoneTextField.becomeFirstResponder() */
             
         case self.userTextField:
             self.companyTextField.becomeFirstResponder()
@@ -334,22 +286,17 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-       //switchnextTextField(textField)
-       //textField.resignFirstResponder()
-        
         switchnextTextField(textField)
         textField.resignFirstResponder()
         purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
-      // fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
-       return true
+        return true
     }
 
-    
     @objc func emailAction(){
-        print("tap on email action")
         fetchData(email: emailTextField.text ?? "" , phoneNo: phoneTextField.text ?? "")
         switchnextTextField(userTextField)
     }
+    
     /* Navigation bar hide button */
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
@@ -378,11 +325,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             userTextField.shake()
             return
         }
-       /* guard let address = addressTextField.text, !address.isEmpty else{
-            self.view.makeToast(VisitorViewControllerConstants.addressValidateMessage, duration: 3, position: .center)
-            addressTextField.shake()
-            return
-        } */
         guard let companyName = companyTextField.text, !companyName.isEmpty else{
             self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, duration: 3, position: .center)
             companyTextField.shake()
@@ -431,7 +373,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             alert.addAction(printAction)
             present(alert, animated: true, completion: nil)
         }
-        //resetTextFields()
     }
 
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
@@ -440,7 +381,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
 
     func resetTextFields() {
         userTextField.text = ""
-        //addressTextField.text = ""
         emailTextField.text = ""
         phoneTextField.text = ""
         companyTextField.text = ""
@@ -533,7 +473,6 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         selectedImage = orienatationFixedImage
         visitorImage.image = selectedImage
         self.dismiss(animated: true, completion: nil)
-        
     }
 
     @objc func purposeAction(){
@@ -594,15 +533,6 @@ extension CustomTextField {
            }
     }
     
-   /* func setBottomBorder(){
-           let border = CALayer()
-           let borderWidth = CGFloat(1.0)
-           border.borderColor = UIColor.black.cgColor
-           border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: 0.5)
-           border.borderWidth = borderWidth
-           self.borderStyle = .none
-           self.layer.addSublayer(border)
-    } */
 }
 
 extension UIImage {

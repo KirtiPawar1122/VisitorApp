@@ -62,12 +62,20 @@ class VisitorFormViewControllerTests: XCTestCase
     let spy = VisitorFormBusinessLogicSpy()
     sut.interactor = spy
     loadView()
-    sut.fetchData()
+    sut.fetchData(email: "k@ggmail.com", phoneNo: "8411912075")
     
     XCTAssert(spy.fetchRecordCalled,"record fetched successfully")
     
   }
-  
+    
+    
+   func testForInformationFrom(){
+    
+    
+      
+        
+   }
+    
   func testForDisplayVisitorRecord()
   {
     // Given

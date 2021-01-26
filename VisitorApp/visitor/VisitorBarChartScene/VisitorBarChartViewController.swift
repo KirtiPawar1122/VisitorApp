@@ -13,6 +13,11 @@ struct VisitorsChartViewControllerConstants {
     static let guestVisitTitle = "Guest Visit"
     static let otherTitle = "Other"
     static let font = "Roboto-Regular"
+    static let fontSize: CGFloat = 17
+    static let nameString = "name"
+    static let emailString = "email"
+    static let phoneString = "phoneNo"
+    static let profile = "profileImage"
     
 }
 
@@ -55,13 +60,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     var items : [[String]] = []
     var sectionName = String()
     var barChartRouter : VisitorBarChartRoutingLogic?
-    //var barChartInterator : VisitorBarChartInteractor = VisitorBarChartInteractor()
     var barChartInteractor : VisitorBarChartBusinessLogic?
-    //var barChartRouter: VisitorBarChartRoutingLogic?
     var currentDate = Date()
     
     
-      //MARK: Object lifecycle
+    //MARK: - Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
             setup()
@@ -72,7 +75,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
             setup()
       }
 
-      //MARK: Setup
     private func setup() {
           
         let viewController = self
@@ -88,49 +90,46 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
-        self.view.backgroundColor = #colorLiteral(red: 0.999904573, green: 1, blue: 0.9998808503, alpha: 1)
+        
         getBarChartData()
-        histogram.legend.enabled = false
-        onPrintBtn.layer.cornerRadius = onPrintBtn.frame.height/2
-        profileImage.layer.cornerRadius = profileImage.frame.height/2
-        profileImage.layer.borderWidth = 5
-        profileImage.layer.borderColor = UIColor.white.cgColor
+        setUpUI()
         
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy hh:mm a"
-        //formatter.dateStyle = .medium
         let currentSelectedDate = selectedData.date
         let stringDate = formatter.string(from: currentSelectedDate!)
-        let selectedDate = formatter.date(from: stringDate)
-        let timedata = getDateDiff(start: selectedDate!, end: currentDate)
         print(stringDate)
      
-        /*if timedata <= 8 {
-            onPrintBtn.isHidden = false
-        } else {
-            onPrintBtn.isHidden = true
-        } */
         
         purposeLabel.text = selectedData.purpose
-        nameLabel.text = selectedData.visitors?.value(forKey: "name") as? String
-        emailLabel.text = selectedData.visitors?.value(forKey: "email") as? String
+        nameLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.nameString) as? String
+        emailLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.emailString) as? String
         dateLabel.text = stringDate
-        //addressLabel.text = selectedData.visitors?.value(forKey: "address") as? String
         companyLabel.text = selectedData.companyName
         hostLabel.text = selectedData.visitorName
-        phoneLabel.text = selectedData.visitors?.value(forKey: "phoneNo") as? String
+        phoneLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as? String
         totalVisitCount.text = String(datavisit.count)
-        let image = UIImage(data: selectedData.visitors?.value(forKey: "profileImage") as! Data)
-        print(image!)
+        let image = UIImage(data: selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.profile ) as! Data)
         profileImage.image = image!
+        
+    }
+    
+    
+    func setUpUI(){
+        self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
+        self.view.backgroundColor = #colorLiteral(red: 0.999904573, green: 1, blue: 0.9998808503, alpha: 1)
+        
+        onPrintBtn.layer.cornerRadius = onPrintBtn.frame.height/2
+        profileImage.layer.cornerRadius = profileImage.frame.height/2
+        profileImage.layer.borderWidth = 1
+        profileImage.layer.borderColor = UIColor.systemGray3.cgColor
+        
         viewUI.backgroundColor = .clear
         histogram.backgroundColor = .clear
         BarChartOuterView.backgroundColor = #colorLiteral(red: 0.9811108733, green: 0.9797196062, blue: 0.9815657106, alpha: 1)
         tableview.backgroundColor = .clear
         tableview.layer.borderColor = UIColor.white.cgColor
         tableview.layer.borderWidth = 2
-        //scrollView.contentSize = CGSize(width: self.viewUI.frame.width, height: self.viewUI.frame.height + 100)
     }
     
     func getBarChartData() {
@@ -181,7 +180,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let barChartDataSet = BarChartDataSet(entries: dataEntries, label: "Visitor Data")
         barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
 
-        if let font = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17) {
+        if let font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize) {
             barChartDataSet.valueFont = font
         } else {
             print("error in to set font")
@@ -189,7 +188,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
         let barChartData = BarChartData(dataSet: barChartDataSet)
         barChartData.barWidth = 0.4
-        //barChartData.groupBars(fromX: 1, groupSpace: 0.3, barSpace: 0.05)
         barChartData.setValueTextColor(.black)
         let format = NumberFormatter()
         format.numberStyle = .none
@@ -197,6 +195,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         barChartData.setValueFormatter(formatter)
     
         histogram.layer.cornerRadius = 0.5
+        histogram.legend.enabled = false
         histogram.clipsToBounds = true
         histogram.xAxis.valueFormatter = IndexAxisValueFormatter(values: dataPoints)
         histogram.xAxis.labelTextColor = UIColor.black
@@ -205,10 +204,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         histogram.leftAxis.drawGridLinesEnabled = false
         histogram.rightAxis.drawGridLinesEnabled = false
         histogram.xAxis.labelPosition = .bottom
-        histogram.xAxis.labelFont = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17)!
+        histogram.xAxis.labelFont = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)!
         histogram.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInOutQuart)
-        histogram.leftAxis.axisMinimum = 0
-        histogram.rightAxis.axisMinimum = 0
+        histogram.leftAxis.axisMinimum = .zero
+        histogram.rightAxis.axisMinimum = .zero
         histogram.rightAxis.drawAxisLineEnabled = false
         histogram.rightAxis.drawLabelsEnabled = false
         histogram.rightAxis.labelTextColor = UIColor.black
@@ -217,15 +216,13 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     }
 
     @IBAction func printButton(_ sender: Any) {
-        print(selectedData.visitors?.value(forKey: "email") as Any)
-        //barChartRouter?.routeToPrintVisitors(data: selectedData)
+      
         let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
-        vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: "phoneNo") as! String
+        vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as! String
         vc?.printVisitData = selectedData
         navigationController?.pushViewController(vc!, animated: true)
     }
     
-     
     func getDateDiff(start: Date, end: Date) -> Int  {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([Calendar.Component.second], from: start, to: end)
@@ -259,10 +256,8 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorChartTableViewCell") as! VisitorChartTableViewCell
         let data = items[indexPath.section][indexPath.row]
-        //let dataitem =  items[indexPath.row]
-        //cell.selectionStyle = .none
-        cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17)
-        cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: 17)
+        cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
+        cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle

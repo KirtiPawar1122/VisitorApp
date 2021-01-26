@@ -39,7 +39,7 @@ class VisitorListInteractorTests: XCTestCase
     func presentVisitorListResult(response: VisitorList.fetchVisitorList.Response) {
         presentFethcedDataCalled = true
         let res = response.visit
-        visits = res
+        visits = res!
     }
   }
   
