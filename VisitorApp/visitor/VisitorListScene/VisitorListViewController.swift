@@ -36,7 +36,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var searchedData = [Visit]()
     var currentDate = Date()
 
-    
+    let imageCache = NSCache<AnyObject, AnyObject>()
+
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -151,7 +152,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         popController.modalPresentationStyle = UIModalPresentationStyle.popover
         // set up the popover presentation controller
         popController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
-        popController.popoverPresentationController?.delegate = self 
+        popController.popoverPresentationController?.delegate = self
         popController.popoverPresentationController?.sourceView = sender as? UIButton // button
         popController.popoverPresentationController?.sourceRect = (sender as AnyObject).bounds
         // present the popover
@@ -201,36 +202,36 @@ extension VisitorListViewController : UITableViewDataSource{
         let timedata = getDateDifference(start: compareDateDbDate!, end: currentDate)
         print(timedata)
         
+        cell.date.text = compareDbDate
+        cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
+        cell.visitPurpose.text = data.purpose
+        let email = data.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
+        let uniqueKey = email + "\(String(describing: compareDate))"
+        
+        if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage {
+
+                    cell.profileImage.image = imageFromCache
+        } else {
+            DispatchQueue.main.async {
+                        if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data, let imageToCache = UIImage(data: data) {
+
+                           
+                               cell.profileImage.image = imageToCache
+                           self.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
+                                  } else {
+                                      cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+                           }
+                   }
+                   
+        }
+            
         //Comment: 8 hrs time limit
         if timedata <= VisitorDataViewControllerConstants.timeLimit {
             print("green")
             cell.subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-            cell.date.text = compareDbDate
-            cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
-            cell.visitPurpose.text = data.purpose
-            DispatchQueue.main.async {
-                 if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                                                     cell.profileImage.image = UIImage(data: data)
-                           }else {
-                               cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-                    }
-            }
-
         } else {
             print("Red")
             cell.subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
-            cell.date.text = compareDbDate
-            cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
-            cell.visitPurpose.text = data.purpose
-            
-            DispatchQueue.main.async {
-                if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                    cell.profileImage.image = UIImage(data: data)
-                }else {
-                    cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-                }
-            } 
-            
         }
         return cell
     }
@@ -303,3 +304,6 @@ extension VisitorListViewController: UIPopoverPresentationControllerDelegate{
         return .none
     }
 }
+
+
+

@@ -71,7 +71,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         super.viewDidLoad()
        
         setupUI()
-        printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
+        //printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
 
     }
     
@@ -103,6 +103,20 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         } else {
             printButton.isHidden = true
         }
+        
+        if printVisitData != nil {
+           formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat
+           let displayDate = formatter.string(from: printVisitData!.date!)
+           VisitDate.text = displayDate
+           visitorName.text = printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
+           hostLabel.text = printVisitData?.visitorName
+           purposeLabel.text = printVisitData?.purpose
+           let image = UIImage(data: printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data)
+           profileImage.image = image!
+        } else {
+            printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
+        }
+    
     }
     
     func getDateDiff(start: Date, end: Date) -> Int  {
