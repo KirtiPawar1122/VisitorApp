@@ -20,6 +20,7 @@ struct VisitorDataViewControllerConstants{
     static let visitorCell = "VisitorTableViewCell"
     static let timeLimit = 8
     static let fontFamily = "Roboto-Regular"
+    static let dateFormatter = "dd/MM/yyyy   hh:mm a"
     static let fontSize : CGFloat = 17
 }
 
@@ -193,12 +194,13 @@ extension VisitorListViewController : UITableViewDataSource{
         let data = searchedData[indexPath.row]
         print(data as Any)
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy   hh:mm a"
+        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatter
         let compareDate = data.date
         let compareDbDate = formatter.string(from: compareDate!)
         let compareDateDbDate = formatter.date(from: compareDbDate)
         let timedata = getDateDifference(start: compareDateDbDate!, end: currentDate)
         print(timedata)
+        
         //Comment: 8 hrs time limit
         if timedata <= VisitorDataViewControllerConstants.timeLimit {
             print("green")
@@ -206,11 +208,12 @@ extension VisitorListViewController : UITableViewDataSource{
             cell.date.text = compareDbDate
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
-            
-            if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                                      cell.profileImage.image = UIImage(data: data)
-            }else {
-                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+            DispatchQueue.main.async {
+                 if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
+                                                     cell.profileImage.image = UIImage(data: data)
+                           }else {
+                               cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+                    }
             }
 
         } else {
@@ -220,11 +223,14 @@ extension VisitorListViewController : UITableViewDataSource{
             cell.visitorName.text = data.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
             cell.visitPurpose.text = data.purpose
             
-            if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
-                cell.profileImage.image = UIImage(data: data)
-            }else {
-                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-            }
+            DispatchQueue.main.async {
+                if let data = data.visitors?.value(forKey: VisitorDataViewControllerConstants.profileImage) as? Data {
+                    cell.profileImage.image = UIImage(data: data)
+                }else {
+                    cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+                }
+            } 
+            
         }
         return cell
     }

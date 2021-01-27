@@ -13,12 +13,11 @@ struct VisitorPrintViewControllerConstant{
       static let dateFormat1 = "dd/MM/yyyy hh:mm a"
       static let nameString = "name"
       static let profileImage = "profileImage"
-      static let xValue = -150
+      static let xValue = -100
       static let yValue = 300
       static let width = 794
       static let height = 1123
       static let timeLimit = 8
-    
 }
 
 
@@ -156,7 +155,7 @@ extension UIView {
     
     func createPDFfromView() -> String {
         // Fixed height and width to set alignment as center to print preview
-        let pdfPageFrame = CGRect(x: VisitorPrintViewControllerConstant.xValue, y: VisitorPrintViewControllerConstant.yValue, width: VisitorPrintViewControllerConstant.width, height: VisitorPrintViewControllerConstant.height)
+        let pdfPageFrame = CGRect(x: VisitorPrintViewControllerConstant.xValue, y: VisitorPrintViewControllerConstant.height/5, width: VisitorPrintViewControllerConstant.width, height: VisitorPrintViewControllerConstant.height)
         let pdfData = NSMutableData()
         
         UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
