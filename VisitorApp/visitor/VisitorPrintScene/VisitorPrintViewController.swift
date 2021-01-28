@@ -20,8 +20,6 @@ struct VisitorPrintViewControllerConstant{
       static let timeLimit = 8
 }
 
-
-
 class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
    
     
@@ -71,8 +69,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         super.viewDidLoad()
        
         setupUI()
-        //printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
-
+        
     }
     
     func setupUI(){
@@ -153,7 +150,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         }
         present(ac, animated: true, completion: nil)
     }
-   
 }
 
 extension UIView {

@@ -21,7 +21,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
    
     @IBOutlet weak var chartView: PieChartView!
     @IBOutlet var tableview: UITableView!
-    
+    @IBOutlet var exportButton: UIButton!
     var visits = [Visit]()
     var visitData = [Visit]()
     let purpose = ["Meeting", "Guest Visit", "Interview", "Other"]
@@ -32,6 +32,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     var chartRouter: VisitorChartRouter = VisitorChartRouter()
     var chartDataInteractor: VisitorChartDataStore?
     var chartInteractor : VisitorChartBusinessLogic?
+    var appdelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     //MARK: Object lifecycle
    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
@@ -63,6 +65,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
+       // let button = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportData))
+       // self.navigationItem.rightBarButtonItem = button
         getChartData()
         displayDataOnChart()
         setupUI()
@@ -93,6 +97,36 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.notifyDataSetChanged()
         
     }
+    
+    
+    @IBAction func exportData(_ sender: Any) {
+        print("in export data")
+        let storedUrl = appdelegate.persistentContainer.persistentStoreDescriptions.first?.url
+        let fileName = storedUrl!.lastPathComponent
+        print(fileName)
+        
+        let items = [fileName]
+        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            ac.popoverPresentationController?.sourceView = self.exportButton
+        }
+        present(ac, animated: true, completion: nil)
+    }
+    
+  /*  @objc func exportData(){
+        print("in export data")
+        let storedUrl = appdelegate.persistentContainer.persistentStoreDescriptions.first?.url
+        let fileName = storedUrl!.lastPathComponent
+        print(fileName)
+        
+        let items = [storedUrl]
+        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            ac.popoverPresentationController?.sourceView = exportButton
+        }
+        present(ac, animated: true, completion: nil)
+    } */
+    
     func getChartData(){
         let request = VisitorChart.VisitorChartData.Request()
         chartInteractor?.visitorsChartData(request: request)
