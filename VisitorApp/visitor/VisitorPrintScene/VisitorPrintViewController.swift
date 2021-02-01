@@ -7,7 +7,7 @@ protocol VisitorPrintDisplayLogic{
 
 struct VisitorPrintViewControllerConstant{
     
-      static let selectedImageName = "camera-1"
+      static let selectedImageName = "no-image"
       static let navBarTitle = "Visitor Pass Preview"
       static let dateFormat = "MMM d, yyyy"
       static let dateFormat1 = "dd/MM/yyyy hh:mm a"
@@ -69,7 +69,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         super.viewDidLoad()
        
         setupUI()
-        
     }
     
     func setupUI(){
@@ -111,9 +110,14 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
            let image = UIImage(data: printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data)
            profileImage.image = image!
         } else {
-            printInteractor?.fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo))
+            getPrintData()
         }
     
+    }
+    
+    func getPrintData(){
+        let request = VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo)
+        printInteractor?.fetchVisitorPrintData(request: request)
     }
     
     func getDateDiff(start: Date, end: Date) -> Int  {

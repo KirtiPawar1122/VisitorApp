@@ -66,7 +66,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var innerView: UIView!
     @IBOutlet var resetLabel: UIButton!
-    
+    @IBOutlet var takePictureButtonLabel: UIButton!
     var visitor : [Visitor] = []
     var visit = Visit()
     var visitPrintData = Visit()
@@ -145,7 +145,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: resetIcon, style: .plain, target: self, action: nil)
        
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.8291091919, green: 0, blue: 0.002712239977, alpha: 1)
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.889849101, green: 0, blue: 0.1077023318, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.innerView.backgroundColor = .clear
         self.view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -170,10 +170,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         containerView.layer.shadowOffset = CGSize.zero
         containerView.layer.shadowRadius = 7
         containerView.layer.cornerRadius = containerView.frame.height/2
-        
         containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: containerView.frame.height/2).cgPath
         visitorImage.clipsToBounds = true
         visitorImage.layer.cornerRadius = visitorImage.frame.height/2
+    }
+
+    @IBAction func takePictureButton(_ sender: Any) {
+        imageAction()
     }
     
     //MARK: Keyboards related methods
@@ -217,9 +220,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         guard let profileData = visit.visitors?.value(forKey: "profileImage") else{
             return
         }
-        let profileImage = UIImage(data: profileData as! Data)
-        selectedImage = profileImage
-        visitorImage.image = profileImage
+        
+        let fethcedprofileImage = UIImage(data: profileData as! Data)
+        selectedImage = fethcedprofileImage
+        visitorImage.image = fethcedprofileImage
         checkmail = emailTextField.text!
         checkphoneNo = phoneTextField.text!
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
@@ -340,9 +344,14 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             visitTextField.shake()
             return
         }
+        
+        if visitorImage.image == UIImage(named: "camera-1"){
+           selectedImage = UIImage(named: "person-1")
+        }
+        print(visitorImage.image as Any)
         guard let profileImg = selectedImage?.pngData() else {
             self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
-            return
+            return 
         }
 
         let now = Date()

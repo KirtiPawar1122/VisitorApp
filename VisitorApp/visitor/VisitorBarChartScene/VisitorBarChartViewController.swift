@@ -235,7 +235,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
 extension VisitorBarChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
-        //return 100
     }
 }
 

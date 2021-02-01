@@ -8,6 +8,7 @@ class VisitorFormViewControllerTests: XCTestCase
   
   var sut: VisitorViewController!
   var window: UIWindow!
+  var visitModel = Visit()
   
   // MARK: Test lifecycle
   
@@ -16,6 +17,7 @@ class VisitorFormViewControllerTests: XCTestCase
     super.setUp()
     window = UIWindow()
     setupVisitorFormViewController()
+    
   }
   
   override func tearDown()
@@ -31,6 +33,8 @@ class VisitorFormViewControllerTests: XCTestCase
     let bundle = Bundle.main
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     sut = storyboard.instantiateViewController(withIdentifier: "VisitorViewController") as? VisitorViewController
+    
+    sut.loadViewIfNeeded()
   }
   
   func loadView()
@@ -49,8 +53,9 @@ class VisitorFormViewControllerTests: XCTestCase
         fetchRecordCalled = true
     }
     
+    var saveVisitorRecordCalled = false
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
-        fetchRecordCalled = true
+        saveVisitorRecordCalled = true
         print(request)
     }
   }
@@ -68,26 +73,68 @@ class VisitorFormViewControllerTests: XCTestCase
     
   }
     
+  func testEmailIdTextfield_properties() throws {
+        let emailTextfield = try XCTUnwrap(sut.emailTextField, "Email address textfeild is not connected")
+        XCTAssertEqual(emailTextfield.keyboardType, UIKeyboardType.emailAddress, "email address key pad is not set")
+        XCTAssertEqual(emailTextfield.textContentType, UITextContentType.emailAddress, "Email address content type is not set")
+  }
     
-   func testForInformationFrom(){
+  func testPhoneTextFeild_KeyoardType() throws {
+        let phoneTextfeild = try XCTUnwrap(sut.phoneTextField, "phone textfield is not connected")
+        XCTAssertEqual(phoneTextfeild.keyboardType, UIKeyboardType.numberPad, "number keypad is not set" )
+  }
+   
+  func testValidateData(){
     
-    
-      
+       let phoneNo = "8411912075"
+       let email = "k@gmail.com"
+       let name = "Kirti"
+       let companyName = "Wurth IT pvt ltd"
+       let purpose = "Meeting"
+       let visitingPerson = "HR"
         
-   }
+    
+       let valdiateEmail = email.isValidEmail(mail: email)
+       XCTAssertTrue(valdiateEmail, "Error in validate email")
+       //XCTAssert(valdiateEmail, "validate Email")
+    
+       let validatePhone = phoneNo.isphoneValidate(phone: phoneNo)
+       XCTAssertTrue(validatePhone, "Error in validat phone number")
+    
+       let validateName = !name.isEmpty
+       XCTAssertTrue(validateName, "Error in validate name" )
+       
+       let validateCompany = !companyName.isEmpty
+       XCTAssertTrue(validateCompany,"Error in validate company Name")
+       
+       let validatepurpose = !purpose.isEmpty
+       XCTAssertTrue(validatepurpose,"Error in validate purpose")
+      
+       let validateVisitingPerson = !visitingPerson.isEmpty
+       XCTAssertTrue(validateVisitingPerson, "Error in validate visiting person name")
+    
+    
+      let spy = VisitorFormBusinessLogicSpy()
+      sut.interactor = spy
+    
+      loadView()
+      sut.saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, email: email, phoneNo: phoneNo, visitPurpose: purpose, visitingName: visitingPerson, companyName: companyName, profileImage: Data(), currentDate: Date()))
+    
+      XCTAssert(spy.saveVisitorRecordCalled, "record Saved Successfully")
+
+    }
     
   func testForDisplayVisitorRecord()
   {
     // Given
-    
-   // let viewModel = VisitorForm.fetchVisitorRecord.ViewModel(visit: v)
+    // let viewModel = VisitorForm.fetchVisitorRecord.ViewModel(visit: visitModel)
     // When
-   // loadView()
-  //  sut.displayVisitorData(viewModel: viewModel)
-  //  print(viewModel)
+    // loadView()
+    // sut.displayVisitorData(viewModel: viewModel)
+    // print(viewModel)
     
-   // Then
-   // XCTAssert(true)
-    //XCTAssertEqual(sut.emailTextField.text, "k@gmail.com", "display email in emailtextfeild")
+    // Then
+    // XCTAssert(true)
+    // XCTAssertEqual(sut.emailTextField.text, "k@gmail.com", "display email in emailtextfeild")
   }
 }

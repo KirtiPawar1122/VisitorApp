@@ -4,12 +4,12 @@ import XCTest
 
 class VisitorBarChartViewControllerTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: VisitorBarChartViewController!
   var window: UIWindow!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -24,7 +24,7 @@ class VisitorBarChartViewControllerTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupVisitorBarChartViewController()
   {
@@ -39,7 +39,7 @@ class VisitorBarChartViewControllerTests: XCTestCase
     RunLoop.current.run(until: Date())
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class VisitorBarChartBusinessLogicSpy: VisitorBarChartBusinessLogic
   {
@@ -52,7 +52,7 @@ class VisitorBarChartViewControllerTests: XCTestCase
        
   }
   
-  // MARK: Tests
+  // MARK: - Tests cases
   func testShouldGetVistorDataWhenViewIsLoaded()
   {
     // Given
