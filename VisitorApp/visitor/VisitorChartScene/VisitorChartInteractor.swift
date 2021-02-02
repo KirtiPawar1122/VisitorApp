@@ -38,7 +38,5 @@ class VisitorChartInteractor : VisitorChartBusinessLogic, VisitorChartDataStore 
             } catch let error as NSError {
                    print(error.description)
         }
-        
-    
     }
 }

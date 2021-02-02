@@ -74,11 +74,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var visitPrintData = Visit()
     var arr = [Any]()
     var tapCount = 0
-    //var containerView = UIView()
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
-   // var interactor : VisitorInteractor = VisitorInteractor()
     var interactor : VisitorFormBusinessLogic?
     var router : VisitorRoutingLogic?
     let imagePicker = UIImagePickerController()
@@ -218,8 +216,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitTextField.text = visit.visitorName
         phoneTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
-        print(visit.visitors?.value(forKey: "profileImage") as? Data as Any)
-        guard let profileData = visit.visitors?.value(forKey: "profileImage") else{
+        print(visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data as Any)
+        guard let profileData = visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) else{
             return
         }
         

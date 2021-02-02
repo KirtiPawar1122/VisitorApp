@@ -82,17 +82,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.legend.orientation = .horizontal
         chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize)!
         chartView.legend.horizontalAlignment = .center
-        
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-       /* let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:20) as Any])
-        let centerText2 = NSMutableAttributedString(string: "\n    \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:40) as Any])
-            
-        centerTextStrings.append(centerText1)
-        centerTextStrings.append(centerText2)
-        chartView.centerAttributedText = centerTextStrings
-        chartView.notifyDataSetChanged() */
-        
+
     }
     
     
@@ -126,7 +117,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     func getChartData(){
         let request = VisitorChart.VisitorChartData.Request()
-       // chartInteractor?.visitorsChartData(request: request)
         chartInteractor?.fetchAllData(request: request)
     }
     

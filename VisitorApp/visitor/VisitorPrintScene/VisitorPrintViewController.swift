@@ -143,7 +143,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         //convert view to image and store it - alert display
         print(visitorCardView as Any)
         print("visitorCardView size - \(visitorCardView.frame)")
-        //cardImage = visitorCardView.takeSnapShot()
+        
         let pdfFilePath = visitorCardView.createPDFfromView()
         let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
         let items = [ pdfURL as Any]

@@ -600,7 +600,7 @@
                                             <constraint firstAttribute="height" constant="60" id="aR9-8K-lja"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no-image" translatesAutoresizingMaskIntoConstraints="NO" id="PNB-XP-7Th">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-1" translatesAutoresizingMaskIntoConstraints="NO" id="PNB-XP-7Th">
                                         <rect key="frame" x="120" y="120" width="180" height="230"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="230" id="nLF-4Y-fzz"/>
@@ -1005,7 +1005,6 @@
     <resources>
         <image name="camera-1" width="640" height="640"/>
         <image name="logo-1" width="206" height="51"/>
-        <image name="no-image" width="300" height="200"/>
         <image name="person-1" width="1000" height="1002"/>
         <image name="visitor01" width="768" height="233"/>
     </resources>

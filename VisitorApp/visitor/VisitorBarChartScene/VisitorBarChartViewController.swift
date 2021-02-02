@@ -18,6 +18,9 @@ struct VisitorsChartViewControllerConstants {
     static let emailString = "email"
     static let phoneString = "phoneNo"
     static let profile = "profileImage"
+    static let dateFormat = "dd/MM/yyyy hh:mm a"
+    static let dateFormat2 = "dd/MM/yyyy   hh:mm a"
+    static let visitorDataLabel = "Visitor Data"
     
 }
 
@@ -95,12 +98,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         setUpUI()
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy hh:mm a"
+        formatter.dateFormat = VisitorsChartViewControllerConstants.dateFormat
         let currentSelectedDate = selectedData.date
         let stringDate = formatter.string(from: currentSelectedDate!)
         print(stringDate)
      
-        
         purposeLabel.text = selectedData.purpose
         nameLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.nameString) as? String
         emailLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.emailString) as? String
@@ -141,7 +143,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         chartData = viewModel.visitData
         print(datavisit)
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy   hh:mm a"
+        formatter.dateFormat = VisitorsChartViewControllerConstants.dateFormat2
         for item in datavisit {
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
@@ -177,7 +179,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
             dataEntries.append(dataEntry)
         }
     
-        let barChartDataSet = BarChartDataSet(entries: dataEntries, label: "Visitor Data")
+        let barChartDataSet = BarChartDataSet(entries: dataEntries, label: VisitorsChartViewControllerConstants.visitorDataLabel)
         barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
 
         if let font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize) {
