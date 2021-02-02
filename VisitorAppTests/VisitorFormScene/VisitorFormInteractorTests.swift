@@ -4,11 +4,13 @@ import XCTest
 
 class VisitorFormInteractorTests: XCTestCase
 {
-  // MARK: Subject under test
+    
+  // MARK: - Subject under test
   
   var sut: VisitorInteractor!
   var phoneNo: String?
-  // MARK: Test lifecycle
+    
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -23,7 +25,7 @@ class VisitorFormInteractorTests: XCTestCase
     phoneNo = nil
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupVisitorFormInteractor()
   {
@@ -31,11 +33,10 @@ class VisitorFormInteractorTests: XCTestCase
     
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class VisitorFormPresentationLogicSpy:  VisitorFormPrsentationLogic
   {
-   
     //var visits = [Visit]()
     var presentFetchRecordCalled = false
     func presentFetchResults(response: VisitorForm.fetchVisitorRecord.Response) {
@@ -43,7 +44,7 @@ class VisitorFormInteractorTests: XCTestCase
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests Cases
   
   func testFetchRecord()
   {
@@ -58,5 +59,4 @@ class VisitorFormInteractorTests: XCTestCase
     // Then
     XCTAssertNotNil(spy.presentFetchRecordCalled, "Present Fetch Record is called")
   }
-    
 }

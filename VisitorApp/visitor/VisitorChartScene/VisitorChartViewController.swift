@@ -51,7 +51,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         let viewController = self
         let interactor = VisitorChartInteractor()
         let presenter = VisitorChartPresenter()
-        //let router = VisitorChartRouter()
         
         viewController.chartRouter = chartRouter
         viewController.chartInteractor = interactor
@@ -65,8 +64,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
-       // let button = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(exportData))
-       // self.navigationItem.rightBarButtonItem = button
         getChartData()
         displayDataOnChart()
         setupUI()
@@ -87,14 +84,14 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.legend.horizontalAlignment = .center
         
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        let centerTextStrings = NSMutableAttributedString()
+       /* let centerTextStrings = NSMutableAttributedString()
         let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:20) as Any])
         let centerText2 = NSMutableAttributedString(string: "\n    \(visits.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:40) as Any])
             
         centerTextStrings.append(centerText1)
         centerTextStrings.append(centerText2)
         chartView.centerAttributedText = centerTextStrings
-        chartView.notifyDataSetChanged()
+        chartView.notifyDataSetChanged() */
         
     }
     
@@ -129,11 +126,22 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     func getChartData(){
         let request = VisitorChart.VisitorChartData.Request()
-        chartInteractor?.visitorsChartData(request: request)
+       // chartInteractor?.visitorsChartData(request: request)
+        chartInteractor?.fetchAllData(request: request)
     }
     
     func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel) {
         visitData = viewModel.visitData
+        print(visitData)
+        let centerTextStrings = NSMutableAttributedString()
+        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:20) as Any])
+        let centerText2 = NSMutableAttributedString(string: "\n    \(visitData.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:40) as Any])
+                  
+        centerTextStrings.append(centerText1)
+        centerTextStrings.append(centerText2)
+        chartView.centerAttributedText = centerTextStrings
+        chartView.notifyDataSetChanged()
+        
     }
        
     func displayDataOnChart(){
@@ -216,6 +224,9 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       let formatter = DefaultValueFormatter(formatter: format)
       pieChartData.setValueFormatter(formatter)
       pieChartData.setValueTextColor(.white)
+        
+      
+        
       //4. Assign it to the chart’s data
       chartView.data = pieChartData
     }

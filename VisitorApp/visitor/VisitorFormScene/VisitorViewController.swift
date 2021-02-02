@@ -10,6 +10,7 @@ protocol VisitorFormDisplayLogic{
 
 struct VisitorViewControllerConstants {
     static let selectedImageName = "camera-1"
+    static let defaultImageName = "person-1"
     static let personImageName = "user"
     static let addressImageName = "address-100"
     static let phoneImageName = "phone-100"
@@ -34,6 +35,7 @@ struct VisitorViewControllerConstants {
     static let warningTitle = "Warning"
     static let warningImageMsg = "You don't have camera"
     static let alertOkActionMsg = "Ok"
+    static let alertPrintActionTitle = "Print"
     static let alertCancelMsg = "Cancel"
     static let imageClickMsg = "Take Photo"
     static let imageChooseMsg = "Choose Photo "
@@ -314,39 +316,39 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         
     func validate(){
         
-        guard let phoneNo = phoneTextField.text, !phoneNo.isEmpty, phoneNo.isphoneValidate(phone: phoneNo) else{
+        guard let phoneNo = phoneTextField.text, !phoneNo.isBlank, phoneNo.isphoneValidate(phone: phoneNo) else{
             self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
             phoneTextField.shake()
             return
         }
-        guard let email = emailTextField.text, !email.isEmpty, email.isValidEmail(mail: email) else {
+        guard let email = emailTextField.text, !email.isBlank, email.isValidEmail(mail: email) else {
             self.view.makeToast(VisitorViewControllerConstants.emailValidateMessage, duration: 3, position: .center)
             emailTextField.shake()
             return
         }
-        guard let name = userTextField.text, !name.isEmpty else{
+        guard let name = userTextField.text, !name.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.userValidateMessage, duration: 3, position: .center)
             userTextField.shake()
             return
         }
-        guard let companyName = companyTextField.text, !companyName.isEmpty else{
+        guard let companyName = companyTextField.text, !companyName.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, duration: 3, position: .center)
             companyTextField.shake()
             return
         }
-        guard let visitPurpose = purposeTextFeild.text, !visitPurpose.isEmpty else{
+        guard let visitPurpose = purposeTextFeild.text, !visitPurpose.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.purposeValidateMessage, duration: 3, position: .center)
             purposeTextFeild.shake()
             return
         }
-        guard let visitorName = visitTextField.text, !visitorName.isEmpty else{
+        guard let visitorName = visitTextField.text, !visitorName.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.visitingValidateMessage, duration: 3, position: .center)
             visitTextField.shake()
             return
         }
         
-        if visitorImage.image == UIImage(named: "camera-1"){
-           selectedImage = UIImage(named: "person-1")
+        if visitorImage.image == UIImage(named: VisitorViewControllerConstants.selectedImageName){
+            selectedImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
         }
         print(visitorImage.image as Any)
         guard let profileImg = selectedImage?.pngData() else {
@@ -374,7 +376,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             let alertAtion = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: { _ in
                 self.resetTextFields()
             })
-            let printAction = UIAlertAction(title: "Print", style: .default, handler: { _ in
+            let printAction = UIAlertAction(title: VisitorViewControllerConstants.alertPrintActionTitle, style: .default, handler: { _ in
                 self.visitorPrint(phoneNo: phoneNo)
                 self.resetTextFields()
             })
@@ -408,7 +410,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let alertAction = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: { _ in
             self.resetTextFields()
         })
-        let printAction = UIAlertAction(title: "Print", style: .default, handler: {
+        let printAction = UIAlertAction(title: VisitorViewControllerConstants.alertPrintActionTitle, style: .default, handler: {
             _ in
             self.visitorPrint(phoneNo: self.phoneTextField.text!)
             self.resetTextFields()
@@ -422,7 +424,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func visitorPrint(phoneNo: String){
-        print("in visitor Print")
         print(phoneNo)
         router?.routeToVisitorPrint(phoneNo: phoneNo)
     }

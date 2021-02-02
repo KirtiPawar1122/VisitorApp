@@ -849,7 +849,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your name *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YY7-P5-1sl" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="156.5" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="wdu-m9-DQN" id="atw-bC-bPf"/>
                                                         </connections>
@@ -857,7 +857,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your company name *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I5k-GE-mbP" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="235" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="wdu-m9-DQN" id="bXg-K1-iH2"/>
                                                         </connections>
@@ -865,7 +865,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Purpose of visit *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X99-05-cA2" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="313.5" width="924" height="58"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="wdu-m9-DQN" id="jhN-cy-BIa"/>
                                                         </connections>
@@ -873,7 +873,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Whom do you want to visit? *" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NA2-Vk-Fb5" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="391.5" width="924" height="58.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="wdu-m9-DQN" id="gIE-BL-SO9"/>
                                                         </connections>

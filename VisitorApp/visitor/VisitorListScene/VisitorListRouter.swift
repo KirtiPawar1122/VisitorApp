@@ -30,7 +30,6 @@ class VisitorListRouter : visitorListRoutingLogic {
     }
     
     func routeToBarChart(fetcheddata: [Visit], selectedData: Visit){
-        //print(fetcheddata)
         let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorAllData: fetcheddata, visitorData: selectedData)
         viewController?.navigationController?.pushViewController(visitorBarChart, animated: true)
     }

@@ -10,7 +10,7 @@ extension String {
         }
     }
     func isValidEmail(mail : String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z.%+-]+@[A-Za-z.-]+\\.{1}[A-Za-z]{2,3}"
+        let emailRegEx = "[A-Z0-9a-z.%+-]+@[A-Za-z-]+\\.[A-Za-z]{2,3}"
         let emailtest = NSPredicate(format: "SELF Matches %@", emailRegEx)
         let result =  emailtest.evaluate(with: self)
         return result

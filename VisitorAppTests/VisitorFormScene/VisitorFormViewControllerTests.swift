@@ -10,7 +10,7 @@ class VisitorFormViewControllerTests: XCTestCase
   var window: UIWindow!
   var visitModel = Visit()
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -26,14 +26,13 @@ class VisitorFormViewControllerTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupVisitorFormViewController()
   {
     let bundle = Bundle.main
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     sut = storyboard.instantiateViewController(withIdentifier: "VisitorViewController") as? VisitorViewController
-    
     sut.loadViewIfNeeded()
   }
   
@@ -43,7 +42,7 @@ class VisitorFormViewControllerTests: XCTestCase
     RunLoop.current.run(until: Date())
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class VisitorFormBusinessLogicSpy: VisitorFormBusinessLogic
   {
@@ -60,7 +59,7 @@ class VisitorFormViewControllerTests: XCTestCase
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests
     
   func testForFetchVisitorsData(){
     
@@ -94,25 +93,23 @@ class VisitorFormViewControllerTests: XCTestCase
        let visitingPerson = "HR"
         
     
-       let valdiateEmail = email.isValidEmail(mail: email)
-       XCTAssertTrue(valdiateEmail, "Error in validate email")
-       //XCTAssert(valdiateEmail, "validate Email")
+       let validateEmail = email.isValidEmail(mail: email)
+       XCTAssertTrue(validateEmail, "Error in validate email")
     
        let validatePhone = phoneNo.isphoneValidate(phone: phoneNo)
        XCTAssertTrue(validatePhone, "Error in validat phone number")
     
-       let validateName = !name.isEmpty
+       let validateName = !name.isBlank
        XCTAssertTrue(validateName, "Error in validate name" )
        
-       let validateCompany = !companyName.isEmpty
+       let validateCompany = !companyName.isBlank
        XCTAssertTrue(validateCompany,"Error in validate company Name")
        
-       let validatepurpose = !purpose.isEmpty
-       XCTAssertTrue(validatepurpose,"Error in validate purpose")
+       let validatePurpose = !purpose.isBlank
+       XCTAssertTrue(validatePurpose,"Error in validate purpose")
       
-       let validateVisitingPerson = !visitingPerson.isEmpty
+       let validateVisitingPerson = !visitingPerson.isBlank
        XCTAssertTrue(validateVisitingPerson, "Error in validate visiting person name")
-    
     
       let spy = VisitorFormBusinessLogicSpy()
       sut.interactor = spy
@@ -121,20 +118,6 @@ class VisitorFormViewControllerTests: XCTestCase
       sut.saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, email: email, phoneNo: phoneNo, visitPurpose: purpose, visitingName: visitingPerson, companyName: companyName, profileImage: Data(), currentDate: Date()))
     
       XCTAssert(spy.saveVisitorRecordCalled, "record Saved Successfully")
-
     }
     
-  func testForDisplayVisitorRecord()
-  {
-    // Given
-    // let viewModel = VisitorForm.fetchVisitorRecord.ViewModel(visit: visitModel)
-    // When
-    // loadView()
-    // sut.displayVisitorData(viewModel: viewModel)
-    // print(viewModel)
-    
-    // Then
-    // XCTAssert(true)
-    // XCTAssertEqual(sut.emailTextField.text, "k@gmail.com", "display email in emailtextfeild")
-  }
 }

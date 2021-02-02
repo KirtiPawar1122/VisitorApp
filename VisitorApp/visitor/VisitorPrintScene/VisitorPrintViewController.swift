@@ -67,7 +67,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         setupUI()
     }
     
@@ -174,7 +173,6 @@ extension UIView {
         
         UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
         UIGraphicsBeginPDFPageWithInfo(pdfPageFrame, nil)
-        //UIGraphicsBeginPDFPage()
         guard let pdfContext = UIGraphicsGetCurrentContext() else { return "" }
         self.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()

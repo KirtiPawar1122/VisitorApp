@@ -12,7 +12,6 @@ class VisitorCoreDataStore {
         let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)
         
         visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
-        //visitorData.setValue(request.address, forKey: VisitorInteractorConstants.visitorAddress)
         visitorData.setValue(request.phoneNo, forKey: VisitorInteractorConstants.visitorPhoneNo)
         visitorData.setValue(request.email, forKey: VisitorInteractorConstants.visitorEmail)
         visitorData.setValue(request.profileImage, forKey: VisitorInteractorConstants.visitorProfileImage)

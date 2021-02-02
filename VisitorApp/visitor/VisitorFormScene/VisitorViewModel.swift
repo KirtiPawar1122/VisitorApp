@@ -7,7 +7,6 @@ enum VisitorForm {
     
     enum fetchVisitorRecord{
         struct Request {
-            //var email: String?
             var phoneNo: String?
         }
         

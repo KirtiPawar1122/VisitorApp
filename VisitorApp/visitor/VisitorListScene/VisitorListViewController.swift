@@ -21,6 +21,7 @@ struct VisitorDataViewControllerConstants{
     static let timeLimit = 8
     static let fontFamily = "Roboto-Regular"
     static let dateFormatter = "dd/MM/yyyy   hh:mm a"
+    static let searchPlaceholder = "Search here"
     static let fontSize : CGFloat = 17
 }
 
@@ -90,7 +91,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.layer.borderWidth = 2
         searchBar.searchTextField.font = UIFont(name: VisitorDataViewControllerConstants.fontFamily, size: VisitorDataViewControllerConstants.fontSize)
         searchBar.searchTextField.textColor = UIColor.black
-        searchBar.searchTextField.placeholder = "Search here"
+        searchBar.searchTextField.placeholder = VisitorDataViewControllerConstants.searchPlaceholder
         self.tableview.tableFooterView = UIView()
         tableview.separatorStyle = .none
         
@@ -126,7 +127,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
         
         let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
-                //let visitorInfo = self.viewObj[indexpath.row]
                  let visitorInfo = self.searchedData[indexpath.row]
                  self.context.delete(visitorInfo)
                  self.searchedData.remove(at: indexpath.row)
@@ -294,7 +294,6 @@ extension VisitorListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-
 }
 
 //MARK: - Popover delegate Method

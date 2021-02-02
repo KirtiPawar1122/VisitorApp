@@ -4,6 +4,7 @@ import CoreData
 
 struct VisitorListInteractorConstants{
     static let visitEntity = "Visit"
+    static let dateString = "date"
 }
 
 protocol VisitorListBusinessLogic{
@@ -19,7 +20,7 @@ class VisitorListInteractor: VisitorListBusinessLogic {
  
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
         let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorListInteractorConstants.visitEntity)
-        let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
+        let sortDescriptors = NSSortDescriptor(key: VisitorListInteractorConstants.dateString , ascending: false)
         visitorFetchRequest.sortDescriptors = [sortDescriptors]
         do{
             let record = try context.fetch(visitorFetchRequest)

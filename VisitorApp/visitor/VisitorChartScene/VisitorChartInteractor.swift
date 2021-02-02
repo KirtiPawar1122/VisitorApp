@@ -5,6 +5,7 @@ import CoreData
 
 protocol VisitorChartBusinessLogic{
     func visitorsChartData(request: VisitorChart.VisitorChartData.Request)
+    func fetchAllData(request: VisitorChart.VisitorChartData.Request)
 }
 
 protocol VisitorChartDataStore{
@@ -18,13 +19,13 @@ class VisitorChartInteractor : VisitorChartBusinessLogic, VisitorChartDataStore 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func visitorsChartData(request: VisitorChart.VisitorChartData.Request) {
-        //let visitResponse = VisitorChart.VisitorChartData.Response(visitData: data)
+       
         let visitResponse = VisitorChart.VisitorChartData.Response(visitData: data)
         presenter?.prsentChartData(response: visitResponse)
     }
     
     
-    func fetchAllData(){
+    func fetchAllData(request: VisitorChart.VisitorChartData.Request){
         let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
          do {
                let record = try context.fetch(visitorfetchRequest)
@@ -32,8 +33,12 @@ class VisitorChartInteractor : VisitorChartBusinessLogic, VisitorChartDataStore 
                    for item in record {
                     data = [item]
                }
+            let response = VisitorChart.VisitorChartData.Response(visitData: record)
+            presenter?.prsentChartData(response: response)
             } catch let error as NSError {
                    print(error.description)
         }
+        
+    
     }
 }

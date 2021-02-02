@@ -4,11 +4,11 @@ import XCTest
 
 class VisitorFormPresenterTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
    var sut: VisitorPresenter?
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -22,14 +22,14 @@ class VisitorFormPresenterTests: XCTestCase
     sut = nil
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupVisitorFormPresenter()
   {
      sut = VisitorPresenter()
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class VisitorFormDisplayLogicSpy: VisitorFormDisplayLogic
   {
@@ -40,7 +40,7 @@ class VisitorFormPresenterTests: XCTestCase
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests cases
   
     func testPresentFetchRecord()
   {

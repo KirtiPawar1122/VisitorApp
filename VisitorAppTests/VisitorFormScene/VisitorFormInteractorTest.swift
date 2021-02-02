@@ -26,7 +26,7 @@ class VisitorFormInteractorTest: XCTestCase {
         
     }
 
-    // MARK: test for Fetch Record
+    // MARK: - test for Fetch Record
     func testFetchRecord() {
         
         //Given
@@ -42,7 +42,7 @@ class VisitorFormInteractorTest: XCTestCase {
         XCTAssert(visitorFormPresentationLogicTest.presentFetchResultsObject, "fetchRequest()")
         }
     
-    //MARK: test for Save Data
+    //MARK: - test for Save Data
     func testSaveData(){
         
         let todaysDate = Date()
