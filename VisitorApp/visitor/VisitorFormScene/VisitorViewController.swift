@@ -88,6 +88,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var checkmail: String = ""
     var checkphoneNo: String = ""
     var profileImage: UIImage?
+    var defaultImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
     
       
     //MARK: Object lifecycle
@@ -222,8 +223,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
         
         let fethcedprofileImage = UIImage(data: profileData as! Data)
-        selectedImage = fethcedprofileImage
-        visitorImage.image = fethcedprofileImage
+        //selectedImage = fethcedprofileImage
+        if fethcedprofileImage?.size == defaultImage?.size{
+            selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
+        } else {
+            selectedImage = fethcedprofileImage
+        }
+        visitorImage.image = selectedImage
         checkmail = emailTextField.text!
         checkphoneNo = phoneTextField.text!
         myUtterance = AVSpeechUtterance(string: "Hello \(userTextField.text!), Welcome to Wurth IT")
@@ -312,46 +318,47 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
     }
         
-    func validate(){
+    func validate() -> Bool{
         
         guard let phoneNo = phoneTextField.text, !phoneNo.isBlank, phoneNo.isphoneValidate(phone: phoneNo) else{
             self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
             phoneTextField.shake()
-            return
+            return false
         }
         guard let email = emailTextField.text, !email.isBlank, email.isValidEmail(mail: email) else {
             self.view.makeToast(VisitorViewControllerConstants.emailValidateMessage, duration: 3, position: .center)
             emailTextField.shake()
-            return
+            return false
         }
         guard let name = userTextField.text, !name.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.userValidateMessage, duration: 3, position: .center)
             userTextField.shake()
-            return
+            return false
         }
         guard let companyName = companyTextField.text, !companyName.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, duration: 3, position: .center)
             companyTextField.shake()
-            return
+            return false
         }
         guard let visitPurpose = purposeTextFeild.text, !visitPurpose.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.purposeValidateMessage, duration: 3, position: .center)
             purposeTextFeild.shake()
-            return
+            return false
         }
         guard let visitorName = visitTextField.text, !visitorName.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.visitingValidateMessage, duration: 3, position: .center)
             visitTextField.shake()
-            return
+            return false
         }
         
         if visitorImage.image == UIImage(named: VisitorViewControllerConstants.selectedImageName){
             selectedImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
         }
+        
         print(visitorImage.image as Any)
         guard let profileImg = selectedImage?.pngData() else {
             self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
-            return 
+            return false
         }
 
         let now = Date()
@@ -382,6 +389,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             alert.addAction(printAction)
             present(alert, animated: true, completion: nil)
         }
+        return true
     }
 
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){

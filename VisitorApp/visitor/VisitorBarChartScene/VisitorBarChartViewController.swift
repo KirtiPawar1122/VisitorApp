@@ -21,6 +21,9 @@ struct VisitorsChartViewControllerConstants {
     static let dateFormat = "dd/MM/yyyy hh:mm a"
     static let dateFormat2 = "dd/MM/yyyy   hh:mm a"
     static let visitorDataLabel = "Visitor Data"
+    static let visitorPrintViewController = "VisitorPrintViewController"
+    static let visitorChartTableViewCell = "VisitorChartTableViewCell"
+
     
 }
 
@@ -219,7 +222,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
 
     @IBAction func printButton(_ sender: Any) {
       
-        let vc = storyboard?.instantiateViewController(withIdentifier: "VisitorPrintViewController") as? VisitorPrintViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: VisitorsChartViewControllerConstants.visitorPrintViewController ) as? VisitorPrintViewController
         vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as! String
         vc?.printVisitData = selectedData
         navigationController?.pushViewController(vc!, animated: true)
@@ -255,7 +258,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorChartTableViewCell") as! VisitorChartTableViewCell
+        let cell = tableview.dequeueReusableCell(withIdentifier: VisitorsChartViewControllerConstants.visitorChartTableViewCell) as! VisitorChartTableViewCell
         let data = items[indexPath.section][indexPath.row]
         cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
         cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)

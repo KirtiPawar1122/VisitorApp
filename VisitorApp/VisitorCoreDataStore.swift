@@ -6,11 +6,22 @@ class VisitorCoreDataStore {
      var appdelegate = UIApplication.shared.delegate as! AppDelegate
      let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
      var visit : [Visit] = []
+    
 
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request){
-        let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
-        let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)
         
+        var visitorData: Visitor
+        if let existingVisitor = getVisitorForRequest(request: request) {
+            visitorData = existingVisitor
+        } else {
+            let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
+            visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context) as! Visitor
+        }
+        
+       /* let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
+        let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)*/
+        
+        // check if visitor exists & fetch visitor else create new
         visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
         visitorData.setValue(request.phoneNo, forKey: VisitorInteractorConstants.visitorPhoneNo)
         visitorData.setValue(request.email, forKey: VisitorInteractorConstants.visitorEmail)
@@ -23,6 +34,7 @@ class VisitorCoreDataStore {
         visitData.setValue(request.visitPurpose, forKey: VisitorInteractorConstants.visitorPurpose)
         visitData.setValue(request.currentDate, forKey: VisitorInteractorConstants.currentDate)
         visitData.setValue(request.visitingName, forKey: VisitorInteractorConstants.visitingPersonName)
+        visitData.setValue(request.profileImage, forKey: "visitImage")
         visitData.setValue(visitorData, forKey: VisitorInteractorConstants.visitors)
         //core data relationship
         do {
@@ -57,5 +69,24 @@ class VisitorCoreDataStore {
 
     func deleteVisitorRecord(){
         //ToDo : delete code
+    }
+    
+    
+    func getVisitorForRequest(request: VisitorForm.saveVisitorRecord.Request) -> Visitor?
+    {
+        let visitorfetchRequest = NSFetchRequest<Visitor>(entityName: VisitorInteractorConstants.entityVisitor)
+        let predicate = NSPredicate(format: VisitorInteractorConstants.predicateVisitor, request.phoneNo ?? "")
+        //let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
+        //visitorfetchRequest.sortDescriptors = [sortDescriptors]
+        visitorfetchRequest.predicate = predicate
+        visitorfetchRequest.fetchLimit = 1
+        do {
+           let record = try context.fetch(visitorfetchRequest)
+            return record.first
+        } catch let error as NSError {
+            print(error.description)
+            return nil
+        }
+
     }
 }

@@ -33,6 +33,8 @@
 		9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF02529DE2D00E8B04F /* VisitorBarChartRouter.swift */; };
 		9B63BDF42529DE5F00E8B04F /* VisitorBarChartInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */; };
 		9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */; };
+		9B6928DC25CBCA6D00AC0FC9 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6928DB25CBCA6D00AC0FC9 /* Visit+CoreDataProperties.swift */; };
+		9B6928DD25CBCA6D00AC0FC9 /* Visit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6928DA25CBCA6D00AC0FC9 /* Visit+CoreDataClass.swift */; };
 		9B6E89AF25398CCC003761BB /* VisitorCoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6E89AE25398CCC003761BB /* VisitorCoreDataStore.swift */; };
 		9B726F122500DE4700E2F9AD /* VisitorBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B726F112500DE4700E2F9AD /* VisitorBarChartViewController.swift */; };
 		9B76307D254192E5008420AA /* VisitorBarChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76307C254192E5008420AA /* VisitorBarChartViewModel.swift */; };
@@ -74,8 +76,6 @@
 		9BECDCD9252D8560001B3279 /* VisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCD8252D8560001B3279 /* VisitorViewModel.swift */; };
 		9BECDCDD252EC593001B3279 /* VisitorListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCDC252EC593001B3279 /* VisitorListModel.swift */; };
 		9BECDCE5252F392D001B3279 /* VisitorAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECDCE4252F392D001B3279 /* VisitorAppTests.swift */; };
-		9BED8B3D24E6890300B57C40 /* Visit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3924E6890300B57C40 /* Visit+CoreDataClass.swift */; };
-		9BED8B3E24E6890300B57C40 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */; };
 		9BED8B3F24E6890300B57C40 /* Visitor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */; };
 		9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */; };
 		9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */; };
@@ -120,6 +120,8 @@
 		9B63BDF02529DE2D00E8B04F /* VisitorBarChartRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartRouter.swift; sourceTree = "<group>"; };
 		9B63BDF32529DE5F00E8B04F /* VisitorBarChartInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartInteractor.swift; sourceTree = "<group>"; };
 		9B63BDF52529DE7700E8B04F /* VisitorBarChartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartPresenter.swift; sourceTree = "<group>"; };
+		9B6928DA25CBCA6D00AC0FC9 /* Visit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Visit+CoreDataClass.swift"; path = "/Users/wn00113901/Work/VisitorMaster/VisitorApp/entity/Visit+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		9B6928DB25CBCA6D00AC0FC9 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Visit+CoreDataProperties.swift"; path = "/Users/wn00113901/Work/VisitorMaster/VisitorApp/entity/Visit+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		9B6E89AE25398CCC003761BB /* VisitorCoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorCoreDataStore.swift; sourceTree = "<group>"; };
 		9B726F112500DE4700E2F9AD /* VisitorBarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartViewController.swift; sourceTree = "<group>"; };
 		9B76307C254192E5008420AA /* VisitorBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorBarChartViewModel.swift; sourceTree = "<group>"; };
@@ -164,8 +166,6 @@
 		9BECDCE2252F392D001B3279 /* VisitorAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisitorAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BECDCE4252F392D001B3279 /* VisitorAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorAppTests.swift; sourceTree = "<group>"; };
 		9BECDCE6252F392D001B3279 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9BED8B3924E6890300B57C40 /* Visit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+CoreDataClass.swift"; sourceTree = "<group>"; };
-		9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewController.swift; sourceTree = "<group>"; };
@@ -403,10 +403,10 @@
 			isa = PBXGroup;
 			children = (
 				9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */,
-				9BED8B3A24E6890300B57C40 /* Visit+CoreDataProperties.swift */,
+				9B6928DA25CBCA6D00AC0FC9 /* Visit+CoreDataClass.swift */,
+				9B6928DB25CBCA6D00AC0FC9 /* Visit+CoreDataProperties.swift */,
 				9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */,
 				9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */,
-				9BED8B3924E6890300B57C40 /* Visit+CoreDataClass.swift */,
 			);
 			path = entity;
 			sourceTree = "<group>";
@@ -633,6 +633,7 @@
 				9BECDCDD252EC593001B3279 /* VisitorListModel.swift in Sources */,
 				9BD5FDF22525AF32006F21DC /* VisitorChartInteractor.swift in Sources */,
 				9B7D5EFF251C57D4002C995D /* VisitorValidation.swift in Sources */,
+				9B6928DC25CBCA6D00AC0FC9 /* Visit+CoreDataProperties.swift in Sources */,
 				9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */,
 				9BD9365C2567B52C00B16419 /* VisitorPrintViewModel.swift in Sources */,
 				9BD3D5852540609900880E2B /* VisitorChartViewModel.swift in Sources */,
@@ -645,9 +646,9 @@
 				9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */,
 				9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */,
 				9B06984525679C6700FF6E84 /* VisitorPrintRouter.swift in Sources */,
-				9BED8B3D24E6890300B57C40 /* Visit+CoreDataClass.swift in Sources */,
 				9BBAF781247654FF00B31A70 /* VisitorViewController.swift in Sources */,
 				9BD9365E2567B54300B16419 /* VisitorPrintInteractor.swift in Sources */,
+				9B6928DD25CBCA6D00AC0FC9 /* Visit+CoreDataClass.swift in Sources */,
 				9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */,
 				9B63BDF42529DE5F00E8B04F /* VisitorBarChartInteractor.swift in Sources */,
 				9BDD18A3247D390A00828EAB /* CustomTextField.swift in Sources */,
@@ -669,7 +670,6 @@
 				9BD5FDEA25219DD8006F21DC /* VisitorListPresenter.swift in Sources */,
 				9B851BB72490CA8100FFB7F6 /* VisitorTableViewCell.swift in Sources */,
 				9BECDCD9252D8560001B3279 /* VisitorViewModel.swift in Sources */,
-				9BED8B3E24E6890300B57C40 /* Visit+CoreDataProperties.swift in Sources */,
 				9BA98F572486915500C86B5C /* VisitorRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

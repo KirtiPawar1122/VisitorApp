@@ -5,6 +5,7 @@
         <attribute name="companyName" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="purpose" optional="YES" attributeType="String"/>
+        <attribute name="visitImage" optional="YES" attributeType="Binary"/>
         <attribute name="visitorName" optional="YES" attributeType="String"/>
         <relationship name="visitors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Visitor" inverseName="visits" inverseEntity="Visitor"/>
     </entity>
@@ -13,11 +14,11 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phoneNo" attributeType="String"/>
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
-        <relationship name="visits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Visit" inverseName="visitors" inverseEntity="Visit"/>
+        <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="visitors" inverseEntity="Visit"/>
     </entity>
     <elements>
-        <element name="Category" positionX="-27" positionY="90" width="128" height="45"/>
-        <element name="Visit" positionX="-36" positionY="81" width="128" height="118"/>
-        <element name="Visitor" positionX="-36" positionY="9" width="128" height="118"/>
+        <element name="Category" positionX="-37.39453125" positionY="-33.55859375" width="128" height="43"/>
+        <element name="Visit" positionX="-80.73046875" positionY="87.26953125" width="128" height="133"/>
+        <element name="Visitor" positionX="-302.84375" positionY="127.546875" width="128" height="118"/>
     </elements>
 </model>

@@ -15,6 +15,9 @@ struct ChartViewControllerConstants{
     static let font = "Roboto-Regular"
     static let boldFont = "Roboto-Bold"
     static let fontSize: CGFloat = 17
+    static let centerString = "Total Visitors"
+    static let centerText1Size: CGFloat = 20
+    static let centerText2Size: CGFloat = 40
 }
 
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
@@ -124,8 +127,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         visitData = viewModel.visitData
         print(visitData)
         let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: "Total Visitors" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:20) as Any])
-        let centerText2 = NSMutableAttributedString(string: "\n    \(visitData.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:40) as Any])
+        let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
+        let centerText2 = NSMutableAttributedString(string: "\n    \(visitData.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
                   
         centerTextStrings.append(centerText1)
         centerTextStrings.append(centerText2)
@@ -172,9 +175,9 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
       var dataEntries: [PieChartDataEntry] = []
-      for i in 0..<dataPoints.count {
+        for i in 0..<dataPoints.count {
         let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data: dataPoints[i] as AnyObject)
-            if (dataEntry.y != 0) {
+        if (dataEntry.y != .zero) {
                dataEntries.append(dataEntry)
             }
       }
@@ -214,8 +217,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       let formatter = DefaultValueFormatter(formatter: format)
       pieChartData.setValueFormatter(formatter)
       pieChartData.setValueTextColor(.white)
-        
-      
         
       //4. Assign it to the chart’s data
       chartView.data = pieChartData

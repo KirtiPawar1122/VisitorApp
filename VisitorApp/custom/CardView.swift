@@ -1,8 +1,3 @@
-//  CardView.swift
-//  VisitorApp
-//
-//  Created by Mayur Kamthe on 26/11/20.
-//  Copyright © 2020 Mayur Kamthe. All rights reserved.
 
 import Foundation
 import UIKit
@@ -16,7 +11,16 @@ import UIKit
     var offsetShadowOpacity: Float = 5
     var color = UIColor.systemGray2
     
-    override func layoutSubviews() {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+              super.init(coder: aDecoder)
+        cardLayout()
+    }
+
+    func cardLayout(){
         layer.cornerRadius = self.conrnerRadius
         layer.shadowColor = self.color.cgColor
         layer.shadowOpacity = self.offsetShadowOpacity

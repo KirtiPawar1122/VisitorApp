@@ -145,7 +145,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         print("visitorCardView size - \(visitorCardView.frame)")
         
         let pdfFilePath = visitorCardView.createPDFfromView()
-        let pdfURL = NSURL(fileURLWithPath: pdfFilePath)
+        let pdfURL = NSURL.fileURL(withPath: pdfFilePath)
         let items = [ pdfURL as Any]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {

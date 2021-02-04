@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/wn00113901/Work/VisitorMaster/VisitorApp/entity/Visit+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/wn00113901/Work/VisitorMaster/VisitorApp/entity/Visit+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:VisitorApp.xcodeproj">
    </FileRef>
    <FileRef
