@@ -244,18 +244,21 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         fetchData(email: checkmail, phoneNo: phoneNo)
     }
     
+    func getCurrentDate() -> Date? {
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = VisitorViewControllerConstants.dateFormat
+        let dateString = formatter.string(from: now)
+        let stringtoDate = formatter.date(from: dateString)
+        print(dateString)
+        return stringtoDate
+    }
+    
     @IBAction func submitButtonClick(_ sender: Any) {
         
         if validate() {
-            let now = Date()
-            let formatter = DateFormatter()
-            formatter.timeZone = TimeZone.current
-            formatter.dateFormat = VisitorViewControllerConstants.dateFormat
-            let dateString = formatter.string(from: now)
-            let stringtoDate = formatter.date(from: dateString)
-            print(dateString)
-            
-            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextFeild.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: stringtoDate))
+            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextFeild.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: getCurrentDate()))
         }
     }
     
@@ -401,13 +404,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func showAlerts(alert: String){
-        presentAlertWithTitles(title: alert , message: "", preferredStyle: .alert, options: "Ok", "Print"){
+        presentAlertWithTitles(title: alert , message: "", preferredStyle: .alert, options: VisitorViewControllerConstants.alertOkActionMsg, VisitorViewControllerConstants.alertPrintActionTitle){
             (option) in
             switch(option){
-            case "Ok":
+            case VisitorViewControllerConstants.alertOkActionMsg:
                 self.resetTextFields()
                 break
-            case "Print":
+            case VisitorViewControllerConstants.alertPrintActionTitle:
                  self.visitorPrint(phoneNo: self.phoneTextField.text!)
                  self.resetTextFields()
                 break
@@ -416,23 +419,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             }
         }
     }
-    
-  /*  func showAlert(for alert : String ) {
-        let alertController = UIAlertController(title: nil, message: alert, preferredStyle: UIAlertController.Style.alert)
-        let alertAction = UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: { _ in
-            self.resetTextFields()
-        })
-        let printAction = UIAlertAction(title: VisitorViewControllerConstants.alertPrintActionTitle, style: .default, handler: {
-            _ in
-            self.visitorPrint(phoneNo: self.phoneTextField.text!)
-            self.resetTextFields()
-        })
-        alertController.addAction(alertAction)
-        alertController.addAction(printAction)
-        present(alertController, animated: true, completion: nil)
-        speechUtterance(message: alertController.message!)
-    } */
-    
     
     func speechUtterance(message: String){
         myUtterance = AVSpeechUtterance(string: message)
@@ -451,25 +437,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @objc func imageAction() {
-       /* let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: VisitorViewControllerConstants.imageClickMsg, style: .default, handler: { _ in
-               self.openCamera()
-          }))
-        alert.addAction(UIAlertAction(title: VisitorViewControllerConstants.imageChooseMsg, style: .default, handler: { _ in
-               self.openGallary()
-          }))
-        alert.addAction(UIAlertAction.init(title: VisitorViewControllerConstants.alertCancelMsg, style: .cancel, handler: nil))
-
-        switch UIDevice.current.userInterfaceIdiom {
-              case .pad:
-                  alert.popoverPresentationController?.sourceView = self.view
-                  alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                  alert.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-              default:
-                      break
-          }
-        self.present(alert, animated: true, completion: nil) */
-        
+     
         presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.imageClickMsg, VisitorViewControllerConstants.imageChooseMsg) { (option) in
             switch option{
             case VisitorViewControllerConstants.imageClickMsg:
@@ -493,13 +461,9 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
             self.present(imagePicker, animated: true, completion: nil)
         }
         else{
-            /* let alert  = UIAlertController(title: VisitorViewControllerConstants.warningTitle, message: VisitorViewControllerConstants.warningImageMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: VisitorViewControllerConstants.alertOkActionMsg, style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil) */
-            
-            presentAlertWithTitles(title: VisitorViewControllerConstants.warningTitle, message: VisitorViewControllerConstants.warningImageMsg, preferredStyle: .alert, options: "Ok") { (option) in
+            presentAlertWithTitles(title: VisitorViewControllerConstants.warningTitle, message: VisitorViewControllerConstants.warningImageMsg, preferredStyle: .alert, options: VisitorViewControllerConstants.alertOkActionMsg) { (option) in
                 switch (option){
-                case "Ok":
+                case VisitorViewControllerConstants.alertOkActionMsg:
                     break
                 default:
                     break
@@ -525,36 +489,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
     @objc func purposeAction(){
-      /*  let optionMenu = UIAlertController(title: nil, message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet)
-        let FirstAction = UIAlertAction(title: VisitorViewControllerConstants.optionMenuFirstAction, style: .default){ (_) in
-            self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuFirstAction
-            return
-        }
-        let SecondAction = UIAlertAction(title: VisitorViewControllerConstants.optionMenuSecondAction, style: .default){ (_) in
-            self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuSecondAction
-        }
-        let ThirdAction = UIAlertAction(title: VisitorViewControllerConstants.optionMenuThirdAction, style: .default){ (_) in
-            self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuThirdAction
-        }
-        let FourthAction = UIAlertAction(title: VisitorViewControllerConstants.optionMenuFourthAction, style: .default){ (_) in
-            self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuFourthAction
-        }
-        
-        optionMenu.addAction(FirstAction)
-        optionMenu.addAction(SecondAction)
-        optionMenu.addAction(ThirdAction)
-        optionMenu.addAction(FourthAction)
-
-        switch UIDevice.current.userInterfaceIdiom {
-            case .pad:
-                optionMenu.popoverPresentationController?.sourceView = self.view
-                optionMenu.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: .zero, height: .zero)
-                optionMenu.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-            default:
-                    break
-        }
-        self.present(optionMenu, animated: true,completion: nil) */
-        
+      
         presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.optionMenuFirstAction, VisitorViewControllerConstants.optionMenuSecondAction, VisitorViewControllerConstants.optionMenuThirdAction, VisitorViewControllerConstants.optionMenuFourthAction) { (option) in
             
             switch (option){
@@ -577,17 +512,6 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
 }
 
 extension VisitorViewController {
-    
-    func presentAlertWithTitle(title: String, message: String, options: String..., completion: @escaping (String) -> Void) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        for (index, option) in options.enumerated() {
-            alertController.addAction(UIAlertAction.init(title: option, style: .default, handler: { (action) in
-                completion(options[index])
-            }))
-        }
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
     
     func presentAlertWithTitles(title: String, message: String, preferredStyle: UIAlertController.Style, options: String..., completion: @escaping (String) -> Void) {
            let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
