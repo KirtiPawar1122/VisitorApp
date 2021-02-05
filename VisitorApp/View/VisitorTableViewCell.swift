@@ -68,6 +68,4 @@ class VisitorTableViewCell: UITableViewCell {
         let seconds = dateComponents.second
         return Int(seconds! / 3600)
     }
-    
-    
 }

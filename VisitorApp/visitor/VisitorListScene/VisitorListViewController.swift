@@ -196,7 +196,8 @@ extension VisitorListViewController : UITableViewDataSource{
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatter
         let compareDate = data.date
-        let uniqueKey = email + "\(String(describing: compareDate))"
+       // let uniqueKey = email + "\(String(describing: compareDate))"
+        let uniqueKey = email + "\(String(describing: compareDate))" + "\(indexPath.row)"
         if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage {
             cell.profileImage.image = imageFromCache
         } else {
@@ -214,7 +215,7 @@ extension VisitorListViewController : UITableViewDataSource{
                     }
                 }
         }
-       
+
         return cell
     }
 }
