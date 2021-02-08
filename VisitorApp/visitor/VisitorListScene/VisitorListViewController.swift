@@ -75,7 +75,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         super.viewDidLoad()
         fetchVisitorList()
         setUpUI()
-       // loadImageIntoCache()
+        //loadImageIntoCache()
     }
     
     func setUpUI(){

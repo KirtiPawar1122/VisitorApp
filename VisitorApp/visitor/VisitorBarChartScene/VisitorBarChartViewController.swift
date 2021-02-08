@@ -114,7 +114,8 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         hostLabel.text = selectedData.visitorName
         phoneLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as? String
         totalVisitCount.text = String(datavisit.count)
-        let image = UIImage(data: selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.profile ) as! Data)
+        //let image = UIImage(data: selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.profile ) as! Data)
+        let image = UIImage(data: selectedData.visitImage!) 
         profileImage.image = image!
         
     }

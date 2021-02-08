@@ -106,8 +106,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
            visitorName.text = printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
            hostLabel.text = printVisitData?.visitorName
            purposeLabel.text = printVisitData?.purpose
-           let image = UIImage(data: printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data)
-           profileImage.image = image!
+           //let image = UIImage(data: printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data)
+           let image = UIImage(data: printVisitData!.visitImage!)
+           profileImage.image = image
         } else {
             getPrintData()
         }
@@ -135,8 +136,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         visitorName.text = viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
         purposeLabel.text = viewModel.visitData?.purpose
         hostLabel.text = viewModel.visitData?.visitorName
-        let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data )
-        profileImage.image = image!
+        //let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data )
+        let image = UIImage(data: printVisitData!.visitImage!)
+        profileImage.image = image
     }
     
     @IBAction func onPrintAction(_ sender: Any) {

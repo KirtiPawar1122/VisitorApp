@@ -231,7 +231,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
         visitorImage.image = selectedImage
         checkmail = emailTextField.text!
-        checkphoneNo = phoneTextField.text!
+        checkphoneNo = (visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String)!
         speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
         userTextField.resignFirstResponder()
     }
@@ -383,7 +383,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             speechUtterance(message: "Hello \(String(describing: request.name!)), Welcome to Wurth IT")
         } else {
             showAlerts(alert: VisitorViewControllerConstants.checkmailAlert)
-            
+            checkphoneNo = ""
         }
         interactor?.saveVisitorRecord(request: request)
     }
