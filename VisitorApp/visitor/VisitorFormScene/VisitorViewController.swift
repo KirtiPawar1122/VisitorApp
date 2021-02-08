@@ -46,7 +46,7 @@ struct VisitorViewControllerConstants {
     static let addressString = "address"
     static let phoneString = "phoneNo"
     static let profileImageString = "profileImage"
-    static let dateFormat = "dd/MM/yyyy hh:mm a"
+    static let dateFormat = "dd/MM/yyyy hh:mm:ss a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }
@@ -218,11 +218,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         phoneTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
         print(visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data as Any)
-        guard let profileData = visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) else{
+        guard let profileData = visit.visitImage else{
             return
         }
         
-        let fethcedprofileImage = UIImage(data: profileData as! Data)
+        let fethcedprofileImage = UIImage(data: profileData)
         //selectedImage = fethcedprofileImage
         if fethcedprofileImage?.size == defaultImage?.size{
             selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
