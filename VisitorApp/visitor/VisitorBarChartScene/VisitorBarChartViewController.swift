@@ -118,7 +118,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
     }
     
-    
     func setUpUI(){
         self.navigationItem.title = VisitorsChartViewControllerConstants.visitorChartTitle
         self.view.backgroundColor = #colorLiteral(red: 0.999904573, green: 1, blue: 0.9998808503, alpha: 1)
@@ -183,6 +182,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     
         let barChartDataSet = BarChartDataSet(entries: dataEntries, label: VisitorsChartViewControllerConstants.visitorDataLabel)
         barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
+        barChartDataSet.highlightEnabled = false
 
         if let font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize) {
             barChartDataSet.valueFont = font
@@ -198,6 +198,9 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let formatter = DefaultValueFormatter(formatter: format)
         barChartData.setValueFormatter(formatter)
     
+        histogram.pinchZoomEnabled = false
+        histogram.doubleTapToZoomEnabled = false
+        
         histogram.layer.cornerRadius = 0.5
         histogram.legend.enabled = false
         histogram.clipsToBounds = true
