@@ -23,8 +23,6 @@ struct VisitorsChartViewControllerConstants {
     static let visitorDataLabel = "Visitor Data"
     static let visitorPrintViewController = "VisitorPrintViewController"
     static let visitorChartTableViewCell = "VisitorChartTableViewCell"
-
-    
 }
 
 class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLogic {

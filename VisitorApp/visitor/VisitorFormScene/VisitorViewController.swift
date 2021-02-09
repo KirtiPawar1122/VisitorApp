@@ -46,7 +46,7 @@ struct VisitorViewControllerConstants {
     static let addressString = "address"
     static let phoneString = "phoneNo"
     static let profileImageString = "profileImage"
-    static let dateFormat = "dd/MM/yyyy hh:mm:ss a"
+    static let dateFormatForSaveDate = "dd/MM/yyyy hh:mm:ss a"
     static let maxTapCount = 5
     static let minTapCount = 0
 }
@@ -248,7 +248,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let now = Date()
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
-        formatter.dateFormat = VisitorViewControllerConstants.dateFormat
+        formatter.dateFormat = VisitorViewControllerConstants.dateFormatForSaveDate
         let dateString = formatter.string(from: now)
         let stringtoDate = formatter.date(from: dateString)
         print(dateString)
@@ -379,9 +379,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
         
         if (checkphoneNo != request.phoneNo) {
+            //voice on submit button
             showAlerts(alert: "Hello \(String(describing: request.name!)), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(String(describing: request.name!)), Welcome to Wurth IT")
         } else {
+            // voice for existing record
             showAlerts(alert: VisitorViewControllerConstants.checkmailAlert)
             checkphoneNo = ""
         }

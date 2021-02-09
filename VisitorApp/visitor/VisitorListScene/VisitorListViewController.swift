@@ -20,10 +20,10 @@ struct VisitorDataViewControllerConstants{
     static let visitorCell = "VisitorTableViewCell"
     static let timeLimit = 8
     static let fontFamily = "Roboto-Regular"
-    static let dateFormatter = "dd/MM/yyyy   hh:mm:ss a"
-    static let dateFormatter2 = "dd/MM/yyyy   hh:mm a"
+    static let dateFormatterForSaveDate = "dd/MM/yyyy   hh:mm:ss a"
+    static let dateFormatterForDisplayDate = "dd/MM/yyyy   hh:mm a"
     static let searchPlaceholder = "Search here"
-    static let fontSize : CGFloat = 17
+    static let defaultFontSize : CGFloat = 17
 }
 
 class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
@@ -92,7 +92,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.layer.cornerRadius = 5
         searchBar.searchTextField.layer.borderColor = UIColor.clear.cgColor
         searchBar.searchTextField.layer.borderWidth = 2
-        searchBar.searchTextField.font = UIFont(name: VisitorDataViewControllerConstants.fontFamily, size: VisitorDataViewControllerConstants.fontSize)
+        searchBar.searchTextField.font = UIFont(name: VisitorDataViewControllerConstants.fontFamily, size: VisitorDataViewControllerConstants.defaultFontSize)
         searchBar.searchTextField.textColor = UIColor.black
         searchBar.searchTextField.placeholder = VisitorDataViewControllerConstants.searchPlaceholder
         self.tableview.tableFooterView = UIView()
@@ -185,7 +185,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         for (i , item) in searchedData.enumerated(){
             let email = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
             let formatter = DateFormatter()
-            formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatter
+            formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
             let compareDate = item.date
             print(item.visitImage as Any , i)
             DispatchQueue.global().async {
@@ -218,7 +218,7 @@ extension VisitorListViewController : UITableViewDataSource{
         cell.setUpCellData(visitData: data)
         let email = data.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
         let formatter = DateFormatter()
-        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatter
+        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
         let compareDate = data.date
         uniqueKey = email + "\(String(describing: compareDate))"
         //let uniqueKey = email + "\(String(describing: compareDate))" + "\(indexPath.row)"

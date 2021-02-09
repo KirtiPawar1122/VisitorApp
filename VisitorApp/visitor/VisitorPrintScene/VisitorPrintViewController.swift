@@ -9,8 +9,8 @@ struct VisitorPrintViewControllerConstant{
     
       static let selectedImageName = "no-image"
       static let navBarTitle = "Visitor Pass Preview"
-      static let dateFormat = "MMM d, yyyy"
-      static let dateFormat1 = "dd/MM/yyyy hh:mm a"
+      static let dateFormatForDisplayOnCard = "MMM d, yyyy"
+      static let dateFormatForSavedDBDate = "dd/MM/yyyy hh:mm a"
       static let nameString = "name"
       static let profileImage = "profileImage"
       static let xValue = -100
@@ -86,7 +86,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         
         let todaysDate = Date()
         let formatter = DateFormatter()
-        formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat1
+        formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForSavedDBDate
         let currentSelectedDate = printVisitData?.date
         let stringDate = formatter.string(from: currentSelectedDate ?? todaysDate)
         let selectedDate = formatter.date(from: stringDate)
@@ -100,7 +100,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         }
         
         if printVisitData != nil {
-           formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat
+           formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
            let displayDate = formatter.string(from: printVisitData!.date!)
            VisitDate.text = displayDate
            visitorName.text = printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
@@ -130,19 +130,20 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel) {
         print(viewModel.visitData as Any)
         let formatter = DateFormatter()
-        formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormat
+        formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
         let displayDate = formatter.string(from: viewModel.visitData!.date!)
         VisitDate.text = displayDate
         visitorName.text = viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
         purposeLabel.text = viewModel.visitData?.purpose
         hostLabel.text = viewModel.visitData?.visitorName
         //let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data )
-        let image = UIImage(data: printVisitData!.visitImage!)
+        let image = UIImage(data: viewModel.visitData!.visitImage!)
+        //guard let image = UIImage(data: viewModel.visitData?.visitImage)
         profileImage.image = image
     }
     
     @IBAction func onPrintAction(_ sender: Any) {
-        //convert view to image and store it - alert display
+        //convert UIView into PDF & Save - alert display
         print(visitorCardView as Any)
         print("visitorCardView size - \(visitorCardView.frame)")
         

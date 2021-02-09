@@ -14,7 +14,7 @@ struct ChartViewControllerConstants{
     static let othersTitle = "Other"
     static let font = "Roboto-Regular"
     static let boldFont = "Roboto-Bold"
-    static let fontSize: CGFloat = 17
+    static let defaultFontSize: CGFloat = 17
     static let centerString = "Total Visitors"
     static let centerText1Size: CGFloat = 20
     static let centerText2Size: CGFloat = 40
@@ -83,7 +83,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.legend.enabled = true
         chartView.legend.textColor = UIColor.black
         chartView.legend.orientation = .horizontal
-        chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize)!
+        chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.defaultFontSize)!
         chartView.legend.horizontalAlignment = .center
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 
@@ -185,8 +185,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: nil)
         
       pieChartDataSet.entryLabelColor  = UIColor.white
-        pieChartDataSet.entryLabelFont = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize)
-        if let font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.fontSize) {
+        pieChartDataSet.entryLabelFont = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.defaultFontSize)
+        if let font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.defaultFontSize) {
             pieChartDataSet.valueFont = font
       } else {
             print("error in to set font")
@@ -240,8 +240,8 @@ extension VisitorChartViewController: UITableViewDataSource{
         cell.selectionStyle = .none
         cell.contentView.backgroundColor = UIColor.clear
         cell.layer.backgroundColor = UIColor.clear.cgColor
-        cell.sectionTitleLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.fontSize)
-        cell.dataCountLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.fontSize)
+        cell.sectionTitleLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize)
+        cell.dataCountLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize)
         cell.sectionTitleLabel.textColor = UIColor.white
         cell.dataCountLabel.textColor = UIColor.white
         cell.sectionTitleLabel.text = data
