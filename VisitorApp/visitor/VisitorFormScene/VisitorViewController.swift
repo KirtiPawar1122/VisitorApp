@@ -53,21 +53,16 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var visitorImage: CustomImageView!
     @IBOutlet var containerView: UIView!
     @IBOutlet weak var userTextField: CustomTextField!
-//    @IBOutlet weak var addressTextField: CustomTextField!
     @IBOutlet weak var emailTextField: CustomTextField!
     @IBOutlet weak var phoneTextField: CustomTextField!
     @IBOutlet weak var companyTextField: CustomTextField!
     @IBOutlet weak var purposeTextField: CustomTextField!
     @IBOutlet weak var visitTextField: CustomTextField!
-//    @IBOutlet weak var loadDataButton: UIBarButtonItem!
-//    @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var innerView: UIView!
-//    @IBOutlet var resetLabel: UIButton!
     @IBOutlet var takePictureButtonLabel: UIButton!
     var visitor : [Visitor] = []
     var visit = Visit()
     var visitPrintData = Visit()
-//    var arr = [Any]()
     var tapCount = 0
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext

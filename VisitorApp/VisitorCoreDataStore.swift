@@ -11,17 +11,13 @@ class VisitorCoreDataStore {
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request){
         
         var visitorData: Visitor
+        // check if visitor exists & fetch visitor else create new
         if let existingVisitor = getVisitorForRequest(request: request) {
             visitorData = existingVisitor
         } else {
             let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
             visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context) as! Visitor
         }
-        
-        /* let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
-         let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)*/
-        
-        // check if visitor exists & fetch visitor else create new
         visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
         visitorData.setValue(request.phoneNo, forKey: VisitorInteractorConstants.visitorPhoneNo)
         visitorData.setValue(request.email, forKey: VisitorInteractorConstants.visitorEmail)
@@ -74,14 +70,12 @@ class VisitorCoreDataStore {
     
     func getVisitorForRequest(request: VisitorForm.saveVisitorRecord.Request) -> Visitor?
     {
-        let visitorfetchRequest = NSFetchRequest<Visitor>(entityName: VisitorInteractorConstants.entityVisitor)
+        let visitorFetchRequest = NSFetchRequest<Visitor>(entityName: VisitorInteractorConstants.entityVisitor)
         let predicate = NSPredicate(format: VisitorInteractorConstants.predicateVisitor, request.phoneNo ?? "")
-        //let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
-        //visitorfetchRequest.sortDescriptors = [sortDescriptors]
-        visitorfetchRequest.predicate = predicate
-        visitorfetchRequest.fetchLimit = 1
+        visitorFetchRequest.predicate = predicate
+        visitorFetchRequest.fetchLimit = 1
         do {
-            let record = try context.fetch(visitorfetchRequest)
+            let record = try context.fetch(visitorFetchRequest)
             return record.first
         } catch let error as NSError {
             print(error.description)
@@ -94,13 +88,11 @@ class VisitorCoreDataStore {
         var visitDataObjects = [VisitData]()
         let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
         for visitPurpose in VisitPurpose.allCases {
-            let predicate = getPredicate(purpose: visitPurpose)
+            let predicate = getVisitPurposePredicate(purpose: visitPurpose)
             visitorFetchRequest.predicate = predicate
             do {
                 let record = try context.fetch(visitorFetchRequest)
                 let visitData: VisitData = VisitData(visitPurpose: visitPurpose, purposeCount: record.count)
-                //visitData.purposeCount = record.count
-                //visitData.visitPurpose = visitPurpose
                 visitDataObjects.append(visitData)
             } catch let error as NSError {
                 print(error.description)
@@ -110,11 +102,11 @@ class VisitorCoreDataStore {
         return visitDataObjects
     }
     
-    func getPredicate(purpose: VisitPurpose) -> NSPredicate{
-        return NSPredicate(format: VisitorInteractorConstants.predicatePurpose, getPurposeText(purpose: purpose))
+    func getVisitPurposePredicate(purpose: VisitPurpose) -> NSPredicate{
+        return NSPredicate(format: VisitorInteractorConstants.predicatePurpose, getVisitPurposeText(purpose: purpose))
     }
     
-    func getPurposeText(purpose: VisitPurpose) -> String {
+    func getVisitPurposeText(purpose: VisitPurpose) -> String {
         switch purpose {
         case .guestVisit:
             return "Guest Visit"
