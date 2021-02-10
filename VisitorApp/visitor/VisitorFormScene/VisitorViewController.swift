@@ -53,21 +53,21 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var visitorImage: CustomImageView!
     @IBOutlet var containerView: UIView!
     @IBOutlet weak var userTextField: CustomTextField!
-    @IBOutlet weak var addressTextField: CustomTextField!
+//    @IBOutlet weak var addressTextField: CustomTextField!
     @IBOutlet weak var emailTextField: CustomTextField!
     @IBOutlet weak var phoneTextField: CustomTextField!
     @IBOutlet weak var companyTextField: CustomTextField!
     @IBOutlet weak var purposeTextField: CustomTextField!
     @IBOutlet weak var visitTextField: CustomTextField!
-    @IBOutlet weak var loadDataButton: UIBarButtonItem!
-    @IBOutlet weak var logoImage: UIImageView!
+//    @IBOutlet weak var loadDataButton: UIBarButtonItem!
+//    @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var innerView: UIView!
-    @IBOutlet var resetLabel: UIButton!
+//    @IBOutlet var resetLabel: UIButton!
     @IBOutlet var takePictureButtonLabel: UIButton!
     var visitor : [Visitor] = []
     var visit = Visit()
     var visitPrintData = Visit()
-    var arr = [Any]()
+//    var arr = [Any]()
     var tapCount = 0
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -131,8 +131,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitorImage.addGestureRecognizer(tapOnImageView)
         visitorImage.isUserInteractionEnabled = true
               
-        let tapPurposeTextFeild = UITapGestureRecognizer(target: self, action: #selector(purposeAction))
-        purposeTextField.addGestureRecognizer(tapPurposeTextFeild)
+        let tapPurposeTextField = UITapGestureRecognizer(target: self, action: #selector(purposeAction))
+        purposeTextField.addGestureRecognizer(tapPurposeTextField)
         purposeTextField.isUserInteractionEnabled = true
         
         submitButton.layer.cornerRadius = submitButton.frame.height/2
@@ -218,12 +218,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             return
         }
         
-        let fethcedprofileImage = UIImage(data: profileData)
+        let profileImage = UIImage(data: profileData)
         //selectedImage = fethcedprofileImage
-        if fethcedprofileImage?.size == defaultImage?.size{
+        if profileImage?.size == defaultImage?.size{
             selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
         } else {
-            selectedImage = fethcedprofileImage
+            selectedImage = profileImage
         }
         visitorImage.image = selectedImage
         checkmail = emailTextField.text!
@@ -258,29 +258,29 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
     }
     
-    //MARK: TextFeilds methods
-    private func switchnextTextField(_ textField: UITextField){
+    //MARK: TextFields methods
+    private func switchToNextTextField(_ textField: UITextField){
         switch textField {
-        case self.phoneTextField:
-            self.emailTextField.becomeFirstResponder()
+        case phoneTextField:
+            emailTextField.becomeFirstResponder()
             
-        case self.emailTextField:
-            self.userTextField.becomeFirstResponder()
+        case emailTextField:
+            userTextField.becomeFirstResponder()
             
-        case self.userTextField:
-            self.companyTextField.becomeFirstResponder()
+        case userTextField:
+            companyTextField.becomeFirstResponder()
             
-        case self.companyTextField:
-            self.purposeTextField.becomeFirstResponder()
+        case companyTextField:
+            purposeTextField.becomeFirstResponder()
             
-        case self.purposeTextField:
-            self.visitTextField.becomeFirstResponder()
+        case purposeTextField:
+            visitTextField.becomeFirstResponder()
             
-        case self.visitTextField:
-            self.submitButton.becomeFirstResponder()
+        case visitTextField:
+            submitButton.becomeFirstResponder()
             
         default:
-            self.submitButton.becomeFirstResponder()
+            submitButton.becomeFirstResponder()
         }
     }
     
@@ -304,7 +304,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switchnextTextField(textField)
+        switchToNextTextField(textField)
         textField.resignFirstResponder()
         purposeTextField.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
         return true
@@ -312,7 +312,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
 
     @objc func emailAction(){
         fetchData(email: emailTextField.text ?? "" , phoneNo: phoneTextField.text ?? "")
-        switchnextTextField(userTextField)
+        switchToNextTextField(userTextField)
     }
     
     /* Navigation bar hide button */
@@ -329,32 +329,32 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func validate() -> Bool{
         
         guard let phoneNo = phoneTextField.text, !phoneNo.isBlank, phoneNo.isphoneValidate(phone: phoneNo) else{
-            self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, position: .center)
             phoneTextField.shake()
             return false
         }
         guard let email = emailTextField.text, !email.isBlank, email.isValidEmail(mail: email) else {
-            self.view.makeToast(VisitorViewControllerConstants.emailValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.emailValidateMessage, position: .center)
             emailTextField.shake()
             return false
         }
         guard let name = userTextField.text, !name.isBlank else{
-            self.view.makeToast(VisitorViewControllerConstants.userValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.userValidateMessage, position: .center)
             userTextField.shake()
             return false
         }
         guard let companyName = companyTextField.text, !companyName.isBlank else{
-            self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.companyValidateMessage, position: .center)
             companyTextField.shake()
             return false
         }
         guard let visitPurpose = purposeTextField.text, !visitPurpose.isBlank else{
-            self.view.makeToast(VisitorViewControllerConstants.purposeValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.purposeValidateMessage, position: .center)
             purposeTextField.shake()
             return false
         }
         guard let visitorName = visitTextField.text, !visitorName.isBlank else{
-            self.view.makeToast(VisitorViewControllerConstants.visitingValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.visitingValidateMessage, position: .center)
             visitTextField.shake()
             return false
         }
@@ -365,7 +365,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         
         //print(visitorImage.image as Any)
         guard (selectedImage?.pngData()) != nil else {
-            self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
+            self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, position: .center)
             return false
         }
         
@@ -431,7 +431,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
 }
 
 
-// MARK: - ImageView and PurposeTextfeild Actions
+// MARK: - ImageView and PurposeTextfield Actions
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @objc func imageAction() {
@@ -456,7 +456,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
             imagePicker.sourceType = UIImagePickerController.SourceType.camera
             imagePicker.allowsEditing = true
             imagePicker.delegate = self
-            self.present(imagePicker, animated: true, completion: nil)
+            present(imagePicker, animated: true, completion: nil)
         }
         else{
             presentAlertWithTitles(title: VisitorViewControllerConstants.warningTitle, message: VisitorViewControllerConstants.warningImageMsg, preferredStyle: .alert, options: VisitorViewControllerConstants.alertOkActionMsg) { (option) in
@@ -475,7 +475,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         //If you dont want to edit the photo then you can set allowsEditing to false
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
-        self.present(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -483,7 +483,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         let orienatationFixedImage = image.fixOrientation()
         selectedImage = orienatationFixedImage
         visitorImage.image = selectedImage
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     @objc func purposeAction(){
@@ -549,7 +549,6 @@ extension CustomTextField {
      @IBInspectable var placeholderColor: UIColor {
            get {
                return self.placeholderColor
-          //  return (self.attributedPlaceholder?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor)!
            }
            set {
                self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [.foregroundColor: newValue])
