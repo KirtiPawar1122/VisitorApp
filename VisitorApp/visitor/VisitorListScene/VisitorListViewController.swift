@@ -39,7 +39,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var searchedData = [Visit]()
     var currentDate = Date()
     var images = [UIImage]()
-    let imageCache = NSCache<AnyObject, AnyObject>()
+    //let imageCache = NSCache<AnyObject, UIImage>()
     var uniqueKey = String()
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
     
@@ -81,7 +81,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        imageCache.removeAllObjects()
     }
     
     func setUpUI(){
@@ -128,13 +127,12 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     
     //MARK: - Fetch Response
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
-        print(viewModel)
         viewObj = viewModel.visit!
         searchedData = viewObj
-        DispatchQueue.main.async { [unowned self] in
-            self.tableview.reloadData()
-            self.activityIndicator.stopAnimating()
-        }
+//        DispatchQueue.main.async { [unowned self] in
+//            //self.tableview.reloadData()
+//           // self.activityIndicator.stopAnimating()
+//        }
         loadImageIntoCache()
     }
     
@@ -196,29 +194,31 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
     
     func loadImageIntoCache(){
+        
         var counter = 0
         for item in searchedData{
             let email = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
             let formatter = DateFormatter()
             formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
             let compareDate = item.date
-            print(item.visitImage as Any)
-            DispatchQueue.global().async { [unowned self] in
                 
                 let uniqueKey = email! + "\(String(describing: compareDate))"
-                
-                if let imageData = item.visitImage,let imageToCache = UIImage(data: imageData){
-                    print(imageToCache)
-                    self.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
-                    counter += 1
-                    if counter == (self.searchedData.count) - 1{
-                        DispatchQueue.main.async {
-                            self.tableview.reloadData()
-                        }
+                counter += 1
+                if appDelegate.imageCache.object(forKey: uniqueKey as AnyObject) != nil{
+                   //Do nothing
+                    print("No need to cache!!!!")
+                } else {
+                    if let imageData = item.visitImage,let imageToCache = UIImage(data: imageData){
+                        self.appDelegate.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
                     }
-                    
                 }
-            }
+                
+                if counter == (self.searchedData.count) - 1{
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                        self.tableview.reloadData()
+                    }
+                }
         }
     }
 }
@@ -258,7 +258,7 @@ extension VisitorListViewController : UITableViewDataSource{
          }
          } */
         
-        if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage{
+        if let imageFromCache = appDelegate.imageCache.object(forKey: uniqueKey as AnyObject){
             cell.profileImage.image = imageFromCache
         } else {
             cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
@@ -301,7 +301,6 @@ extension VisitorListViewController: UITableViewDelegate{
 extension VisitorListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
         searchedData = searchText.isEmpty ? viewObj : viewObj.filter{
             (item : Visit) -> Bool in
             let name = item.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
