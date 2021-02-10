@@ -11,12 +11,7 @@ protocol VisitorFormDisplayLogic{
 struct VisitorViewControllerConstants {
     static let selectedImageName = "camera-1"
     static let defaultImageName = "person-1"
-    static let personImageName = "user"
-    static let addressImageName = "address-100"
-    static let phoneImageName = "phone-100"
     static let emailString = "email"
-    static let emailImageName = "email-100"
-    static let companyIamageName = "company"
     static let purposeImageName = "question-100"
     static let emailValidateMessage = "Please enter valid email ID"
     static let userValidateMessage = "Please enter name"

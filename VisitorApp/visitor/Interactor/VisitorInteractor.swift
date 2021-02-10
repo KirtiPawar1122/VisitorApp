@@ -31,7 +31,6 @@ protocol VisitorFormBusinessLogic{
 
 class VisitorInteractor: VisitorFormBusinessLogic {
     
-    var records: Visit?
     var presenter : VisitorFormPrsentationLogic?
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
       
@@ -48,4 +47,3 @@ class VisitorInteractor: VisitorFormBusinessLogic {
     }
  
 }
-
