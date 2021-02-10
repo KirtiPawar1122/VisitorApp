@@ -16,8 +16,8 @@ class VisitorListInteractor: VisitorListBusinessLogic {
     var listPresenterProtocol : VisitorListPresentationLogic?
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
- 
+    var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
+
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
         let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorListInteractorConstants.visitEntity)
         let sortDescriptors = NSSortDescriptor(key: VisitorListInteractorConstants.dateString , ascending: false)
@@ -32,4 +32,9 @@ class VisitorListInteractor: VisitorListBusinessLogic {
             print(error.description)
         }
     }
+    
+    func fetchVisitorPurposeType(){
+        visitorCoreData.getVisitTypes()
+    }
+    
 }

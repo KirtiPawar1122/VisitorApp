@@ -31,8 +31,9 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var filterbutton: UIButton!
-    
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     var viewObj = [Visit]()
+    var visitTypeObject = [VisitData]()
     var listInteractor : VisitorListBusinessLogic?
     var visitorDataRouter : visitorListRoutingLogic?
     var searchedData = [Visit]()
@@ -40,6 +41,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var images = [UIImage]()
     let imageCache = NSCache<AnyObject, AnyObject>()
     var uniqueKey = String()
+    var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
     
     
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -73,9 +75,13 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        fetchVisitorList()
         setUpUI()
-        //loadImageIntoCache()
+        fetchVisitorList()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        imageCache.removeAllObjects()
     }
     
     func setUpUI(){
@@ -113,8 +119,11 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     
     //MARK: - Fetch Request
     func fetchVisitorList(){
-        let request = VisitorList.fetchVisitorList.Request()
-        listInteractor?.fetchVisitorData(request: request)
+        activityIndicator.startAnimating()
+        DispatchQueue.global().async { [unowned self] in
+            let request = VisitorList.fetchVisitorList.Request()
+            self.listInteractor?.fetchVisitorData(request: request)
+        }
     }
     
     //MARK: - Fetch Response
@@ -122,6 +131,11 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         print(viewModel)
         viewObj = viewModel.visit!
         searchedData = viewObj
+        DispatchQueue.main.async { [unowned self] in
+            self.tableview.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+        loadImageIntoCache()
     }
     
     //MARK: - Delete Record from table
@@ -182,22 +196,27 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
     
     func loadImageIntoCache(){
-        for (i , item) in searchedData.enumerated(){
-            let email = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
+        var counter = 0
+        for item in searchedData{
+            let email = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
             let formatter = DateFormatter()
             formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
             let compareDate = item.date
-            print(item.visitImage as Any , i)
-            DispatchQueue.global().async {
+            print(item.visitImage as Any)
+            DispatchQueue.global().async { [unowned self] in
                 
-                let uniqueKey = email + "\(String(describing: compareDate))" + "\(i)"
-               
+                let uniqueKey = email! + "\(String(describing: compareDate))"
+                
                 if let imageData = item.visitImage,let imageToCache = UIImage(data: imageData){
                     print(imageToCache)
                     self.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
-                    DispatchQueue.main.async {
-                        self.images = [imageToCache]
+                    counter += 1
+                    if counter == (self.searchedData.count) - 1{
+                        DispatchQueue.main.async {
+                            self.tableview.reloadData()
+                        }
                     }
+                    
                 }
             }
         }
@@ -214,38 +233,37 @@ extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
         
-        let data = searchedData[indexPath.row]
-        cell.setUpCellData(visitData: data)
-        let email = data.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
+        let visit = searchedData[indexPath.row]
+        cell.setUpCellData(visitData: visit)
+        let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
-        let compareDate = data.date
+        let compareDate = visit.date
         uniqueKey = email + "\(String(describing: compareDate))"
         //let uniqueKey = email + "\(String(describing: compareDate))" + "\(indexPath.row)"
-        if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage {
+        /* if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage {
+         cell.profileImage.image = imageFromCache
+         } else {
+         DispatchQueue.global().async {
+         if let data =  data.visitImage, let imageToCache = UIImage(data: data) {
+         self.imageCache.setObject(imageToCache, forKey: self.uniqueKey as AnyObject)
+         DispatchQueue.main.async {
+         cell.profileImage.image = imageToCache
+         }
+         } else {
+         DispatchQueue.main.async {
+         cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
+         }
+         }
+         }
+         } */
+        
+        if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage{
             cell.profileImage.image = imageFromCache
         } else {
-                DispatchQueue.global().async {
-                    if let data =  data.visitImage, let imageToCache = UIImage(data: data) {
-                        self.imageCache.setObject(imageToCache, forKey: self.uniqueKey as AnyObject)
-                        DispatchQueue.main.async {
-                             cell.profileImage.image = imageToCache
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-                        }
-                    }
-                }
+            cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
         }
         
-       /* if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage{
-            cell.profileImage.image = imageFromCache
-        } else {
-            DispatchQueue.main.async {
-                cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-            }
-        } */
         return cell
     }
 }
@@ -317,5 +335,16 @@ extension VisitorListViewController: UIPopoverPresentationControllerDelegate{
     }
 }
 
-
+extension UIImageView {
+    
+    func loadImage(data: Data) {
+        DispatchQueue.global().async { [unowned self] in
+            let image = UIImage(data: data)
+            DispatchQueue.main.async { [unowned self] in
+                self.image = image
+                self.contentMode = .scaleAspectFill
+            }
+        }
+    }
+}
 

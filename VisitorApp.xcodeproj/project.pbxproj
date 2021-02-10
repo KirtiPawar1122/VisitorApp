@@ -27,6 +27,7 @@
 		9B1E7FEA253F512200DAC863 /* VisitorListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1E7FE6253F512200DAC863 /* VisitorListInteractorTests.swift */; };
 		9B1E7FEC253F512200DAC863 /* VisitorListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1E7FE8253F512200DAC863 /* VisitorListPresenterTests.swift */; };
 		9B3D9B4B2565204F005F1E9D /* VisitorPrintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D9B4A2565204F005F1E9D /* VisitorPrintViewController.swift */; };
+		9B587E8B25D2B8A50023A8E1 /* VisitorDataChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B587E8A25D2B8A50023A8E1 /* VisitorDataChartModel.swift */; };
 		9B5C960825384C5200012367 /* VisitorFormViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C960425384C5200012367 /* VisitorFormViewControllerTests.swift */; };
 		9B5C960925384C5200012367 /* VisitorFormInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C960525384C5200012367 /* VisitorFormInteractorTests.swift */; };
 		9B5C960B25384C5200012367 /* VisitorFormPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C960725384C5200012367 /* VisitorFormPresenterTests.swift */; };
@@ -114,6 +115,7 @@
 		9B1E7FE6253F512200DAC863 /* VisitorListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListInteractorTests.swift; sourceTree = "<group>"; };
 		9B1E7FE8253F512200DAC863 /* VisitorListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorListPresenterTests.swift; sourceTree = "<group>"; };
 		9B3D9B4A2565204F005F1E9D /* VisitorPrintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorPrintViewController.swift; sourceTree = "<group>"; };
+		9B587E8A25D2B8A50023A8E1 /* VisitorDataChartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VisitorDataChartModel.swift; path = VisitorApp/Entity/VisitorDataChartModel.swift; sourceTree = SOURCE_ROOT; };
 		9B5C960425384C5200012367 /* VisitorFormViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormViewControllerTests.swift; sourceTree = "<group>"; };
 		9B5C960525384C5200012367 /* VisitorFormInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormInteractorTests.swift; sourceTree = "<group>"; };
 		9B5C960725384C5200012367 /* VisitorFormPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorFormPresenterTests.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				9BBAF785247654FF00B31A70 /* VisitorApp.xcdatamodeld */,
+				9B587E8A25D2B8A50023A8E1 /* VisitorDataChartModel.swift */,
 				9B6928DA25CBCA6D00AC0FC9 /* Visit+CoreDataClass.swift */,
 				9B6928DB25CBCA6D00AC0FC9 /* Visit+CoreDataProperties.swift */,
 				9BED8B3B24E6890300B57C40 /* Visitor+CoreDataClass.swift */,
@@ -639,6 +642,7 @@
 				9BD3D5852540609900880E2B /* VisitorChartViewModel.swift in Sources */,
 				9B726F122500DE4700E2F9AD /* VisitorBarChartViewController.swift in Sources */,
 				9BE7A235249A2D8C00AFC4C9 /* CustomView.swift in Sources */,
+				9B587E8B25D2B8A50023A8E1 /* VisitorDataChartModel.swift in Sources */,
 				9BBAF787247654FF00B31A70 /* VisitorApp.xcdatamodeld in Sources */,
 				9BA98F552486913100C86B5C /* VisitorPresenter.swift in Sources */,
 				9B6E89AF25398CCC003761BB /* VisitorCoreDataStore.swift in Sources */,

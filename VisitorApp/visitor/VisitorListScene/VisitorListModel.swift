@@ -15,4 +15,18 @@ enum VisitorList {
             var visit : [Visit]?
         }
     }
+    
+    enum fetchVisitorPurposeType{
+        struct Request {
+           
+        }
+        struct Response {
+            var visitTypes: [VisitData]
+            var totalVisitCount: Int
+        }
+        struct ViewModel {
+            var visitTypes: [VisitData]
+            var totalVisitCount: Int
+        }
+    }
 }

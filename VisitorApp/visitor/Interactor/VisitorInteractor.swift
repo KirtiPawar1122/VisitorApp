@@ -19,6 +19,7 @@ struct VisitorInteractorConstants {
     static let entityVisit = "Visit"
     static let predicateString = "visitors.phoneNo == %@"
     static let predicateVisitor = "phoneNo == %@"
+    static let predicatePurpose = "purpose == %@"
 
     
 }
@@ -54,5 +55,6 @@ class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
             self.presenter?.presentFetchResults(response: visitorResponse)
         }
     }
+ 
 }
 

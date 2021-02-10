@@ -31,7 +31,7 @@ class VisitorListRouter : visitorListRoutingLogic {
     
     func routeToChart(data: [Visit]){
         print(data)
-        let visitorChart = VisitorChartRouter.visitorChartmodule(visitData: data)
+        let visitorChart = VisitorChartRouter.visitorChartModule(visitData: data)
         viewController?.navigationController?.pushViewController(visitorChart, animated: true)
     }
     

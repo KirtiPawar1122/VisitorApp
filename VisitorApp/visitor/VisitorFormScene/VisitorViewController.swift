@@ -120,6 +120,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
     }
     
     //MARK: UI Setup Method

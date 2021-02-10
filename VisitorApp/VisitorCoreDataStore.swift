@@ -3,11 +3,11 @@ import UIKit
 import CoreData
 
 class VisitorCoreDataStore {
-     var appdelegate = UIApplication.shared.delegate as! AppDelegate
-     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-     var visit : [Visit] = []
+    var appdelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var visit : [Visit] = []
     
-
+    
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request){
         
         var visitorData: Visitor
@@ -18,8 +18,8 @@ class VisitorCoreDataStore {
             visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context) as! Visitor
         }
         
-       /* let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
-        let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)*/
+        /* let visitorEntity = NSEntityDescription.entity(forEntityName: VisitorInteractorConstants.entityVisitor, in: context)
+         let visitorData = NSManagedObject(entity: visitorEntity!, insertInto: context)*/
         
         // check if visitor exists & fetch visitor else create new
         visitorData.setValue(request.name, forKey: VisitorInteractorConstants.visitorName)
@@ -38,11 +38,11 @@ class VisitorCoreDataStore {
         visitData.setValue(visitorData, forKey: VisitorInteractorConstants.visitors)
         //core data relationship
         do {
-             try context.save()
-             visit.append(visitData as! Visit)
-             print(visitData)
+            try context.save()
+            visit.append(visitData as! Visit)
+            print(visitData)
         } catch let error as NSError {
-             print(error.description)
+            print(error.description)
         }
     }
     
@@ -55,18 +55,18 @@ class VisitorCoreDataStore {
         visitorfetchRequest.predicate = predicate
         visitorfetchRequest.fetchLimit = 1
         do {
-        let record = try context.fetch(visitorfetchRequest)
-        print(record.first?.visitors as Any)
+            let record = try context.fetch(visitorfetchRequest)
+            print(record.first?.visitors as Any)
             for item in record {
-            completionhanlder(item)
-            print(item)
-            visit = [item]
-        }
+                completionhanlder(item)
+                print(item)
+                visit = [item]
+            }
         } catch let error as NSError {
             print(error.description)
         }
     }
-
+    
     func deleteVisitorRecord(){
         //ToDo : delete code
     }
@@ -81,12 +81,49 @@ class VisitorCoreDataStore {
         visitorfetchRequest.predicate = predicate
         visitorfetchRequest.fetchLimit = 1
         do {
-           let record = try context.fetch(visitorfetchRequest)
+            let record = try context.fetch(visitorfetchRequest)
             return record.first
         } catch let error as NSError {
             print(error.description)
             return nil
         }
+        
+    }
 
+    func getVisitTypes() -> [VisitData]{
+        var visitDataObjects = [VisitData]()
+        let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorInteractorConstants.entityVisit)
+        for visitPurpose in VisitPurpose.allCases {
+            let predicate = getPredicate(purpose: visitPurpose)
+            visitorFetchRequest.predicate = predicate
+            do {
+                let record = try context.fetch(visitorFetchRequest)
+                let visitData: VisitData = VisitData(visitPurpose: visitPurpose, purposeCount: record.count)
+                //visitData.purposeCount = record.count
+                //visitData.visitPurpose = visitPurpose
+                visitDataObjects.append(visitData)
+            } catch let error as NSError {
+                print(error.description)
+                return visitDataObjects
+            }
+        }
+        return visitDataObjects
+    }
+    
+    func getPredicate(purpose: VisitPurpose) -> NSPredicate{
+        return NSPredicate(format: VisitorInteractorConstants.predicatePurpose, getPurposeText(purpose: purpose))
+    }
+    
+    func getPurposeText(purpose: VisitPurpose) -> String {
+        switch purpose {
+        case .guestVisit:
+            return "Guest Visit"
+        case .meeting:
+            return "Meeting"
+        case .other:
+            return "Other"
+        case .interview:
+            return "Interview"
+        }
     }
 }
