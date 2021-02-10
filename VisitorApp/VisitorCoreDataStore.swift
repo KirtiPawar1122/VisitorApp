@@ -56,10 +56,10 @@ class VisitorCoreDataStore {
         visitorfetchRequest.fetchLimit = 1
         do {
             let record = try context.fetch(visitorfetchRequest)
-            print(record.first?.visitors as Any)
+            //print(record.first?.visitors as Any)
             for item in record {
                 completionhanlder(item)
-                print(item)
+                //print(item)
                 visit = [item]
             }
         } catch let error as NSError {

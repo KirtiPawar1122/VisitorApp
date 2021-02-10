@@ -24,11 +24,10 @@ class VisitorListInteractor: VisitorListBusinessLogic {
         visitorFetchRequest.sortDescriptors = [sortDescriptors]
         do{
             let record = try context.fetch(visitorFetchRequest)
-            print(record)
+            //print(record)
             let response = VisitorList.fetchVisitorList.Response(visit: record)
             listPresenterProtocol?.presentVisitorListResult(response: response)
         } catch let error as NSError{
-            
             print(error.description)
         }
     }

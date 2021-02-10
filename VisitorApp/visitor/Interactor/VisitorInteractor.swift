@@ -50,7 +50,7 @@ class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {
         
         visitorCoreData.fetchRecord(request: request) { (records) in
-            print(records)
+            //print(records)
             let visitorResponse = VisitorForm.fetchVisitorRecord.Response(visit: records)
             self.presenter?.presentFetchResults(response: visitorResponse)
         }
