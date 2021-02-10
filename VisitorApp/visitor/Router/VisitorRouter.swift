@@ -8,16 +8,16 @@ protocol VisitorRoutingLogic {
 
 class VisitorRouter : VisitorRoutingLogic {
     
-    var viewcontroller : VisitorViewController?
+    var viewController : VisitorViewController?
     
     func routeToVisitorList() {
         let visitorList = VisitorListRouter.VisitorListModule()
-        viewcontroller?.navigationController?.pushViewController(visitorList, animated: true)
+        viewController?.navigationController?.pushViewController(visitorList, animated: true)
     }
     
     func routeToVisitorPrint(phoneNo: String) {
         print(phoneNo)
-        let visitorPrint = VisitorPrintRouter.visitorPrintmodule(visitorPhoneNo: phoneNo)
-        viewcontroller?.navigationController?.pushViewController(visitorPrint, animated: true)
+        let visitorPrint = VisitorPrintRouter.visitorPrintModule(visitorPhoneNo: phoneNo)
+        viewController?.navigationController?.pushViewController(visitorPrint, animated: true)
     }
 }

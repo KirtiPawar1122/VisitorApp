@@ -114,7 +114,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         viewController.router = router
         interactor.presenter = presenter
         presenter.viewObj = viewController
-        router.viewcontroller = viewController
+        router.viewController = viewController
     }
     
     override func viewDidLoad() {

@@ -29,19 +29,11 @@ protocol VisitorFormBusinessLogic{
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request)
 }
 
-protocol  VisitorFormDataStore {
-    var records : Visit? { get }
-}
-
-class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
+class VisitorInteractor: VisitorFormBusinessLogic {
     
     var records: Visit?
     var presenter : VisitorFormPrsentationLogic?
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
-    var visitor : [Visitor] = []
-    var visit : [Visit] = []
-    var appdelegate = UIApplication.shared.delegate as! AppDelegate
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
       
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
         visitorCoreData.saveVisitorRecord(request: request)
@@ -50,7 +42,6 @@ class VisitorInteractor: VisitorFormBusinessLogic, VisitorFormDataStore {
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {
         
         visitorCoreData.fetchRecord(request: request) { (records) in
-            print(records)
             let visitorResponse = VisitorForm.fetchVisitorRecord.Response(visit: records)
             self.presenter?.presentFetchResults(response: visitorResponse)
         }

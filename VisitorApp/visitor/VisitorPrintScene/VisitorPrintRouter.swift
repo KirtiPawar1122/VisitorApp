@@ -4,7 +4,7 @@ import UIKit
 
 class VisitorPrintRouter {
     
-    static func visitorPrintmodule(visitorPhoneNo: String) -> VisitorPrintViewController {
+    static func visitorPrintModule(visitorPhoneNo: String) -> VisitorPrintViewController {
         let printVC = VisitorPrintRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorPrintViewController") as! VisitorPrintViewController
         printVC.selectedPhoneNo = visitorPhoneNo
         return printVC
