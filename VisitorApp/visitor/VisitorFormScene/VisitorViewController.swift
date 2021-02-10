@@ -57,7 +57,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var emailTextField: CustomTextField!
     @IBOutlet weak var phoneTextField: CustomTextField!
     @IBOutlet weak var companyTextField: CustomTextField!
-    @IBOutlet weak var purposeTextFeild: CustomTextField!
+    @IBOutlet weak var purposeTextField: CustomTextField!
     @IBOutlet weak var visitTextField: CustomTextField!
     @IBOutlet weak var loadDataButton: UIBarButtonItem!
     @IBOutlet weak var logoImage: UIImageView!
@@ -132,8 +132,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitorImage.isUserInteractionEnabled = true
               
         let tapPurposeTextFeild = UITapGestureRecognizer(target: self, action: #selector(purposeAction))
-        purposeTextFeild.addGestureRecognizer(tapPurposeTextFeild)
-        purposeTextFeild.isUserInteractionEnabled = true
+        purposeTextField.addGestureRecognizer(tapPurposeTextFeild)
+        purposeTextField.isUserInteractionEnabled = true
         
         submitButton.layer.cornerRadius = submitButton.frame.height/2
         submitButton.layer.borderColor = UIColor.black.cgColor
@@ -254,7 +254,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBAction func submitButtonClick(_ sender: Any) {
         
         if validate() {
-            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextFeild.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: getCurrentDate()))
+            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextField.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: getCurrentDate()))
         }
     }
     
@@ -271,9 +271,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             self.companyTextField.becomeFirstResponder()
             
         case self.companyTextField:
-            self.purposeTextFeild.becomeFirstResponder()
+            self.purposeTextField.becomeFirstResponder()
             
-        case self.purposeTextFeild:
+        case self.purposeTextField:
             self.visitTextField.becomeFirstResponder()
             
         case self.visitTextField:
@@ -306,7 +306,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switchnextTextField(textField)
         textField.resignFirstResponder()
-        purposeTextFeild.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
+        purposeTextField.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
         return true
     }
 
@@ -348,9 +348,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             companyTextField.shake()
             return false
         }
-        guard let visitPurpose = purposeTextFeild.text, !visitPurpose.isBlank else{
+        guard let visitPurpose = purposeTextField.text, !visitPurpose.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.purposeValidateMessage, duration: 3, position: .center)
-            purposeTextFeild.shake()
+            purposeTextField.shake()
             return false
         }
         guard let visitorName = visitTextField.text, !visitorName.isBlank else{
@@ -392,7 +392,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         phoneTextField.text = ""
         companyTextField.text = ""
         visitTextField.text = ""
-        purposeTextFeild.text = ""
+        purposeTextField.text = ""
         visitorImage.image = UIImage(named: VisitorViewControllerConstants.selectedImageName)
         selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
     }
@@ -492,16 +492,16 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
             
             switch (option){
             case VisitorViewControllerConstants.optionMenuFirstAction:
-                self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuFirstAction
+                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFirstAction
                 break
             case VisitorViewControllerConstants.optionMenuSecondAction:
-                self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuSecondAction
+                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuSecondAction
                 break
             case VisitorViewControllerConstants.optionMenuThirdAction:
-                self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuThirdAction
+                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuThirdAction
                 break
             case VisitorViewControllerConstants.optionMenuFourthAction:
-                self.purposeTextFeild.text = VisitorViewControllerConstants.optionMenuFourthAction
+                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFourthAction
                 break
             default: break
             }
