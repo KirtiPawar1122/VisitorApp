@@ -50,7 +50,7 @@ class VisitorListViewControllerTests: XCTestCase
     var fetchDataCalled = false
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
         fetchDataCalled = true
-        print(request)
+        //print(request)
     }
   }
 

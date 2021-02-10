@@ -19,5 +19,6 @@ class VisitorRouter : VisitorRoutingLogic {
         print(phoneNo)
         let visitorPrint = VisitorPrintRouter.visitorPrintModule(visitorPhoneNo: phoneNo)
         viewController?.navigationController?.pushViewController(visitorPrint, animated: true)
+
     }
 }

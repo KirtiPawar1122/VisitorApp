@@ -25,12 +25,12 @@ class VisitorPrintInteractor: VisitorPrintBusinessLogic {
        visitorfetchRequest.fetchLimit = 1
        do {
              let record = try context.fetch(visitorfetchRequest)
-             print(record)
+             //print(record)
              for item in record {
                  data = item
              }
              let response = VisitorPrint.VisitorPrintData.Response(visitData: data)
-             print(response)
+             //print(response)
              printPresenter?.presentPrintfetchResult(response: response)
         } catch let error as NSError {
             print(error.description)

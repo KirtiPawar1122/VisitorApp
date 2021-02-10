@@ -208,7 +208,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel) {
-        print(viewModel)
+        //print(viewModel)
         guard let visitData = viewModel.visit else {
            return
         }
@@ -218,7 +218,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitTextField.text = visit.visitorName
         phoneTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
-        print(visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data as Any)
+        //print(visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data as Any)
         guard let profileData = visit.visitImage else{
             return
         }
@@ -252,7 +252,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         formatter.dateFormat = VisitorViewControllerConstants.dateFormatForSaveDate
         let dateString = formatter.string(from: now)
         let stringtoDate = formatter.date(from: dateString)
-        print(dateString)
+        //print(dateString)
         return stringtoDate
     }
     
@@ -368,7 +368,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             selectedImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
         }
         
-        print(visitorImage.image as Any)
+        //print(visitorImage.image as Any)
         guard (selectedImage?.pngData()) != nil else {
             self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, duration: 3, position: .center)
             return false
@@ -430,7 +430,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func visitorPrint(phoneNo: String){
-        print(phoneNo)
+       // print(phoneNo)
         router?.routeToVisitorPrint(phoneNo: phoneNo)
     }
 }

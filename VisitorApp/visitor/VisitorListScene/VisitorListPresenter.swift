@@ -10,7 +10,7 @@ class VisitorListPresenter: VisitorListPresentationLogic  {
     var viewDataObject : VisitorListDisplayLogic?
     
     func presentVisitorListResult(response: VisitorList.fetchVisitorList.Response) {
-        print(response)
+        //print(response)
         let viewModelList = response.visit
         let viewModel = VisitorList.fetchVisitorList.ViewModel(visit: viewModelList)
         viewDataObject?.displayVisitorList(viewModel: viewModel)
