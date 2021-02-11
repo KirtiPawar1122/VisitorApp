@@ -68,10 +68,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
-        getChartData()
-        //displayDataOnChart()
         setupUI()
-        chartInteractor?.getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request())
+        getChartData()
     }
 
     func setupUI(){
@@ -108,8 +106,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
 
     
     func getChartData(){
-        let request = VisitorChart.VisitorChartData.Request()
-        chartInteractor?.fetchAllData(request: request)
+        chartInteractor?.getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request())
     }
     
     func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel) {
@@ -157,7 +154,17 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         }
         
         let data = [meeting,guestvisit,interview,other]
+        
+        let centerTextStrings = NSMutableAttributedString()
+        let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
+        let centerText2 = NSMutableAttributedString(string: "\n    \(viewModel.totalVisitCount)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
+                  
+        centerTextStrings.append(centerText1)
+        centerTextStrings.append(centerText2)
+        chartView.centerAttributedText = centerTextStrings
+        chartView.notifyDataSetChanged()
         customizeChart(dataPoints: purpose, values: data)
+        
     }
     
    /* func displayDataOnChart(){

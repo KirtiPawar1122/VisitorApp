@@ -5,7 +5,7 @@
         <attribute name="companyName" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="purpose" optional="YES" attributeType="String"/>
-        <attribute name="visitImage" optional="YES" attributeType="Binary"/>
+        <attribute name="visitImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="visitorName" optional="YES" attributeType="String"/>
         <relationship name="visitors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Visitor" inverseName="visits" inverseEntity="Visitor"/>
     </entity>
@@ -13,7 +13,7 @@
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phoneNo" attributeType="String"/>
-        <attribute name="profileImage" optional="YES" attributeType="Binary"/>
+        <attribute name="profileImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="visitors" inverseEntity="Visit"/>
     </entity>
     <elements>

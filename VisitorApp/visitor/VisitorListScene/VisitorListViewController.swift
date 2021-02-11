@@ -39,7 +39,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var searchedData = [Visit]()
     var currentDate = Date()
     var images = [UIImage]()
-    //let imageCache = NSCache<AnyObject, UIImage>()
     var uniqueKey = String()
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
     
@@ -119,7 +118,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     //MARK: - Fetch Request
     func fetchVisitorList(){
         activityIndicator.startAnimating()
-        DispatchQueue.global().async { [unowned self] in
+        
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             let request = VisitorList.fetchVisitorList.Request()
             self.listInteractor?.fetchVisitorData(request: request)
         }
@@ -240,23 +240,6 @@ extension VisitorListViewController : UITableViewDataSource{
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
         let compareDate = visit.date
         uniqueKey = email + "\(String(describing: compareDate))"
-        //let uniqueKey = email + "\(String(describing: compareDate))" + "\(indexPath.row)"
-        /* if let imageFromCache = imageCache.object(forKey: uniqueKey as AnyObject) as? UIImage {
-         cell.profileImage.image = imageFromCache
-         } else {
-         DispatchQueue.global().async {
-         if let data =  data.visitImage, let imageToCache = UIImage(data: data) {
-         self.imageCache.setObject(imageToCache, forKey: self.uniqueKey as AnyObject)
-         DispatchQueue.main.async {
-         cell.profileImage.image = imageToCache
-         }
-         } else {
-         DispatchQueue.main.async {
-         cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-         }
-         }
-         }
-         } */
         
         if let imageFromCache = appDelegate.imageCache.object(forKey: uniqueKey as AnyObject){
             cell.profileImage.image = imageFromCache
@@ -337,7 +320,7 @@ extension VisitorListViewController: UIPopoverPresentationControllerDelegate{
 extension UIImageView {
     
     func loadImage(data: Data) {
-        DispatchQueue.global().async { [unowned self] in
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             let image = UIImage(data: data)
             DispatchQueue.main.async { [unowned self] in
                 self.image = image
