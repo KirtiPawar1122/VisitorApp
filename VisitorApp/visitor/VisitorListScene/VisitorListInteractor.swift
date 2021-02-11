@@ -31,9 +31,6 @@ class VisitorListInteractor: VisitorListBusinessLogic {
             print(error.description)
         }
     }
-    
-    func fetchVisitorPurposeType(){
-        visitorCoreData.getVisitTypes()
-    }
+
     
 }

@@ -157,8 +157,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
     
     @objc func viewGraph(){
-        let data = viewObj
-        visitorDataRouter?.routeToChart(data: data)
+       // let data = viewObj
+        visitorDataRouter?.routeToChart()
     }
     
     @IBAction func onFilterButton(_ sender: Any) {

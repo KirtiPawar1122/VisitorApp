@@ -41,7 +41,6 @@ class VisitorTableViewCell: UITableViewCell {
         layer.backgroundColor = UIColor.clear.cgColor
     }
     
-    
     func setUpCellData(visitData: Visit){
         visitorName.text = visitData.visitors?.value(forKey: "name") as? String
         visitPurpose.text = visitData.purpose
@@ -52,7 +51,7 @@ class VisitorTableViewCell: UITableViewCell {
         let compareDbDate = formatter.string(from: compareDate!)
         let compareDateDbDate = formatter.date(from: compareDbDate)
         let timedata = getDateDifference(start: compareDateDbDate!, end: currentDate)
-        print(visitData)
+        //print(visitData)
         date.text = compareDbDate
         if timedata <= VisitorDataViewControllerConstants.timeLimit {
             subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)

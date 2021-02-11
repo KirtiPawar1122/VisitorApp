@@ -12,9 +12,9 @@ struct VisitorChartRouterConstants {
 
 class VisitorChartRouter : VisitorChartRoutingLogic {
   
-    static func visitorChartModule(visitData : [Visit]) -> VisitorChartViewController {
+    static func visitorChartModule() -> VisitorChartViewController {
         let chartVC = VisitorChartRouter.mainstoryboard.instantiateViewController(withIdentifier:  VisitorChartRouterConstants.chartIdentifier ) as! VisitorChartViewController
-        chartVC.visits = visitData
+        //chartVC.visits = visitData
         return chartVC
     }
     

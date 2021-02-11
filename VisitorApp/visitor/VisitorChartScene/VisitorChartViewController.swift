@@ -4,6 +4,7 @@ import Charts
 
 protocol VisitorChartDisplayLogic {
     func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel)
+    func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel)
 }
 
 struct ChartViewControllerConstants{
@@ -21,12 +22,12 @@ struct ChartViewControllerConstants{
 }
 
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
-   
     @IBOutlet weak var chartView: PieChartView!
     @IBOutlet var tableview: UITableView!
     @IBOutlet var exportButton: UIButton!
     var visits = [Visit]()
     var visitData = [Visit]()
+    var visitChartData = [VisitorChartDataModel]()
     let purpose = ["Meeting", "Guest Visit", "Interview", "Other"]
     var meetings = 0
     var guestvisits = 0
@@ -68,8 +69,9 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
         getChartData()
-        displayDataOnChart()
+        //displayDataOnChart()
         setupUI()
+        chartInteractor?.getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request())
     }
 
     func setupUI(){
@@ -94,7 +96,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         print("in export data")
         let storedUrl = appdelegate.persistentContainer.persistentStoreDescriptions.first?.url
         let fileName = storedUrl!.lastPathComponent
-        print(fileName)
+        //print(fileName)
         
         let items = [fileName]
         let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
@@ -103,20 +105,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         }
         present(ac, animated: true, completion: nil)
     }
-    
-  /*  @objc func exportData(){
-        print("in export data")
-        let storedUrl = appdelegate.persistentContainer.persistentStoreDescriptions.first?.url
-        let fileName = storedUrl!.lastPathComponent
-        print(fileName)
-        
-        let items = [storedUrl]
-        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            ac.popoverPresentationController?.sourceView = exportButton
-        }
-        present(ac, animated: true, completion: nil)
-    } */
+
     
     func getChartData(){
         let request = VisitorChart.VisitorChartData.Request()
@@ -125,7 +114,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel) {
         visitData = viewModel.visitData
-        print(visitData)
+        //print(visitData)
         let centerTextStrings = NSMutableAttributedString()
         let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
         let centerText2 = NSMutableAttributedString(string: "\n    \(visitData.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
@@ -136,8 +125,42 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.notifyDataSetChanged()
         
     }
-       
-    func displayDataOnChart(){
+    
+    func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel) {
+        for item in viewModel.visitTypes{
+            if item.visitPurpose.rawValue == "meeting"{
+                meetings = item.purposeCount
+            } else if item.visitPurpose.rawValue == "guestVisit"{
+                guestvisits = item.purposeCount
+            } else if item.visitPurpose.rawValue == "interview"{
+                interviews = item.purposeCount
+            } else if item.visitPurpose.rawValue == "other"{
+                others = item.purposeCount
+            }
+        }
+        let total = Double(viewModel.totalVisitCount)
+        var meeting : Double{
+            let meetingValue = 100 * Double(meetings) / total
+            return meetingValue
+        }
+        var guestvisit : Double{
+            let guestValue = 100 * Double(guestvisits) / total
+            return guestValue
+        }
+        var interview : Double{
+            let interviewValue = 100 * Double(interviews) / total
+            return interviewValue
+        }
+        var other : Double{
+            let otherValue = 100 * Double(others) / total
+            return otherValue
+        }
+        
+        let data = [meeting,guestvisit,interview,other]
+        customizeChart(dataPoints: purpose, values: data)
+    }
+    
+   /* func displayDataOnChart(){
         for visit in visits {
             if let purpose = visit.purpose{
                 if purpose == ChartViewControllerConstants.meetingTitle{
@@ -170,7 +193,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         }
         let data = [meeting, guestvisit, interview, other]
         customizeChart(dataPoints: purpose, values: data)
-    }
+    } */
     
     func customizeChart(dataPoints: [String], values: [Double]) {
       // 1. Set ChartDataEntry
@@ -237,9 +260,9 @@ extension VisitorChartViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorPieChartTableViewCell", for: indexPath) as! VisitorPieChartTableViewCell
         let data = purpose[indexPath.row]
-        cell.selectionStyle = .none
-        cell.contentView.backgroundColor = UIColor.clear
-        cell.layer.backgroundColor = UIColor.clear.cgColor
+        //cell.selectionStyle = .none
+        //cell.contentView.backgroundColor = UIColor.clear
+        //cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.sectionTitleLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize)
         cell.dataCountLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize)
         cell.sectionTitleLabel.textColor = UIColor.white
