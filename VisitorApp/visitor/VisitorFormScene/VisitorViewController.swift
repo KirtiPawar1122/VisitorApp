@@ -465,13 +465,13 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         let orienatationFixedImage = image.fixOrientation()
-        selectedImage = orienatationFixedImage
+        let compressImage = orienatationFixedImage.jpeg(.low)
+        selectedImage = UIImage(data: compressImage!)
         visitorImage.image = selectedImage
         dismiss(animated: true, completion: nil)
     }
 
     @objc func purposeAction(){
-      
         presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.optionMenuFirstAction, VisitorViewControllerConstants.optionMenuSecondAction, VisitorViewControllerConstants.optionMenuThirdAction, VisitorViewControllerConstants.optionMenuFourthAction) { (option) in
             
             switch (option){
@@ -555,4 +555,17 @@ extension UIImage {
             return self
         }
     }
+    
+    enum JPEGQuality: CGFloat {
+           case lowest  = 0
+           case low     = 0.25
+           case medium  = 0.5
+           case high    = 0.75
+           case highest = 1
+    }
+    
+    func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+           return jpegData(compressionQuality: jpegQuality.rawValue)
+    }
+
 }

@@ -128,6 +128,9 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         viewObj = viewModel.visit!
         searchedData = viewObj
         loadImageIntoCache()
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     //MARK: - Delete Record from table
@@ -207,8 +210,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
                 }
                 if counter == (self.searchedData.count) - 1{
                     DispatchQueue.main.async {
-                        self.activityIndicator.stopAnimating()
-                        self.tableview.reloadData()
+                         self.tableview.reloadData()
+                         self.activityIndicator.stopAnimating()
                     }
                 }
         }
