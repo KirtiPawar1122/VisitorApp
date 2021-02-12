@@ -19,6 +19,10 @@ struct ChartViewControllerConstants{
     static let centerString = "Total Visitors"
     static let centerText1Size: CGFloat = 20
     static let centerText2Size: CGFloat = 40
+    static let meetingColor = UIColor(red: 20.0/255.0, green: 122.0/255, blue: 214.0/255, alpha: 1)
+    static let interviewColor = UIColor(red: 121.0/255.0, green: 210.0/255, blue: 222.0/255, alpha: 1)
+    static let guestColor = UIColor(red: 227.0/255.0, green: 0.0/255, blue: 27.0/255, alpha: 1)
+    static let otherVisitColor = UIColor(red: 128.0/255.0, green: 0.0/255, blue: 128.0/255, alpha: 1)
 }
 
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
@@ -225,13 +229,13 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       var colors: [UIColor] = []
       for item in dataEntries {
         if item.label == ChartViewControllerConstants.meetingTitle{
-                 colors.append(#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1))
+            colors.append(ChartViewControllerConstants.meetingColor)
         } else if item.label == ChartViewControllerConstants.guestVisitTitle{
-                colors.append(#colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1))
+                colors.append(ChartViewControllerConstants.guestColor)
         } else if item.label == ChartViewControllerConstants.interviewTitle{
-                colors.append(#colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1))
+                colors.append(ChartViewControllerConstants.interviewColor)
         } else if item.label == ChartViewControllerConstants.othersTitle{
-                colors.append(#colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1))
+                colors.append(ChartViewControllerConstants.otherVisitColor)
         }
       }
      pieChartDataSet.colors = colors
@@ -279,22 +283,22 @@ extension VisitorChartViewController: UITableViewDataSource{
         if indexPath.row == 0 {
             if data == ChartViewControllerConstants.meetingTitle {
             cell.dataCountLabel.text = String(meetings)
-            cell.backgroundColor = #colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1)
+            cell.backgroundColor = ChartViewControllerConstants.meetingColor
             }
         } else if indexPath.row == 1{
             if data == ChartViewControllerConstants.guestVisitTitle{
                 cell.dataCountLabel.text = String(guestvisits)
-                cell.backgroundColor = #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1)
+                cell.backgroundColor = ChartViewControllerConstants.guestColor
             }
         } else if indexPath.row == 2{
             if data == ChartViewControllerConstants.interviewTitle{
                 cell.dataCountLabel.text = String(interviews)
-                cell.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1)
+                cell.backgroundColor = ChartViewControllerConstants.interviewColor
             }
         } else if indexPath.row == 3{
             if data == ChartViewControllerConstants.othersTitle{
                 cell.dataCountLabel.text = String(others)
-                cell.backgroundColor = #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)
+                cell.backgroundColor = ChartViewControllerConstants.otherVisitColor
             }
         }
         return cell
