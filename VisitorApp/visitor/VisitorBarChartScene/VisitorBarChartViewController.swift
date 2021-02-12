@@ -23,6 +23,10 @@ struct VisitorsChartViewControllerConstants {
     static let visitorDataLabel = "Visitor Data"
     static let visitorPrintViewController = "VisitorPrintViewController"
     static let visitorChartTableViewCell = "VisitorChartTableViewCell"
+    static let meetingColor = UIColor(red: 20.0/255.0, green: 122.0/255, blue: 214.0/255, alpha: 1)
+    static let interviewColor = UIColor(red: 121.0/255.0, green: 210.0/255, blue: 222.0/255, alpha: 1)
+    static let guestColor = UIColor(red: 227.0/255.0, green: 0.0/255, blue: 27.0/255, alpha: 1)
+    static let otherVisitColor = UIColor(red: 128.0/255.0, green: 0.0/255, blue: 128.0/255, alpha: 1)
 }
 
 class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLogic {
@@ -150,7 +154,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         for item in datavisit {
             if item.purpose == VisitorsChartViewControllerConstants.meetingTitle{
                 meeting = meeting + 1
-                //meetingDate.append(item.date!)
                 let meetingDateString = formatter.string(from: item.date!)
                 meetingDate.append(meetingDateString)
                 print(meetingDate)
@@ -171,7 +174,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         items = [meetingDate,interviewDate,guestvisitDate,otherDate]
         let data = [meeting,interview,guestVisit,other]
         setDataOnChart(dataPoints: purpose, values: data.map({ Double($0)}))
-        
     }
     
     func setDataOnChart(dataPoints: [String], values: [Double]) {
@@ -183,7 +185,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         }
     
         let barChartDataSet = BarChartDataSet(entries: dataEntries, label: VisitorsChartViewControllerConstants.visitorDataLabel)
-        barChartDataSet.colors = [#colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1), #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1), #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1), #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)]
+        barChartDataSet.colors = [VisitorsChartViewControllerConstants.meetingColor,
+                                  VisitorsChartViewControllerConstants.interviewColor,
+                                  VisitorsChartViewControllerConstants.guestColor,
+                                  VisitorsChartViewControllerConstants.otherVisitColor]
         barChartDataSet.highlightEnabled = false
 
         if let font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize) {
@@ -264,8 +269,6 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         
         let cell = tableview.dequeueReusableCell(withIdentifier: VisitorsChartViewControllerConstants.visitorChartTableViewCell) as! VisitorChartTableViewCell
         let data = items[indexPath.section][indexPath.row]
-        //cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
-        //cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle
@@ -273,7 +276,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                 cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            cell.backgroundColor = #colorLiteral(red: 0.07873522429, green: 0.4801783562, blue: 0.8375625014, alpha: 1)
+            cell.backgroundColor = VisitorsChartViewControllerConstants.meetingColor
         }
         if (indexPath.section == 1){
             if (indexPath.row == 0) {
@@ -282,7 +285,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                 cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            cell.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8235639408, blue: 0.8712158807, alpha: 1)
+            cell.backgroundColor = VisitorsChartViewControllerConstants.interviewColor
         }
         if (indexPath.section == 2) {
             if (indexPath.row == 0) {
@@ -291,7 +294,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            cell.backgroundColor = #colorLiteral(red: 0.8907681206, green: 0, blue: 0.1075288955, alpha: 1)
+            cell.backgroundColor = VisitorsChartViewControllerConstants.guestColor
         }
         if (indexPath.section == 3){
             if (indexPath.row == 0) {
@@ -300,7 +303,7 @@ extension VisitorBarChartViewController: UITableViewDataSource {
                cell.sectionLabel.text = ""
             }
             cell.dataLabel.text = data
-            cell.backgroundColor = #colorLiteral(red: 0.5014447774, green: 0, blue: 0.5014447774, alpha: 1)
+            cell.backgroundColor = VisitorsChartViewControllerConstants.otherVisitColor
         }
         return cell
     }

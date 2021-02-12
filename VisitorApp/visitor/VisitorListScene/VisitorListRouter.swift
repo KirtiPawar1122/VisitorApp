@@ -29,12 +29,6 @@ class VisitorListRouter : visitorListRoutingLogic {
         return UIStoryboard(name:VisitorListRouterConstants.mainStoryboard,bundle: Bundle.main)
     }
     
-   /* func routeToChart(data: [Visit]){
-        //print(data)
-        let visitorChart = VisitorChartRouter.visitorChartModule(visitData: data)
-        viewController?.navigationController?.pushViewController(visitorChart, animated: true)
-    } */
-    
     func routeToChart(){
         let visitorChart = VisitorChartRouter.visitorChartModule()
         viewController?.navigationController?.pushViewController(visitorChart, animated: true)

@@ -205,7 +205,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
                         self.appDelegate.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
                     }
                 }
-                
                 if counter == (self.searchedData.count) - 1{
                     DispatchQueue.main.async {
                         self.activityIndicator.stopAnimating()
@@ -216,7 +215,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
 }
 //MARK: - Tableview DataSource methods
-
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // return viewObj.count

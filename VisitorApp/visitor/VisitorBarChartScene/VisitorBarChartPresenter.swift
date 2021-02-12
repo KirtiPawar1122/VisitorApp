@@ -2,7 +2,6 @@
 
 import UIKit
 
-
 protocol  VisitorBarChartPresentationLogic {
     func presentVisitorBarChartData(response: VisitorBarChart.VisitorBarChartData.Response)
 }

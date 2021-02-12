@@ -1,7 +1,6 @@
 
 import Foundation
 
-
 enum VisitorChart {
     
     enum VisitorChartData{

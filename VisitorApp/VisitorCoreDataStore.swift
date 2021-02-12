@@ -30,7 +30,7 @@ class VisitorCoreDataStore {
         visitData.setValue(request.visitPurpose, forKey: VisitorInteractorConstants.visitorPurpose)
         visitData.setValue(request.currentDate, forKey: VisitorInteractorConstants.currentDate)
         visitData.setValue(request.visitingName, forKey: VisitorInteractorConstants.visitingPersonName)
-        visitData.setValue(request.profileImage, forKey: "visitImage")
+        visitData.setValue(request.profileImage, forKey: VisitorInteractorConstants.visitorImage)
         visitData.setValue(visitorData, forKey: VisitorInteractorConstants.visitors)
         //core data relationship
         do {

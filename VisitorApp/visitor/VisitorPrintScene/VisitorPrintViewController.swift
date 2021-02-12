@@ -127,7 +127,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     }
 
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel) {
-        print(viewModel.visitData as Any)
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
         
@@ -171,7 +170,6 @@ extension UIView {
         // Fixed height and width to set alignment as center to print preview
         let pdfPageFrame = CGRect(x: VisitorPrintViewControllerConstant.xValue, y: VisitorPrintViewControllerConstant.height/5, width: VisitorPrintViewControllerConstant.width, height: VisitorPrintViewControllerConstant.height)
         let pdfData = NSMutableData()
-        
         UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
         UIGraphicsBeginPDFPageWithInfo(pdfPageFrame, nil)
         guard let pdfContext = UIGraphicsGetCurrentContext() else { return "" }

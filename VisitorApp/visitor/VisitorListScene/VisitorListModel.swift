@@ -15,6 +15,4 @@ enum VisitorList {
             var visit : [Visit]?
         }
     }
-    
-   
 }

@@ -16,6 +16,7 @@ struct ChartViewControllerConstants{
     static let boldFont = "Roboto-Bold"
     static let defaultFontSize: CGFloat = 17
     static let centerString = "Total Visitors"
+    static let chartNoDataString = "Loding..."
     static let centerText1Size: CGFloat = 20
     static let centerText2Size: CGFloat = 40
     static let meetingColor = UIColor(red: 20.0/255.0, green: 122.0/255, blue: 214.0/255, alpha: 1)
@@ -89,7 +90,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.defaultFontSize) ?? UIFont()
         chartView.legend.horizontalAlignment = .center
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        chartView.noDataText = "Loding.."
+        chartView.noDataText = ChartViewControllerConstants.chartNoDataString
         chartView.noDataFont = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize) ?? UIFont()
     }
     
@@ -143,7 +144,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
             centerTextStrings.append(centerText1)
             centerTextStrings.append(centerText2)
             self.chartView.centerAttributedText = centerTextStrings
-            //self.chartView.noDataText = "Loding"
             self.chartView.notifyDataSetChanged()
             self.tableview.reloadData()
             self.activityIndicator.stopAnimating()

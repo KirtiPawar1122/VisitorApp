@@ -12,6 +12,7 @@ struct VisitorInteractorConstants {
     static let visitorProfileImage = "profileImage"
     static let visitorCompanyName = "companyName"
     static let visitorPurpose = "purpose"
+    static let visitorImage = "visitImage"
     static let currentDate = "date"
     static let visitingPersonName = "visitorName"
     static let visitors = "visitors"

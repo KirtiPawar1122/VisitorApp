@@ -8,6 +8,11 @@ protocol VisitorPrintBusinessLogic {
     func fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request)
 }
 
+struct VisitorPrintInteractorConstants {
+    static var visitEntity = "Visit"
+    static var visitDate = "date"
+}
+
 class VisitorPrintInteractor: VisitorPrintBusinessLogic {
     
     var printPresenter: VisitorPrintPresentationLogic?
@@ -16,10 +21,10 @@ class VisitorPrintInteractor: VisitorPrintBusinessLogic {
     var data: Visit?
     
     func fetchVisitorPrintData(request: VisitorPrint.VisitorPrintData.Request) {
-       let visitorfetchRequest = NSFetchRequest<Visit>(entityName: "Visit")
+        let visitorfetchRequest = NSFetchRequest<Visit>(entityName: VisitorPrintInteractorConstants.visitEntity)
         let predicate = NSPredicate(format: VisitorInteractorConstants.predicateString, request.phoneNo ?? "")
        visitorfetchRequest.predicate = predicate
-       let sortDescriptors = NSSortDescriptor(key: "date", ascending: false)
+        let sortDescriptors = NSSortDescriptor(key: VisitorPrintInteractorConstants.visitDate, ascending: false)
        visitorfetchRequest.sortDescriptors = [sortDescriptors]
         
        visitorfetchRequest.fetchLimit = 1
