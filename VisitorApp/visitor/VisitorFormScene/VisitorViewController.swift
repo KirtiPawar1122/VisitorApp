@@ -208,7 +208,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitTextField.text = visit.visitorName
         phoneTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.phoneString) as? String
         emailTextField.text = visit.visitors?.value(forKey: VisitorViewControllerConstants.emailString) as? String
-        //print(visit.visitors?.value(forKey: VisitorViewControllerConstants.profileImageString) as? Data as Any)
         guard let profileData = visit.visitImage else{
             return
         }
@@ -242,7 +241,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         formatter.dateFormat = VisitorViewControllerConstants.dateFormatForSaveDate
         let dateString = formatter.string(from: now)
         let stringtoDate = formatter.date(from: dateString)
-        //print(dateString)
         return stringtoDate
     }
     
@@ -305,12 +303,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         return true
     }
 
-    @objc func emailAction(){
-        fetchData(email: emailTextField.text ?? "" , phoneNo: phoneTextField.text ?? "")
-        switchToNextTextField(userTextField)
-    }
-    
-    /* Navigation bar hide button */
+    /* Navigation bar hidden button */
     @IBAction func savedData(_ sender: Any) {
         tapCount = tapCount + 1
         if tapCount == VisitorViewControllerConstants.maxTapCount {
@@ -322,7 +315,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
         
     func validate() -> Bool{
-        
         guard let phoneNo = phoneTextField.text, !phoneNo.isBlank, phoneNo.isphoneValidate(phone: phoneNo) else{
             self.view.makeToast(VisitorViewControllerConstants.phoneValidateMessage, position: .center)
             phoneTextField.shake()
@@ -358,7 +350,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             selectedImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
         }
         
-        //print(visitorImage.image as Any)
         guard (selectedImage?.pngData()) != nil else {
             self.view.makeToast(VisitorViewControllerConstants.imageValidateMessage, position: .center)
             return false
@@ -370,11 +361,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
         
         if (checkphoneNo != request.phoneNo) {
-            //voice on submit button
+            //voice greet on submit button
             showAlerts(alert: "Hello \(String(describing: request.name!)), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(String(describing: request.name!)), Welcome to Wurth IT")
         } else {
-            // voice for existing record
+            // voice greet for existing record
             showAlerts(alert: VisitorViewControllerConstants.checkmailAlert)
             checkphoneNo = ""
         }
@@ -420,7 +411,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func visitorPrint(phoneNo: String){
-       // print(phoneNo)
         router?.routeToVisitorPrint(phoneNo: phoneNo)
     }
 }
@@ -430,7 +420,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
 extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @objc func imageAction() {
-     
         presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.imageClickMsg, VisitorViewControllerConstants.imageChooseMsg) { (option) in
             switch option{
             case VisitorViewControllerConstants.imageClickMsg:

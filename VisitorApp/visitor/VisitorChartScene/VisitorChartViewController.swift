@@ -3,7 +3,6 @@ import UIKit
 import Charts
 
 protocol VisitorChartDisplayLogic {
-    func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel)
     func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel)
 }
 
@@ -28,13 +27,14 @@ struct ChartViewControllerConstants{
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     @IBOutlet weak var chartView: PieChartView!
     @IBOutlet var tableview: UITableView!
-    @IBOutlet var exportButton: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    
     var visits = [Visit]()
     var visitData = [Visit]()
     var visitChartData = [VisitorChartDataModel]()
     let purpose = ["Meeting", "Guest Visit", "Interview", "Other"]
     var meetings = 0
-    var guestvisits = 0
+    var guestVisits = 0
     var interviews = 0
     var others = 0
     var chartRouter: VisitorChartRouter = VisitorChartRouter()
@@ -59,7 +59,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         let viewController = self
         let interactor = VisitorChartInteractor()
         let presenter = VisitorChartPresenter()
-        
         viewController.chartRouter = chartRouter
         viewController.chartInteractor = interactor
         viewController.chartDataInteractor = interactor
@@ -74,6 +73,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
         setupUI()
         getChartData()
+       
     }
 
     func setupUI(){
@@ -82,60 +82,35 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         tableview.backgroundColor = .clear
         tableview.layer.borderColor = UIColor.white.cgColor
         tableview.layer.borderWidth = 2
-        
         self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         chartView.legend.enabled = true
         chartView.legend.textColor = UIColor.black
         chartView.legend.orientation = .horizontal
-        chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.defaultFontSize)!
+        chartView.legend.font = UIFont(name: ChartViewControllerConstants.font, size: ChartViewControllerConstants.defaultFontSize) ?? UIFont()
         chartView.legend.horizontalAlignment = .center
         chartView.holeColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-
+        chartView.noDataText = "Loding.."
+        chartView.noDataFont = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize) ?? UIFont()
     }
-    
-    
-    @IBAction func exportData(_ sender: Any) {
-        print("in export data")
-        let storedUrl = appdelegate.persistentContainer.persistentStoreDescriptions.first?.url
-        let fileName = storedUrl!.lastPathComponent
-        //print(fileName)
-        
-        let items = [fileName]
-        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            ac.popoverPresentationController?.sourceView = self.exportButton
-        }
-        present(ac, animated: true, completion: nil)
-    }
-
     
     func getChartData(){
-        chartInteractor?.getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request())
+        activityIndicator.startAnimating()
+        DispatchQueue.global(qos: .userInitiated).async {
+             self.chartInteractor?.getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request())
+        }
     }
     
-    func displayChart(viewModel: VisitorChart.VisitorChartData.ViewModel) {
-        visitData = viewModel.visitData
-        //print(visitData)
-        let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
-        let centerText2 = NSMutableAttributedString(string: "\n    \(visitData.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
-                  
-        centerTextStrings.append(centerText1)
-        centerTextStrings.append(centerText2)
-        chartView.centerAttributedText = centerTextStrings
-        chartView.notifyDataSetChanged()
-        
-    }
-    
-    func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel) {
+    func displayPercenatageDataOnChart(viewModel:
+        VisitorChart.FetchVisitorPurposeType.ViewModel) {
+        let data = viewModel.visitTypes
         for item in viewModel.visitTypes{
-            if item.visitPurpose.rawValue == "meeting"{
+            if VisitPurpose.meeting == item.visitPurpose{
                 meetings = item.purposeCount
-            } else if item.visitPurpose.rawValue == "guestVisit"{
-                guestvisits = item.purposeCount
-            } else if item.visitPurpose.rawValue == "interview"{
+            } else if VisitPurpose.guestVisit == item.visitPurpose{
+                guestVisits = item.purposeCount
+            } else if VisitPurpose.interview == item.visitPurpose{
                 interviews = item.purposeCount
-            } else if item.visitPurpose.rawValue == "other"{
+            } else if VisitPurpose.other == item.visitPurpose{
                 others = item.purposeCount
             }
         }
@@ -144,8 +119,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
             let meetingValue = 100 * Double(meetings) / total
             return meetingValue
         }
-        var guestvisit : Double{
-            let guestValue = 100 * Double(guestvisits) / total
+        var guestVisit : Double{
+            let guestValue = 100 * Double(guestVisits) / total
             return guestValue
         }
         var interview : Double{
@@ -157,56 +132,27 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
             return otherValue
         }
         
-        let data = [meeting,guestvisit,interview,other]
-        
-        let centerTextStrings = NSMutableAttributedString()
-        let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
-        let centerText2 = NSMutableAttributedString(string: "\n    \(viewModel.totalVisitCount)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
-                  
-        centerTextStrings.append(centerText1)
-        centerTextStrings.append(centerText2)
-        chartView.centerAttributedText = centerTextStrings
-        chartView.notifyDataSetChanged()
-        customizeChart(dataPoints: purpose, values: data)
-        
+        DispatchQueue.main.async {
+            let data = [meeting,guestVisit,interview,other]
+            self.customizeChart(dataPoints: self.purpose, values: data)
+            
+            let centerTextStrings = NSMutableAttributedString()
+            let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
+            let centerText2 = NSMutableAttributedString(string: "\n    \(viewModel.totalVisitCount)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
+                             
+            centerTextStrings.append(centerText1)
+            centerTextStrings.append(centerText2)
+            self.chartView.centerAttributedText = centerTextStrings
+            //self.chartView.noDataText = "Loding"
+            self.chartView.notifyDataSetChanged()
+            self.tableview.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
     }
     
-   /* func displayDataOnChart(){
-        for visit in visits {
-            if let purpose = visit.purpose{
-                if purpose == ChartViewControllerConstants.meetingTitle{
-                      meetings = meetings + 1
-                } else if purpose == ChartViewControllerConstants.guestVisitTitle{
-                      guestvisits = guestvisits + 1
-                } else if purpose == ChartViewControllerConstants.interviewTitle{
-                      interviews = interviews + 1
-                } else if purpose == ChartViewControllerConstants.othersTitle{
-                      others = others + 1
-                }
-            }
-        }
-        let total = Double(visits.count)
-        var meeting : Double{
-            let meetingValue = 100 * Double(meetings) / total
-            return meetingValue
-        }
-        var guestvisit : Double{
-            let guestValue = 100 * Double(guestvisits) / total
-            return guestValue
-        }
-        var interview : Double{
-            let interviewValue = 100 * Double(interviews) / total
-            return interviewValue
-        }
-        var other : Double{
-            let otherValue = 100 * Double(others) / total
-            return otherValue
-        }
-        let data = [meeting, guestvisit, interview, other]
-        customizeChart(dataPoints: purpose, values: data)
-    } */
-    
+ 
     func customizeChart(dataPoints: [String], values: [Double]) {
+        
       // 1. Set ChartDataEntry
       var dataEntries: [PieChartDataEntry] = []
         for i in 0..<dataPoints.count {
@@ -238,9 +184,9 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
                 colors.append(ChartViewControllerConstants.otherVisitColor)
         }
       }
-     pieChartDataSet.colors = colors
-
-      // 3. Set ChartData
+      pieChartDataSet.colors = colors
+      
+            // 3. Set ChartData
       let pieChartData = PieChartData(dataSet: pieChartDataSet)
       let format = NumberFormatter()
       format.numberStyle = .percent
@@ -271,15 +217,7 @@ extension VisitorChartViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "VisitorPieChartTableViewCell", for: indexPath) as! VisitorPieChartTableViewCell
         let data = purpose[indexPath.row]
-        //cell.selectionStyle = .none
-        //cell.contentView.backgroundColor = UIColor.clear
-        //cell.layer.backgroundColor = UIColor.clear.cgColor
-        cell.sectionTitleLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize)
-        cell.dataCountLabel.font = UIFont(name: ChartViewControllerConstants.boldFont, size: ChartViewControllerConstants.defaultFontSize)
-        cell.sectionTitleLabel.textColor = UIColor.white
-        cell.dataCountLabel.textColor = UIColor.white
         cell.sectionTitleLabel.text = data
-    
         if indexPath.row == 0 {
             if data == ChartViewControllerConstants.meetingTitle {
             cell.dataCountLabel.text = String(meetings)
@@ -287,8 +225,10 @@ extension VisitorChartViewController: UITableViewDataSource{
             }
         } else if indexPath.row == 1{
             if data == ChartViewControllerConstants.guestVisitTitle{
-                cell.dataCountLabel.text = String(guestvisits)
+
+                cell.dataCountLabel.text = String(guestVisits)
                 cell.backgroundColor = ChartViewControllerConstants.guestColor
+
             }
         } else if indexPath.row == 2{
             if data == ChartViewControllerConstants.interviewTitle{

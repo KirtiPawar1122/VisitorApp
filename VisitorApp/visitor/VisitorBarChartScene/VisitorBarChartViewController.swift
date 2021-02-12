@@ -112,9 +112,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         hostLabel.text = selectedData.visitorName
         phoneLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as? String
         totalVisitCount.text = String(datavisit.count)
-        //let image = UIImage(data: selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.profile ) as! Data)
-        let image = UIImage(data: selectedData.visitImage!) 
-        profileImage.image = image!
+
+        guard let image = UIImage(data: selectedData.visitImage ?? Data()) else {
+            return
+        }
+        profileImage.image = image
         
     }
     
@@ -262,8 +264,8 @@ extension VisitorBarChartViewController: UITableViewDataSource {
         
         let cell = tableview.dequeueReusableCell(withIdentifier: VisitorsChartViewControllerConstants.visitorChartTableViewCell) as! VisitorChartTableViewCell
         let data = items[indexPath.section][indexPath.row]
-        cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
-        cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
+        //cell.sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
+        //cell.dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
                 cell.sectionLabel.text = VisitorsChartViewControllerConstants.meetingTitle

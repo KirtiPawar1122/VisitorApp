@@ -10,11 +10,7 @@ class VisitorChartTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        selectionStyle = .none
-        contentView.backgroundColor = UIColor.clear
-        layer.backgroundColor = UIColor.clear.cgColor
-        
+        setUpCellUI()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -22,6 +18,10 @@ class VisitorChartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    
-    
+    func setUpCellUI(){
+        selectionStyle = .none
+        sectionLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
+        dataLabel.font = UIFont(name: VisitorsChartViewControllerConstants.font, size: VisitorsChartViewControllerConstants.fontSize)
+    }
+
 }

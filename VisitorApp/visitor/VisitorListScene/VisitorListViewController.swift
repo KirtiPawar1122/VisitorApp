@@ -41,8 +41,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var images = [UIImage]()
     var uniqueKey = String()
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
-    
-    
+
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -101,7 +100,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         searchBar.searchTextField.placeholder = VisitorDataViewControllerConstants.searchPlaceholder
         self.tableview.tableFooterView = UIView()
         tableview.separatorStyle = .none
-        
     }
     
     
@@ -129,10 +127,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
         viewObj = viewModel.visit!
         searchedData = viewObj
-//        DispatchQueue.main.async { [unowned self] in
-//            //self.tableview.reloadData()
-//           // self.activityIndicator.stopAnimating()
-//        }
         loadImageIntoCache()
     }
     
@@ -157,7 +151,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     }
     
     @objc func viewGraph(){
-       // let data = viewObj
         visitorDataRouter?.routeToChart()
     }
     

@@ -35,7 +35,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     
     var printData = Visit()
     var printVisitData: Visit?
-    var selectedImge = "no-image"
     var printInteractor: VisitorPrintBusinessLogic?
     var printRouter: VisitorPrintRouter = VisitorPrintRouter()
     var cardImage: UIImage?
@@ -91,7 +90,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         let stringDate = formatter.string(from: currentSelectedDate ?? todaysDate)
         let selectedDate = formatter.date(from: stringDate)
         let timedata = getDateDiff(start: selectedDate!, end: currentDate)
-        print(stringDate)
         
         if timedata <= VisitorPrintViewControllerConstant.timeLimit {
             printButton.isHidden = false
@@ -106,8 +104,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
            visitorName.text = printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
            hostLabel.text = printVisitData?.visitorName
            purposeLabel.text = printVisitData?.purpose
-           //let image = UIImage(data: printVisitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data)
-           let image = UIImage(data: printVisitData!.visitImage!)
+           guard let image = UIImage(data: printVisitData?.visitImage ?? Data()) else {
+                return
+           }
            profileImage.image = image
         } else {
             getPrintData()
@@ -131,22 +130,22 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         print(viewModel.visitData as Any)
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
-        let displayDate = formatter.string(from: viewModel.visitData!.date!)
+        
+        guard let savedVisitDate = viewModel.visitData?.date else { return }
+        let displayDate = formatter.string(from: savedVisitDate)
         VisitDate.text = displayDate
         visitorName.text = viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.nameString) as? String
         purposeLabel.text = viewModel.visitData?.purpose
         hostLabel.text = viewModel.visitData?.visitorName
-        //let image = UIImage(data: viewModel.visitData?.visitors?.value(forKey: VisitorPrintViewControllerConstant.profileImage) as! Data )
-        let image = UIImage(data: viewModel.visitData!.visitImage!)
-        //guard let image = UIImage(data: viewModel.visitData?.visitImage)
+        guard let image = UIImage(data: viewModel.visitData?.visitImage ?? Data()) else{
+            return
+        }
         profileImage.image = image
     }
     
     @IBAction func onPrintAction(_ sender: Any) {
         //convert UIView into PDF & Save - alert display
-        print(visitorCardView as Any)
-        print("visitorCardView size - \(visitorCardView.frame)")
-        
+      
         let pdfFilePath = visitorCardView.createPDFfromView()
         let pdfURL = NSURL.fileURL(withPath: pdfFilePath)
         let items = [ pdfURL as Any]
@@ -165,7 +164,6 @@ extension UIView {
        drawHierarchy(in: rect, afterScreenUpdates: true)
        let image = UIGraphicsGetImageFromCurrentImageContext()
        UIGraphicsEndImageContext()
-       print(image as Any)
        return image
     }
     
