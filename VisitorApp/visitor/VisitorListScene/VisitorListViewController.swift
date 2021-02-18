@@ -102,7 +102,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         tableview.separatorStyle = .none
     }
     
-    
+
     func hideKeyboardTappedAround(){
         let tap : UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyboard))
         tap.cancelsTouchesInView = false
@@ -179,7 +179,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         print("click by Purpose")
     }
     
-    //MARK: - Date Difference For dipslay VisitorCard
+    //MARK: - Date Difference For display VisitorCard
     
     func getDateDifference(start: Date, end: Date) -> Int  {
         let calendar = Calendar.current
@@ -260,16 +260,16 @@ extension VisitorListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let data = viewObj
         let item = searchedData[indexPath.row]
-        var dataArray = [Visit]()
         let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
-        for visit in data {
+       /* for visit in data {
             let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
             if email == selectedEmail {
                 dataArray.append(visit)
             }
-        }
+        } */
+        let filterdata =  data.filter{ $0.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String == selectedEmail }
         tableview.deselectRow(at: indexPath, animated: true)
-        visitorDataRouter?.routeToBarChart(fetcheddata: dataArray, selectedData: item)
+        visitorDataRouter?.routeToBarChart(fetcheddata: filterdata, selectedData: item)
     }
 }
 

@@ -60,7 +60,7 @@
                                                                 <constraint firstAttribute="height" constant="80" id="kaP-2J-yEJ"/>
                                                             </constraints>
                                                         </view>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-1" translatesAutoresizingMaskIntoConstraints="NO" id="Grz-p9-brs" customClass="CustomImageView" customModule="VisitorApp" customModuleProvider="target">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-1" translatesAutoresizingMaskIntoConstraints="NO" id="Grz-p9-brs" customClass="CustomImageView" customModule="VisitorApp" customModuleProvider="target">
                                                             <rect key="frame" x="30" y="5" width="70" height="70"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="70" id="5nI-Zc-EHf"/>
@@ -266,7 +266,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="71O-Xa-ljG" customClass="CardView" customModule="VisitorApp" customModuleProvider="target">
                                                 <rect key="frame" x="50" y="50" width="924" height="500"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-1" translatesAutoresizingMaskIntoConstraints="NO" id="QXc-kB-tf9">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-1" translatesAutoresizingMaskIntoConstraints="NO" id="QXc-kB-tf9">
                                                         <rect key="frame" x="382" y="10" width="160" height="160"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="160" id="kSK-Yw-D6a"/>
