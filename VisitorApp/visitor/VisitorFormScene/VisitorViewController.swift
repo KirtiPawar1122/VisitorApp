@@ -465,8 +465,14 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         let orienatationFixedImage = image.fixOrientation()
-        let compressImage = orienatationFixedImage.jpeg(.low)
-        selectedImage = UIImage(data: compressImage!)
+        if orienatationFixedImage.size.width >= 500 {
+            let compressImage = orienatationFixedImage.resized(toWidth: 500)
+            selectedImage = compressImage
+        } else {
+            selectedImage = orienatationFixedImage
+        }
+        
+        //selectedImage = compressImage
         visitorImage.image = selectedImage
         dismiss(animated: true, completion: nil)
     }
@@ -567,5 +573,13 @@ extension UIImage {
     func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
            return jpegData(compressionQuality: jpegQuality.rawValue)
     }
-
+    
+    func resized(toWidth width: CGFloat, isOpaque: Bool = true) -> UIImage? {
+        let canvas = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        let format = imageRendererFormat
+        format.opaque = isOpaque
+        return UIGraphicsImageRenderer(size: canvas, format: format).image {
+            _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
 }
