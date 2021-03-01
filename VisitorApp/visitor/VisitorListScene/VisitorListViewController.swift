@@ -4,6 +4,7 @@ import CoreData
 
 protocol VisitorListDisplayLogic{
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel)
+    func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel)
 }
 
 struct VisitorDataViewControllerConstants{
@@ -37,11 +38,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var listInteractor : VisitorListBusinessLogic?
     var visitorDataRouter : visitorListRoutingLogic?
     var searchedData = [Visit]()
+    var filterSerchedData = [Visit]()
+    var searchData = [Visit]()
     var currentDate = Date()
     var images = [UIImage]()
     var uniqueKey = String()
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
-
+    var isLoading = false
+    var offset = 0
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -74,9 +78,9 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpUI()
-        fetchVisitorList()
+        fetchLimitedData(fetchoffset: offset)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -88,6 +92,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.tableview.backgroundColor = .clear
         self.searchBar.barTintColor = #colorLiteral(red: 0.9519745291, green: 0.953713613, blue: 0.9518942637, alpha: 1)
+        searchBar.delegate = self
         searchBar.barStyle = .default
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor.white.cgColor
@@ -102,7 +107,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         tableview.separatorStyle = .none
     }
     
-
+    
     func hideKeyboardTappedAround(){
         let tap : UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyboard))
         tap.cancelsTouchesInView = false
@@ -116,21 +121,42 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     //MARK: - Fetch Request
     func fetchVisitorList(){
         activityIndicator.startAnimating()
-        
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             let request = VisitorList.fetchVisitorList.Request()
             self.listInteractor?.fetchVisitorData(request: request)
         }
     }
     
+    func fetchLimitedData(fetchoffset: Int){
+        activityIndicator.startAnimating()
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            let request = VisitorList.fetchVisitorList.Request()
+            self.listInteractor?.fetchVisitorDataWithLimit(fetchOffset: fetchoffset, request: request)
+        }
+    }
+    
     //MARK: - Fetch Response
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
         viewObj = viewModel.visit!
-        searchedData = viewObj
+        if viewObj.count != 10 || searchedData.count != 0  {
+            for item in viewObj{
+                searchedData.append(item)
+            }
+        }else {
+            searchedData = viewObj
+        }
+        filterSerchedData = searchedData
         loadImageIntoCache()
         DispatchQueue.main.async {
+            self.tableview.reloadData()
             self.activityIndicator.stopAnimating()
         }
+        
+    }
+    
+    func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel) {
+        searchData = viewModel.visit!
+        //print("SearchData:", searchData)
     }
     
     //MARK: - Delete Record from table
@@ -139,11 +165,17 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
         
         let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
-            let visitorInfo = self.searchedData[indexpath.row]
+            //let visitorInfo = self.searchedData[indexpath.row]
+            let visitorInfo = self.filterSerchedData[indexpath.row]
+            //self.filterSerchedData.remove(at: indexpath.row)
             self.context.delete(visitorInfo)
-            self.searchedData.remove(at: indexpath.row)
-            //self.imageCache.removeObject(forKey: self.uniqueKey as AnyObject)
+            //self.searchedData.remove(at: indexpath.row)
             self.appDelegate.saveContext()
+            self.filterSerchedData.remove(at: indexpath.row)
+            self.searchedData.remove(at: indexpath.row)
+            /*if self.searchData.count != 0 {
+                self.filterSerchedData.remove(at: indexpath.row)
+            } */
             self.tableview.reloadData()
         }
         
@@ -188,32 +220,53 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         let seconds = dateComponents.second
         return Int(seconds! / 3600)
     }
-    
+    //MARK: - Image Caching
     func loadImageIntoCache(){
         
         var counter = 0
         for item in searchedData{
-            let email = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
+            guard let email = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String else {
+                return
+            }
             let formatter = DateFormatter()
             formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
             let compareDate = item.date
-                
-                let uniqueKey = email! + "\(String(describing: compareDate))"
-                counter += 1
-                if appDelegate.imageCache.object(forKey: uniqueKey as AnyObject) != nil{
-                   //Do nothing
-                    print("No need to cache!!!!")
-                } else {
-                    if let imageData = item.visitImage,let imageToCache = UIImage(data: imageData){
-                        self.appDelegate.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
-                    }
+            let uniqueKey = email + "\(String(describing: compareDate))"
+            counter += 1
+            if appDelegate.imageCache.object(forKey: uniqueKey as AnyObject) != nil{
+                //Do nothing
+                print("No need to cache!!!!")
+            } else {
+                if let imageData = item.visitImage,let imageToCache = UIImage(data: imageData){
+                    self.appDelegate.imageCache.setObject(imageToCache, forKey: uniqueKey as AnyObject)
                 }
-                if counter == (self.searchedData.count) - 1{
-                    DispatchQueue.main.async {
-                         self.tableview.reloadData()
-                         self.activityIndicator.stopAnimating()
-                    }
+            }
+            if counter == (self.searchedData.count) - 1{
+                DispatchQueue.main.async {
+                    self.tableview.reloadData()
+                    self.activityIndicator.stopAnimating()
                 }
+            }
+        }
+    }
+    
+    //MARK: - Load data while scrolling
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // var fetchOffSet = Int()
+        //self.activityIndicator.startAnimating()
+        //UItableview move only one direction
+        let offsetY = scrollView.contentOffset.y
+        //let contentHeight = scrollView.contentSize.height
+        let maximumOffset: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        if maximumOffset - offsetY <= 50.0 {
+            //sleep(1)
+            offset = offset + 10
+            fetchLimitedData(fetchoffset: offset)
+            /* if self.viewObj.count > 10 {
+             offset = offset + 10
+             fetchLimitedData(fetchoffset: offset)
+             } */
         }
     }
 }
@@ -221,26 +274,26 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // return viewObj.count
-        return searchedData.count
+        //return searchedData.count
+        return filterSerchedData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-        
-        let visit = searchedData[indexPath.row]
+        let visit = filterSerchedData[indexPath.row]
         cell.setUpCellData(visitData: visit)
-        let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
+        let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
         let compareDate = visit.date
-        uniqueKey = email + "\(String(describing: compareDate))"
+        uniqueKey = (email ?? "") + "\(String(describing: compareDate))"
         
         if let imageFromCache = appDelegate.imageCache.object(forKey: uniqueKey as AnyObject){
             cell.profileImage.image = imageFromCache
         } else {
             cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
         }
-        
+        //self.activityIndicator.stopAnimating()
         return cell
     }
 }
@@ -258,15 +311,10 @@ extension VisitorListViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        let data = viewObj
-        let item = searchedData[indexPath.row]
+        //let data = viewObj
+        let data = searchedData
+        let item = filterSerchedData[indexPath.row]
         let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
-       /* for visit in data {
-            let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
-            if email == selectedEmail {
-                dataArray.append(visit)
-            }
-        } */
         let filterdata =  data.filter{ $0.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String == selectedEmail }
         tableview.deselectRow(at: indexPath, animated: true)
         visitorDataRouter?.routeToBarChart(fetcheddata: filterdata, selectedData: item)
@@ -278,20 +326,35 @@ extension VisitorListViewController: UITableViewDelegate{
 extension VisitorListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchedData = searchText.isEmpty ? viewObj : viewObj.filter{
-            (item : Visit) -> Bool in
-            let name = item.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
-            return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-        }
         
+        if searchBar.text != "" {
+            activityIndicator.startAnimating()
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.listInteractor?.fetchVisitorsListByName(request: VisitorList.fetchVisitorRecordByName.Request(name: searchText))
+                
+            }
+            filterSerchedData = searchText.isEmpty ? searchData : searchData.filter{
+                (item : Visit) -> Bool in
+                let name = item.visitors?.value(forKey: VisitorDataViewControllerConstants.nameString) as? String
+                return name?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            }
+            
+        }  else {
+            //filterSerchedData = viewObj
+            fetchLimitedData(fetchoffset: offset)
+        }
         DispatchQueue.main.async {
             self.tableview.reloadData()
+            self.activityIndicator.stopAnimating()
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("on click cancel")
         searchBar.text = ""
-        searchedData = viewObj
+        searchBar.resignFirstResponder()
+        //searchedData = viewObj
+        filterSerchedData = viewObj
         searchBar.endEditing(true)
         DispatchQueue.main.async {
             self.tableview.reloadData()

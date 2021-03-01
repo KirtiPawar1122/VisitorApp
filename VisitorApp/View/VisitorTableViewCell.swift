@@ -47,8 +47,8 @@ class VisitorTableViewCell: UITableViewCell {
         
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForDisplayDate
-        let compareDate = visitData.date
-        let compareDbDate = formatter.string(from: compareDate!)
+        guard let compareDate = visitData.date else { return }
+        let compareDbDate = formatter.string(from: compareDate)
         let compareDateDbDate = formatter.date(from: compareDbDate)
         let timedata = getDateDifference(start: compareDateDbDate!, end: currentDate)
         //print(visitData)

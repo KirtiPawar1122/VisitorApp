@@ -15,4 +15,16 @@ enum VisitorList {
             var visit : [Visit]?
         }
     }
+    
+    enum fetchVisitorRecordByName{
+        struct Request {
+            var name: String?
+        }
+        struct Response {
+            var visit: [Visit]?
+        }
+        struct ViewModel {
+            var visit: [Visit]?
+        }
+    }
 }
