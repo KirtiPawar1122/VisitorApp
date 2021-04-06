@@ -6,6 +6,11 @@ target 'VisitorApp' do
   use_frameworks!
 pod 'Toast-Swift', '~> 5.0.1'
 pod 'Charts'
+ pod 'Firebase/Core'
+ pod 'Firebase/Database'
+ pod 'Firebase/Auth'
+ pod 'Firebase/Storage'
+ pod 'Firebase/Firestore'
 
   # Pods for VisitorApp
 
