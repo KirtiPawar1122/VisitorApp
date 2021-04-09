@@ -79,7 +79,8 @@
 		9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */; };
 		9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */; };
 		9BF3759E2554045E00597639 /* VisitorPieChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3759D2554045E00597639 /* VisitorPieChartTableViewCell.swift */; };
-		CAE693DD261C502C00746C4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAE693DC261C502C00746C4C /* GoogleService-Info.plist */; };
+		CAE693E3261C700900746C4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAE693E2261C700900746C4C /* GoogleService-Info.plist */; };
+		CAE693E8261C81FE00746C4C /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE693E7261C81FE00746C4C /* Visitor.swift */; };
 		D316500B25D3D194006C3608 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D316500925D3D194006C3608 /* Visit+CoreDataProperties.swift */; };
 		D316500C25D3D194006C3608 /* Visit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D316500A25D3D194006C3608 /* Visit+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
@@ -171,7 +172,8 @@
 		9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewController.swift; sourceTree = "<group>"; };
 		9BF3759D2554045E00597639 /* VisitorPieChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VisitorPieChartTableViewCell.swift; path = VisitorApp/View/VisitorPieChartTableViewCell.swift; sourceTree = SOURCE_ROOT; };
-		CAE693DC261C502C00746C4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CAE693E2261C700900746C4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CAE693E7261C81FE00746C4C /* Visitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
 		D316500925D3D194006C3608 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Visit+CoreDataProperties.swift"; path = "VisitorApp/Entity/Visit+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		D316500A25D3D194006C3608 /* Visit+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Visit+CoreDataClass.swift"; path = "VisitorApp/Entity/Visit+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		D34AF651250F9E0A00C52C5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -389,9 +391,10 @@
 		9BBAF77B247654FF00B31A70 /* VisitorApp */ = {
 			isa = PBXGroup;
 			children = (
-				CAE693DC261C502C00746C4C /* GoogleService-Info.plist */,
+				CAE693E2261C700900746C4C /* GoogleService-Info.plist */,
 				D34AF651250F9E0A00C52C5A /* Info.plist */,
 				9BBAF79624767AD700B31A70 /* visitor */,
+				CAE693E6261C81E200746C4C /* model */,
 				9B7D5F05251D0447002C995D /* app-ui */,
 				9BBAF79524767AB300B31A70 /* entity */,
 				9B7D5F07251D051D002C995D /* custom */,
@@ -465,6 +468,14 @@
 				9BECDCE6252F392D001B3279 /* Info.plist */,
 			);
 			path = VisitorAppTests;
+			sourceTree = "<group>";
+		};
+		CAE693E6261C81E200746C4C /* model */ = {
+			isa = PBXGroup;
+			children = (
+				CAE693E7261C81FE00746C4C /* Visitor.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		FD72172F2F27419247143B8E /* Pods */ = {
@@ -573,7 +584,7 @@
 				9B07DE9325B57D13004974C5 /* Roboto-Light.ttf in Resources */,
 				9B07DE9625B57D13004974C5 /* Roboto-ThinItalic.ttf in Resources */,
 				9B07DE9E25B57D13004974C5 /* Roboto-Black.ttf in Resources */,
-				CAE693DD261C502C00746C4C /* GoogleService-Info.plist in Resources */,
+				CAE693E3261C700900746C4C /* GoogleService-Info.plist in Resources */,
 				9B07DE9525B57D13004974C5 /* Roboto-MediumItalic.ttf in Resources */,
 				9BBAF789247654FF00B31A70 /* Assets.xcassets in Resources */,
 				9B07DE9925B57D13004974C5 /* Roboto-Italic.ttf in Resources */,
@@ -643,6 +654,7 @@
 				9B63BDF12529DE2D00E8B04F /* VisitorBarChartRouter.swift in Sources */,
 				9BD9365C2567B52C00B16419 /* VisitorPrintViewModel.swift in Sources */,
 				D316500C25D3D194006C3608 /* Visit+CoreDataClass.swift in Sources */,
+				CAE693E8261C81FE00746C4C /* Visitor.swift in Sources */,
 				9BD3D5852540609900880E2B /* VisitorChartViewModel.swift in Sources */,
 				D316500B25D3D194006C3608 /* Visit+CoreDataProperties.swift in Sources */,
 				9B726F122500DE4700E2F9AD /* VisitorBarChartViewController.swift in Sources */,

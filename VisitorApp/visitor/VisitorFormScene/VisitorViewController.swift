@@ -3,6 +3,9 @@ import UIKit
 import CoreData
 import AVFoundation
 import Toast_Swift
+import Firebase
+import FirebaseFirestore
+import FirebaseDatabase
 
 protocol VisitorFormDisplayLogic{
     func displayVisitorData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel)
@@ -79,8 +82,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var checkphoneNo: String = ""
     var profileImage: UIImage?
     var defaultImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
+    var ref = DatabaseReference.init()
+    let db = Firestore.firestore()
     
-      
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
@@ -109,8 +113,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.ref = Database.database().reference()
         setUpUI()
-        
     }
     
     //MARK: UI Setup Method
@@ -230,8 +234,53 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
     
-    func checkMail(checkmail: String, phoneNo: String){
-        fetchData(email: checkmail, phoneNo: phoneNo)
+    func fetchVisitorData(email: String, phoneNo: String) -> [VisitorModel]{
+        var visitorArr = [VisitorModel]()
+        //var sortedVisits = [VisitModel]()
+        let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
+        ref.getDocuments { (snapshot, error) in
+            guard let snap = snapshot?.documents else {return}
+            for document in snap{
+                var visitArr = [VisitModel]()
+                let data = document.data()
+                print(data)
+                let name = data["name"] as? String
+                let email = data["email"] as? String
+                let phoneNo = data["phoneNo"] as? String
+                let profileImage = data["profileURL"] as? Data
+                let visitdata = data["visits"] as! [[String:Any]]
+                for data in visitdata{
+                    //print(data)
+                    let date = data["date"] as? Date
+                    let purpose = data["purpose"] as? String
+                    let company = data["company"] as? String
+                    let contactPerson = data["contactPersonName"] as? String
+                    let visitarr = VisitModel(date: date ?? Date(), company: company ?? "", purpose: purpose ?? "", contactPersonName: contactPerson ?? "")
+                    visitArr.append(visitarr)
+                }
+                let sortedArray = (visitdata as NSArray).sortedArray(using: [NSSortDescriptor(key: "visitdata.date", ascending: false)])
+                let dataArray = VisitorModel(email: email ?? "", name: name ?? "" , phoneNo: phoneNo ?? "", profileImage: profileImage ?? Data(), visitData: visitdata, visits: visitArr)
+                visitorArr.append(dataArray)
+                self.displayData(viewModel: dataArray)
+            }
+            print(visitorArr)
+        }
+        return visitorArr
+    }
+
+    func displayData(viewModel: VisitorModel){
+        print(viewModel)
+        userTextField.text = viewModel.name
+        emailTextField.text = viewModel.email
+        checkphoneNo = viewModel.phoneNo
+        let visitsData = viewModel.visits
+        for data in visitsData{
+            companyTextField.text = data.company
+            visitTextField.text = data.contactPersonName
+        }
+
+        speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
+        userTextField.resignFirstResponder()
     }
     
     func getCurrentDate() -> Date? {
@@ -246,8 +295,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     @IBAction func submitButtonClick(_ sender: Any) {
         
+        let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!)
+        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: (selectedImage?.pngData())!, visitData: [visitData.dictionary], visits: [visitData])
+        
         if validate() {
-            saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextField.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: getCurrentDate()))
+            //saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextField.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: getCurrentDate()))
+           saveVisitorsData(visitor: visitorData)
         }
     }
     
@@ -280,7 +333,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         // code for fetch data
         if (phoneTextField.text != "" && emailTextField.text == "") {
-          fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
+          //fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
+            fetchVisitorData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
         }
         return true
     }
@@ -370,6 +424,22 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             checkphoneNo = ""
         }
         interactor?.saveVisitorRecord(request: request)
+    }
+    
+    func saveVisitorsData(visitor: VisitorModel){
+        
+        let dict: [String:Any]  = ["email" : visitor.email, "name" : visitor.name, "phoneNo": visitor.phoneNo, "profileImage" : visitor.profileImage, "visits" : visitor.visitData]
+        if (checkphoneNo != visitor.phoneNo){
+            showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
+            speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")
+            db.collection("Visitor").document(visitor.phoneNo).setData(dict)
+            
+        } else {
+            showAlerts(alert: VisitorViewControllerConstants.checkmailAlert)
+            checkphoneNo = ""
+            self.db.collection("Visitor").document(visitor.phoneNo).updateData(["visits" : FieldValue.arrayUnion(visitor.visitData)])
+        }
+       // db.collection("Visitor").document(visitor.phoneNo).setData(dict)
     }
 
     func resetTextFields() {
@@ -519,6 +589,9 @@ extension VisitorViewController {
                    }
            self.present(alertController, animated: true, completion: nil)
        }
+    
+    
+    
 }
 
 public extension UIView {
@@ -580,6 +653,24 @@ extension UIImage {
         format.opaque = isOpaque
         return UIGraphicsImageRenderer(size: canvas, format: format).image {
             _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
+}
+extension VisitorViewController{
+    func uploadImageURL(completion: @escaping ((_ url: URL?) -> ())) {
+        let storageRef = Storage.storage().reference().child("profileImage")
+        let image = UIImage(named: "car.jpeg")
+        let data = image?.pngData()
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/png"
+        storageRef.putData(data!,metadata: metaData) { (metadata, error) in
+            if error == nil {
+                storageRef.downloadURL { (url, error) in
+                completion(url)
+                }
+            }else {
+                print("error in upload image")
+            }
         }
     }
 }

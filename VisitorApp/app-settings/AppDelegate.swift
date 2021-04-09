@@ -9,12 +9,16 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
      var window: UIWindow?
      var imageCache = NSCache<AnyObject, UIImage>()
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
       //  mainScreen()
-        FirebaseApp.configure()
+       // FirebaseApp.configure()
+        
         return true
+    }
+    
+    override init() {
+        FirebaseApp.configure()
     }
     
    /* @objc private func mainScreen(){
