@@ -21,7 +21,6 @@ class VisitorTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    
     var cornerRadius: CGFloat = 10
     var shadowOffsetWidth: Int = 0
     var shadowOffsetHeight: Int = 3
@@ -41,7 +40,7 @@ class VisitorTableViewCell: UITableViewCell {
         layer.backgroundColor = UIColor.clear.cgColor
     }
     
-    func setUpCellData(visitData: Visit){
+   /* func setUpCellData(visitData: Visit){
         visitorName.text = visitData.visitors?.value(forKey: "name") as? String
         visitPurpose.text = visitData.purpose
         
@@ -58,7 +57,26 @@ class VisitorTableViewCell: UITableViewCell {
         } else {
             subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
         }
+    } */
+    func setUpCellData(visitData: DisplayData){
+        visitorName.text = visitData.name
+        visitPurpose.text = visitData.purspose
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForDisplayDate
+        let compareDate = visitData.date
+        let compareDbDate = formatter.string(from: compareDate)
+        let compareDateDbDate = formatter.date(from: compareDbDate)
+        let timedata = getDateDifference(start: compareDateDbDate!, end: currentDate)
+        //print(visitData)
+        date.text = compareDbDate
+        if timedata <= VisitorDataViewControllerConstants.timeLimit {
+            subView.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        } else {
+            subView.backgroundColor = #colorLiteral(red: 0.6087739468, green: 0.09021262079, blue: 0.1081616506, alpha: 1)
+        }
     }
+    
     
     func getDateDifference(start: Date, end: Date) -> Int  {
         let calendar = Calendar.current

@@ -79,6 +79,8 @@
 		9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */; };
 		9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */; };
 		9BF3759E2554045E00597639 /* VisitorPieChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3759D2554045E00597639 /* VisitorPieChartTableViewCell.swift */; };
+		CAB88BBF2620054800D0FB0F /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB88BBE2620054800D0FB0F /* FirestoreManager.swift */; };
+		CAB88BC326240F1D00D0FB0F /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB88BC226240F1D00D0FB0F /* DisplayData.swift */; };
 		CAE693E3261C700900746C4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAE693E2261C700900746C4C /* GoogleService-Info.plist */; };
 		CAE693E8261C81FE00746C4C /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE693E7261C81FE00746C4C /* Visitor.swift */; };
 		D316500B25D3D194006C3608 /* Visit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D316500925D3D194006C3608 /* Visit+CoreDataProperties.swift */; };
@@ -172,6 +174,8 @@
 		9BED8B3C24E6890300B57C40 /* Visitor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visitor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BEED35824F7FD1700EDE4A5 /* VisitorChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorChartViewController.swift; sourceTree = "<group>"; };
 		9BF3759D2554045E00597639 /* VisitorPieChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VisitorPieChartTableViewCell.swift; path = VisitorApp/View/VisitorPieChartTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		CAB88BBE2620054800D0FB0F /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		CAB88BC226240F1D00D0FB0F /* DisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
 		CAE693E2261C700900746C4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CAE693E7261C81FE00746C4C /* Visitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
 		D316500925D3D194006C3608 /* Visit+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Visit+CoreDataProperties.swift"; path = "VisitorApp/Entity/Visit+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
@@ -403,6 +407,7 @@
 				9B7D5F08251D054C002C995D /* app-icons */,
 				9B7D5F04251D03ED002C995D /* app-settings */,
 				9B6E89AE25398CCC003761BB /* VisitorCoreDataStore.swift */,
+				CAB88BBE2620054800D0FB0F /* FirestoreManager.swift */,
 			);
 			path = VisitorApp;
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				CAE693E7261C81FE00746C4C /* Visitor.swift */,
+				CAB88BC226240F1D00D0FB0F /* DisplayData.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -667,6 +673,7 @@
 				9B63BDF62529DE7700E8B04F /* VisitorBarChartPresenter.swift in Sources */,
 				9BEED35924F7FD1700EDE4A5 /* VisitorChartViewController.swift in Sources */,
 				9B06984525679C6700FF6E84 /* VisitorPrintRouter.swift in Sources */,
+				CAB88BC326240F1D00D0FB0F /* DisplayData.swift in Sources */,
 				9BBAF781247654FF00B31A70 /* VisitorViewController.swift in Sources */,
 				9BD9365E2567B54300B16419 /* VisitorPrintInteractor.swift in Sources */,
 				9BED8B4024E6890300B57C40 /* Visitor+CoreDataProperties.swift in Sources */,
@@ -691,6 +698,7 @@
 				9B851BB72490CA8100FFB7F6 /* VisitorTableViewCell.swift in Sources */,
 				9BECDCD9252D8560001B3279 /* VisitorViewModel.swift in Sources */,
 				9BA98F572486915500C86B5C /* VisitorRouter.swift in Sources */,
+				CAB88BBF2620054800D0FB0F /* FirestoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,12 @@ class VisitorPrintRouter {
         return printVC
     }
     
+    static func visitorPrintDataModule(visitorData: DisplayData) -> VisitorPrintViewController {
+        let printVC = VisitorPrintRouter.mainstoryboard.instantiateViewController(withIdentifier: "VisitorPrintViewController") as! VisitorPrintViewController
+        printVC.printVisitorData = visitorData
+        return printVC
+    }
+    
     static var mainstoryboard: UIStoryboard{
         return UIStoryboard(name:"Main",bundle: Bundle.main)
     }

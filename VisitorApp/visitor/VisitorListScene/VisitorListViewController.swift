@@ -1,6 +1,10 @@
 
 import UIKit
 import CoreData
+import FirebaseDatabase
+import FirebaseStorage
+import Firebase
+
 
 protocol VisitorListDisplayLogic{
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel)
@@ -46,6 +50,11 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
     var isLoading = false
     var offset = 0
+    var ref = DatabaseReference.init()
+    let db = Firestore.firestore()
+    var visitorAllData = [DisplayData]()
+    var sortedData = [DisplayData]()
+
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -77,8 +86,10 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        self.ref = Database.database().reference()
+        fetchVisitorData()
         setUpUI()
-        fetchLimitedData(fetchoffset: offset)
+        //fetchLimitedData(fetchoffset: offset)
     }
     
     override func didReceiveMemoryWarning() {
@@ -135,6 +146,38 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         }
     }
     
+    func fetchVisitorData(){
+        activityIndicator.startAnimating()
+        let ref = db.collection("Visitor")
+        ref.getDocuments { (snapshots, error) in
+               guard let snap = snapshots?.documents else {return}
+               for document in snap{
+                   let data = document.data()
+                   let visitdata = data["visits"] as! [[String:Any]]
+                   for item in visitdata{
+                       let name = data["name"] as? String
+                       let email = data["email"] as? String
+                       let phoneNo = data["phoneNo"] as? String
+                       let profileImage = data["profileImage"] as? Data
+                       let currentdate = item["date"] as! Timestamp
+                       let date = currentdate.dateValue()
+                       let purpose = item["purpose"] as? String
+                       let company = item["company"] as? String
+                       let contactPerson = item["contactPersonName"] as? String
+                       //let profileVisitImg = data["profileVisitImage"] as? Data
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                    self.visitorAllData.append(dataArray)
+                   }
+               }
+            self.sortedData = self.visitorAllData.sorted(by: { $0.date > $1.date })
+            DispatchQueue.main.async {
+                self.tableview.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    
     //MARK: - Fetch Response
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel){
         viewObj = viewModel.visit!
@@ -142,7 +185,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
             for item in viewObj{
                 searchedData.append(item)
             }
-        }else {
+        } else {
             searchedData = viewObj
         }
         filterSerchedData = searchedData
@@ -151,7 +194,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
             self.tableview.reloadData()
             self.activityIndicator.stopAnimating()
         }
-        
     }
     
     func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel) {
@@ -216,7 +258,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     func getDateDifference(start: Date, end: Date) -> Int  {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([Calendar.Component.second], from: start, to: end)
-        
         let seconds = dateComponents.second
         return Int(seconds! / 3600)
     }
@@ -258,7 +299,6 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         let offsetY = scrollView.contentOffset.y
         //let contentHeight = scrollView.contentSize.height
         let maximumOffset: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-        
         if maximumOffset - offsetY <= 50.0 {
             //sleep(1)
             offset = offset + 10
@@ -273,15 +313,18 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 //MARK: - Tableview DataSource methods
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // return viewObj.count
+        //return viewObj.count
         //return searchedData.count
-        return filterSerchedData.count
+        //return filterSerchedData.count
+        //return visitorAllData.count
+        return sortedData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-        let visit = filterSerchedData[indexPath.row]
-        cell.setUpCellData(visitData: visit)
+        //let visit = filterSerchedData[indexPath.row]
+        let visit = sortedData[indexPath.row]
+       /* cell.setUpCellData(visitData: visit)
         let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
@@ -293,7 +336,16 @@ extension VisitorListViewController : UITableViewDataSource{
         } else {
             cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
         }
-        //self.activityIndicator.stopAnimating()
+        //self.activityIndica or.stopAnimating() */
+        /*cell.visitPurpose.text = visit.purspose
+        cell.visitorName.text = visit.name
+        let formatter = DateFormatter()
+        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForDisplayDate
+        let compareDate = visit.date
+        let compareDbDate = formatter.string(from: compareDate)
+        cell.date.text = compareDbDate */
+        cell.setUpCellData(visitData: visit)
+        cell.profileImage.image = UIImage(data: visit.profileImage)
         return cell
     }
 }

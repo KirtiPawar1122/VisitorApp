@@ -20,6 +20,7 @@ struct VisitorModel {
     var dictionary: [String: Any] {
         return [
             "email": email,
+            "name": name,
             "phoneNo": phoneNo,
             "profileImage": profileImage,
             "visits": visits
@@ -28,17 +29,19 @@ struct VisitorModel {
 }
 
 struct VisitModel {
-    var date:  Date
+    var date: Date
     var company: String
     var purpose: String
     var contactPersonName: String
+    var profileVisitImage: Data
     
     var dictionary: [String: Any] {
         return [
             "date": date,
             "company": company,
             "purpose": purpose,
-            "contactPersonName": contactPersonName
+            "contactPersonName": contactPersonName,
+            "profileVisitImage": profileVisitImage
         ]
     }
 }

@@ -41,6 +41,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     var selectedEmail = String()
     var selectedPhoneNo = String()
     var currentDate = Date()
+    var printVisitorData: DisplayData?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -67,6 +68,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        print(printVisitorData)
     }
     
     func setupUI(){
@@ -86,7 +88,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         let todaysDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForSavedDBDate
-        let currentSelectedDate = printVisitData?.date
+        let currentSelectedDate = printVisitorData?.date
         let stringDate = formatter.string(from: currentSelectedDate ?? todaysDate)
         let selectedDate = formatter.date(from: stringDate)
         let timedata = getDateDiff(start: selectedDate!, end: currentDate)
@@ -97,7 +99,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
             printButton.isHidden = true
         }
         
-        if printVisitData != nil {
+       /* if printVisitData != nil {
            formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
            let displayDate = formatter.string(from: printVisitData!.date!)
            VisitDate.text = displayDate
@@ -110,8 +112,22 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
            profileImage.image = image
         } else {
             getPrintData()
+        } */
+        
+        if printVisitorData != nil {
+           formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
+           let displayDate = formatter.string(from: printVisitorData!.date)
+           VisitDate.text = displayDate
+           visitorName.text = printVisitorData?.name
+           hostLabel.text = printVisitorData?.contactPerson
+           purposeLabel.text = printVisitorData?.purspose
+            guard let image = UIImage(data: printVisitorData?.profileImage ?? Data()) else {
+                return
+           }
+           profileImage.image = image
+        } else {
+            getPrintData()
         }
-    
     }
     
     func getPrintData(){
