@@ -278,8 +278,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     @IBAction func printButton(_ sender: Any) {
       
         let vc = storyboard?.instantiateViewController(withIdentifier: VisitorsChartViewControllerConstants.visitorPrintViewController ) as? VisitorPrintViewController
-        vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as! String
-        vc?.printVisitData = selectedData
+        //vc?.selectedPhoneNo = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as! String
+        //vc?.printVisitData = selectedData
+        
+        vc?.printVisitorData = seletedVisitorData
         navigationController?.pushViewController(vc!, animated: true)
     }
     

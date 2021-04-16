@@ -72,6 +72,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         setupUI()
         print(printVisitorsData)
        print(printVisitData)
+        print(printVisitorData)
     
     }
     
@@ -166,7 +167,18 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
             profileImage.af.setImage(withURL: profileURL)
         } else {
             print("Directly fetch data from firebase")
+            let displayData = printVisitorData
+            let formatter = DateFormatter()
+            formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
+            let displayDate = formatter.string(from: (displayData?.date)!)
+            VisitDate.text = displayDate
+            visitorName.text = displayData?.name
+            hostLabel.text = displayData?.contactPerson
+            purposeLabel.text = displayData?.purspose
+            guard let profileURL = URL(string: displayData!.profileImage) else { return }
+            profileImage.af.setImage(withURL: profileURL )
         }
+        
     }
     
     

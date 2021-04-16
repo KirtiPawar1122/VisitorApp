@@ -312,7 +312,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "932617BF-C177-4EFD-B383-3E3C6B8411AA"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VisitorApp/visitor/VisitorPrintScene/VisitorPrintViewController.swift"
@@ -414,8 +414,8 @@
             filePath = "VisitorApp/visitor/VisitorPrintScene/VisitorPrintViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "setupUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -478,8 +478,8 @@
             filePath = "VisitorApp/visitor/VisitorPrintScene/VisitorPrintViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "setupUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -494,8 +494,8 @@
             filePath = "VisitorApp/visitor/VisitorPrintScene/VisitorPrintViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "printVisitorCardData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -609,6 +609,22 @@
             startingLineNumber = "197"
             endingLineNumber = "197"
             landmarkName = "displayVisitorDataOnBarBarChart(displayDataOnBar:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96DD0EAF-0F06-4F18-8968-20FB585F7C20"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VisitorApp/visitor/VisitorBarChartScene/VisitorBarChartViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "printButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
