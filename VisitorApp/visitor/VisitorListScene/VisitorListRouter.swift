@@ -10,8 +10,9 @@ struct VisitorListRouterConstants {
 
 protocol visitorListRoutingLogic {
     func routeToChart()
-    func routeToBarChart(fetcheddata: [Visit], selectedData: Visit)
-   // func routeToBarChartData(selectedData: Visit)
+    //func routeToBarChart(fetcheddata: [Visit], selectedData: Visit)
+    func routeToBarChart(fetcheddata: [DisplayData], selectedData: DisplayData)
+    // func routeToBarChartData(selectedData: Visit)
 }
 
 class VisitorListRouter : visitorListRoutingLogic {
@@ -34,8 +35,12 @@ class VisitorListRouter : visitorListRoutingLogic {
         viewController?.navigationController?.pushViewController(visitorChart, animated: true)
     }
     
-    func routeToBarChart(fetcheddata: [Visit], selectedData: Visit){
+   /* func routeToBarChart(fetcheddata: [Visit], selectedData: Visit){
         let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorAllData: fetcheddata, visitorData: selectedData)
         viewController?.navigationController?.pushViewController(visitorBarChart, animated: true)
-    }
-}
+    } */
+    
+    func routeToBarChart(fetcheddata: [DisplayData], selectedData: DisplayData){
+        let visitorBarChart = VisitorBarChartRouter.visitorBarChartModule(visitorAllData: fetcheddata, visitorData: selectedData)
+        viewController?.navigationController?.pushViewController(visitorBarChart, animated: true)
+    }}

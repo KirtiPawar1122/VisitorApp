@@ -42,6 +42,8 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     var selectedPhoneNo = String()
     var currentDate = Date()
     var printVisitorData: DisplayData?
+    var printVisitorsData = [DisplayData]()
+    var printedData = [VisitorModel]()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -68,7 +70,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print(printVisitorData)
+        print(printVisitorsData)
+       print(printVisitData)
+    
     }
     
     func setupUI(){
@@ -85,10 +89,11 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         self.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.navigationItem.title = VisitorPrintViewControllerConstant.navBarTitle
         
-        let todaysDate = Date()
+        // Logic for hide print button
+         /* let todaysDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForSavedDBDate
-        let currentSelectedDate = printVisitorData?.date
+        let currentSelectedDate = printVisitorsData[0].date
         let stringDate = formatter.string(from: currentSelectedDate ?? todaysDate)
         let selectedDate = formatter.date(from: stringDate)
         let timedata = getDateDiff(start: selectedDate!, end: currentDate)
@@ -97,7 +102,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
             printButton.isHidden = false
         } else {
             printButton.isHidden = true
-        }
+        } */
         
        /* if printVisitData != nil {
            formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
@@ -114,21 +119,56 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
             getPrintData()
         } */
         
-        if printVisitorData != nil {
+       /* if printVisitorsData.count != 0 {
+           let displayData = printVisitorsData[0]
            formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
-           let displayDate = formatter.string(from: printVisitorData!.date)
+            let displayDate = formatter.string(from: displayData.date)
            VisitDate.text = displayDate
-           visitorName.text = printVisitorData?.name
-           hostLabel.text = printVisitorData?.contactPerson
-           purposeLabel.text = printVisitorData?.purspose
-            guard let image = UIImage(data: printVisitorData?.profileImage ?? Data()) else {
+            visitorName.text = displayData.name
+           hostLabel.text = displayData.contactPerson
+           purposeLabel.text = displayData.purspose
+          /* guard let image = UIImage(data: printVisitorData?.profileImage ?? Data()) else {
                 return
-           }
+           } */
+           guard let image = UIImage(named: displayData.profileImage) else { return }
            profileImage.image = image
         } else {
             getPrintData()
+        } */
+        printVisitorCardData()
+    }
+    
+    func printVisitorCardData(){
+        if printVisitorsData.count != 0 {
+            let displayData = printVisitorsData[0]
+            let formatter = DateFormatter()
+            let todaysDate = Date()
+            formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
+            let displayDate = formatter.string(from: todaysDate)
+            VisitDate.text = displayDate
+            visitorName.text = displayData.name
+            hostLabel.text = displayData.contactPerson
+            purposeLabel.text = displayData.purspose
+            guard let profileURL = URL(string: displayData.profileImage) else { return }
+            profileImage.af.setImage(withURL: profileURL )
+        } else if printedData.count != 0 {
+            let displayData = printedData[0]
+            let visits = displayData.visits
+            print(visits[0])
+            let formatter = DateFormatter()
+            formatter.dateFormat = VisitorPrintViewControllerConstant.dateFormatForDisplayOnCard
+            let displayDate = formatter.string(from: visits[0].date)
+            VisitDate.text = displayDate
+            visitorName.text = displayData.name
+            hostLabel.text = visits[0].contactPersonName
+            purposeLabel.text = visits[0].purpose
+            guard let profileURL = URL(string: visits[0].profileVisitImage) else { return }
+            profileImage.af.setImage(withURL: profileURL)
+        } else {
+            print("Directly fetch data from firebase")
         }
     }
+    
     
     func getPrintData(){
         let request = VisitorPrint.VisitorPrintData.Request(phoneNo: selectedPhoneNo)

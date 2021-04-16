@@ -16,6 +16,6 @@ struct DisplayData {
     var purspose: String
     var date: Date
     var companyName: String
-    var profileImage: Data
+    var profileImage: String
     var contactPerson: String
 }

@@ -71,6 +71,9 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     var barChartInteractor : VisitorBarChartBusinessLogic?
     var currentDate = Date()
     
+    var visitorData = [DisplayData]()
+    var seletedVisitorData: DisplayData?
+    
     
     //MARK: - Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
@@ -101,14 +104,16 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
         getBarChartData()
         setUpUI()
+        print(seletedVisitorData)
+        print(visitorData)
         
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorsChartViewControllerConstants.dateFormat
-        let currentSelectedDate = selectedData.date
+        let currentSelectedDate = seletedVisitorData?.date
         let stringDate = formatter.string(from: currentSelectedDate!)
         print(stringDate)
      
-        purposeLabel.text = selectedData.purpose
+       /* purposeLabel.text = selectedData.purpose
         nameLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.nameString) as? String
         emailLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.emailString) as? String
         dateLabel.text = stringDate
@@ -120,8 +125,19 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         guard let image = UIImage(data: selectedData.visitImage ?? Data()) else {
             return
         }
-        profileImage.image = image
+        profileImage.image = image */
         
+        purposeLabel.text = seletedVisitorData?.purspose
+        nameLabel.text = seletedVisitorData?.name
+        emailLabel.text = seletedVisitorData?.email
+        dateLabel.text = stringDate
+        companyLabel.text = seletedVisitorData?.companyName
+        hostLabel.text = seletedVisitorData?.contactPerson
+        phoneLabel.text = seletedVisitorData?.phoneNo
+        totalVisitCount.text = String(visitorData.count)
+        guard let profileURL = URL(string: (seletedVisitorData?.profileImage)!) else { return }
+        profileImage.af.setImage(withURL: profileURL)
+        displayVisitorDataOnBarBarChart(displayDataOnBar: visitorData)
     }
     
     func setUpUI(){
@@ -168,6 +184,36 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
             } else if item.purpose == VisitorsChartViewControllerConstants.otherTitle {
                 other = other + 1
                 let otherDateString = formatter.string(from: item.date!)
+                otherDate.append(otherDateString)
+            }
+        }
+        items = [meetingDate,interviewDate,guestvisitDate,otherDate]
+        let data = [meeting,interview,guestVisit,other]
+        setDataOnChart(dataPoints: purpose, values: data.map({ Double($0)}))
+    }
+    
+    func displayVisitorDataOnBarBarChart(displayDataOnBar: [DisplayData]) {
+        
+        print(displayDataOnBar)
+        let formatter = DateFormatter()
+        formatter.dateFormat = VisitorsChartViewControllerConstants.dateFormat2
+        for item in displayDataOnBar{
+            if item.purspose == VisitorsChartViewControllerConstants.meetingTitle{
+                meeting = meeting + 1
+                let meetingDateString = formatter.string(from: item.date)
+                meetingDate.append(meetingDateString)
+                print(meetingDate)
+            } else if item.purspose == VisitorsChartViewControllerConstants.interviewTitle{
+                interview = interview + 1
+                let interviewDateString = formatter.string(from: item.date)
+                interviewDate.append(interviewDateString)
+            } else if item.purspose == VisitorsChartViewControllerConstants.guestVisitTitle {
+                guestVisit = guestVisit + 1
+                let guestVisitDateString = formatter.string(from: item.date)
+                guestvisitDate.append(guestVisitDateString)
+            } else if item.purspose == VisitorsChartViewControllerConstants.otherTitle {
+                other = other + 1
+                let otherDateString = formatter.string(from: item.date)
                 otherDate.append(otherDateString)
             }
         }

@@ -61,7 +61,8 @@ class VisitorTableViewCell: UITableViewCell {
     func setUpCellData(visitData: DisplayData){
         visitorName.text = visitData.name
         visitPurpose.text = visitData.purspose
-        
+        guard let profileURL = URL(string: visitData.profileImage) else { return }
+        profileImage.af.setImage(withURL: profileURL)
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForDisplayDate
         let compareDate = visitData.date

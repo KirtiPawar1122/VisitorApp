@@ -4,7 +4,9 @@ import UIKit
 protocol VisitorRoutingLogic {
     func routeToVisitorList()
     func routeToVisitorPrint(phoneNo: String)
-    func routeToVisitorDataPrint(visitorData: DisplayData)
+    func routeToVisitorDataPrint(visitorData: [DisplayData])
+    func routeToVisitPrint(visitorData: [VisitorModel])
+    
 }
 
 class VisitorRouter : VisitorRoutingLogic {
@@ -22,11 +24,16 @@ class VisitorRouter : VisitorRoutingLogic {
         viewController?.navigationController?.pushViewController(visitorPrint, animated: true)
     }
     
-    func routeToVisitorDataPrint(visitorData: DisplayData) {
+    func routeToVisitorDataPrint(visitorData: [DisplayData]) {
         print(visitorData)
         let visitorPrint = VisitorPrintRouter.visitorPrintDataModule(visitorData: visitorData)
         viewController?.navigationController?.pushViewController(visitorPrint, animated: true)
     }
     
+    func routeToVisitPrint(visitorData: [VisitorModel]){
+        print(visitorData)
+        let visitorPrint = VisitorPrintRouter.visitorsPrintDataModule(visitorData: visitorData)
+        viewController?.navigationController?.pushViewController(visitorPrint, animated: true)
+    }
     
 }

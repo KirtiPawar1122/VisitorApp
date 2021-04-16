@@ -86,6 +86,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     let db = Firestore.firestore()
     var visitorData = [DisplayData]()
     var sortedData = [DisplayData]()
+    var visitorsData = [VisitorModel]()
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
@@ -216,7 +217,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         guard let profileData = visit.visitImage else{
             return
         }
-        
         let profileImage = UIImage(data: profileData)
         //selectedImage = fethcedprofileImage
         if profileImage?.size == defaultImage?.size{
@@ -235,7 +235,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
     
-   /* func fetchVisitorData(email: String, phoneNo: String) -> [VisitorModel]{
+    /*func fetchVisitorData(email: String, phoneNo: String) -> [VisitorModel]{
        var visitorArr = [VisitorModel]()
         //var sortedVisits = [VisitModel]()
        let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
@@ -248,7 +248,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                 let name = data["name"] as? String
                 let email = data["email"] as? String
                 let phoneNo = data["phoneNo"] as? String
-                let profileImage = data["profileImage"] as? Data
+                let profileImage = data["profileImage"] as? String
                 let visitdata = data["visits"] as! [[String:Any]]
                 for data in visitdata {
                     //print(data)
@@ -256,18 +256,20 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                     let purpose = data["purpose"] as? String
                     let company = data["company"] as? String
                     let contactPerson = data["contactPersonName"] as? String
-                    let profileVisitImg = data["profileVisitImage"] as? Data
-                    let visitarr = VisitModel(date: date ?? Date() , company: company ?? "", purpose: purpose ?? "", contactPersonName: contactPerson ?? "", profileVisitImage: profileVisitImg ?? Data())
-                    visitArr.append(visitarr)
+                    let profileVisitImg = data["profileVisitImage"] as? String
+                    let visitarr = VisitModel(date: date ?? Date() , company: company ?? "", purpose: purpose ?? "", contactPersonName: contactPerson ?? "", profileVisitImage: profileVisitImg ?? "" )
                 }
-                let dataArray = VisitorModel(email: email ?? "", name: name ?? "" , phoneNo: phoneNo ?? "", profileImage: profileImage ?? Data(), visitData: visitdata, visits: visitArr)
+                let dataArray = VisitorModel(email: email ?? "", name: name ?? "" , phoneNo: phoneNo ?? "", profileImage: profileImage ?? "", visitData: visitdata, visits: visitArr)
                 visitorArr.append(dataArray)
-                self.displayData(viewModel: dataArray)
+                //self.displayData(viewModel: dataArray)
             }
             print(visitorArr)
         }
+        
+        
         return visitorArr
     } */
+    
     func fetchVisitorData(email: String, phoneNo: String) -> [DisplayData]{
         let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
         ref.getDocuments { (snapshots, error) in
@@ -279,19 +281,24 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                        let name = data["name"] as? String
                        let email = data["email"] as? String
                        let phoneNo = data["phoneNo"] as? String
-                       let profileImage = data["profileImage"] as? Data
+                       let profileImage = data["profileImage"] as? String
                        let currentdate = item["date"] as! Timestamp
                        let date = currentdate.dateValue()
                        let purpose = item["purpose"] as? String
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
                        //let profileVisitImg = data["profileVisitImage"] as? Data
+                    //let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
                     let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
                     self.visitorData.append(dataArray)
                    }
                }
             self.sortedData = self.visitorData.sorted(by: { $0.date > $1.date })
-            self.displayData(viewModel: self.sortedData[0])
+            if self.sortedData.count != 0 {
+                self.displayData(viewModel: self.sortedData[0])
+            } else {
+                self.userTextField.resignFirstResponder()
+            }
         }
         return visitorData
      }
@@ -302,21 +309,25 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
          userTextField.text = viewModel.name
          emailTextField.text = viewModel.email
          companyTextField.text = viewModel.companyName
-         purposeTextField.text = viewModel.purspose
          visitTextField.text = viewModel.contactPerson
          checkphoneNo = viewModel.phoneNo
-         let profileData = viewModel.profileImage
-         let profileImage  = UIImage(data: profileData)
-         if profileImage?.size == defaultImage?.size{
-             selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
-         } else {
-             selectedImage = profileImage
-         }
-         visitorImage.image = selectedImage
+        
+        DispatchQueue.main.async { [self] in
+            let profileURL = URL(string: viewModel.profileImage )
+            let data = try? Data(contentsOf: profileURL!)
+            let profileImage  = UIImage(data: data!)
+            if profileImage?.size == self.defaultImage?.size{
+                self.selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
+            } else {
+                self.selectedImage = profileImage
+            }
+            self.visitorImage.image = self.selectedImage
+            
+        }
+        
          speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
          userTextField.resignFirstResponder()
      }
-    
     
 
    /* func displayData(viewModel: VisitorModel){
@@ -330,7 +341,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             visitTextField.text = data.contactPersonName
         }
         let profileData = viewModel.profileImage
-        let profileImage  = UIImage(data: profileData)
+        let profileImage  = UIImage(named: profileData)
         if profileImage?.size == defaultImage?.size{
             selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
         } else {
@@ -352,19 +363,22 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     @IBAction func submitButtonClick(_ sender: Any) {
-        
-      /*  let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: (selectedImage?.pngData())! )
-        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: (selectedImage?.pngData())!, visitData: [visitData.dictionary], visits: [visitData])
-        if validate() {
-            //saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: userTextField.text, email: emailTextField.text!, phoneNo: phoneTextField.text, visitPurpose: purposeTextField.text, visitingName: visitTextField.text, companyName: companyTextField.text, profileImage: (selectedImage?.pngData())!, currentDate: getCurrentDate()))
-           saveVisitorsData(visitor: visitorData)
-        } */
         saveData()
     }
     
     func saveData(){
         self.uploadImageURL(visitorImage: visitorImage.image ?? defaultImage! ) { (url) in
             print(url as Any)
+            self.uploadVisitorData(profileURL: url!)
+        }
+    }
+    
+    func uploadVisitorData(profileURL : URL) {
+        let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: profileURL.absoluteString )
+        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, visitData: [visitData.dictionary], visits: [visitData])
+        if validate() {
+          saveVisitorsData(visitor: visitorData)
+          visitorsData.append(visitorData)
         }
     }
     
@@ -494,6 +508,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func saveVisitorsData(visitor: VisitorModel){
         
         let dict: [String:Any]  = ["email" : visitor.email, "name" : visitor.name, "phoneNo": visitor.phoneNo, "profileImage" : visitor.profileImage, "visits" : visitor.visitData]
+       
         if (checkphoneNo != visitor.phoneNo){
             showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")
@@ -532,7 +547,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             case VisitorViewControllerConstants.alertPrintActionTitle:
                  self.visitorPrint(phoneNo: self.phoneTextField.text!)
                  self.resetTextFields()
-                break
+                break 
             default:
                 break
             }
@@ -547,7 +562,13 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func visitorPrint(phoneNo: String){
         //router?.routeToVisitorPrint(phoneNo: phoneNo)
-        router?.routeToVisitorDataPrint(visitorData: sortedData[0])
+        if sortedData.count != 0 {
+            router?.routeToVisitorDataPrint(visitorData: sortedData)
+        } else {
+            print("in else part")
+            router?.routeToVisitPrint(visitorData: visitorsData)
+            visitorsData = []
+        }
     }
 }
 
@@ -615,7 +636,6 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
 
     @objc func purposeAction(){
         presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.optionMenuFirstAction, VisitorViewControllerConstants.optionMenuSecondAction, VisitorViewControllerConstants.optionMenuThirdAction, VisitorViewControllerConstants.optionMenuFourthAction) { (option) in
-            
             switch (option){
             case VisitorViewControllerConstants.optionMenuFirstAction:
                 self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFirstAction
@@ -727,7 +747,7 @@ extension VisitorViewController{
         let data = self.visitorImage.image?.pngData()
         let metaData = StorageMetadata()
         metaData.contentType = "image/png"
-        storageRef.putData(data!,metadata: metaData) { (metadata, error) in
+        storageRef.putData(data! ,metadata: metaData) { (metadata, error) in
             if error == nil {
                 storageRef.downloadURL { (url, error) in
                 completion(url)

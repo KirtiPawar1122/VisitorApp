@@ -13,7 +13,7 @@ struct VisitorModel {
     var email: String
     var name: String
     var phoneNo: String
-    var profileImage: Data
+    var profileImage: String
     var visitData: [[String: Any]]
     var visits: [VisitModel]
 
@@ -33,7 +33,7 @@ struct VisitModel {
     var company: String
     var purpose: String
     var contactPersonName: String
-    var profileVisitImage: Data
+    var profileVisitImage: String
     
     var dictionary: [String: Any] {
         return [

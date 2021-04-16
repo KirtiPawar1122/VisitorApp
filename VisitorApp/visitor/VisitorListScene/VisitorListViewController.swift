@@ -4,7 +4,8 @@ import CoreData
 import FirebaseDatabase
 import FirebaseStorage
 import Firebase
-
+import AlamofireImage
+import Alamofire
 
 protocol VisitorListDisplayLogic{
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel)
@@ -158,14 +159,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
                        let name = data["name"] as? String
                        let email = data["email"] as? String
                        let phoneNo = data["phoneNo"] as? String
-                       let profileImage = data["profileImage"] as? Data
+                       let profileImage = data["profileImage"] as? String
                        let currentdate = item["date"] as! Timestamp
                        let date = currentdate.dateValue()
                        let purpose = item["purpose"] as? String
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
                        //let profileVisitImg = data["profileVisitImage"] as? Data
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage ?? "", contactPerson: contactPerson!)
                     self.visitorAllData.append(dataArray)
                    }
                }
@@ -206,7 +207,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     func deleteConfirm(indexpath: IndexPath){
         let alert = UIAlertController(title: nil, message: VisitorDataViewControllerConstants.deleteAlertMessage, preferredStyle: .alert)
         
-        let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
+       /* let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
             //let visitorInfo = self.searchedData[indexpath.row]
             let visitorInfo = self.filterSerchedData[indexpath.row]
             //self.filterSerchedData.remove(at: indexpath.row)
@@ -219,8 +220,14 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
                 self.filterSerchedData.remove(at: indexpath.row)
             } */
             self.tableview.reloadData()
+        } */
+        let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
+            let ref = Database.database().reference()
+            let dataRef = ref.child("Visitor")
+            dataRef.removeValue()
+            self.sortedData.remove(at: indexpath.row)
+            self.tableview.reloadData()
         }
-        
         let cancelAction = UIAlertAction(title: VisitorDataViewControllerConstants.cancelActionMessage, style: .cancel, handler: nil)
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)
@@ -345,7 +352,7 @@ extension VisitorListViewController : UITableViewDataSource{
         let compareDbDate = formatter.string(from: compareDate)
         cell.date.text = compareDbDate */
         cell.setUpCellData(visitData: visit)
-        cell.profileImage.image = UIImage(data: visit.profileImage)
+        
         return cell
     }
 }
@@ -364,10 +371,23 @@ extension VisitorListViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //let data = viewObj
-        let data = searchedData
-        let item = filterSerchedData[indexPath.row]
+        //let data = searchedData
+       /* let item = filterSerchedData[indexPath.row]
+        //let item = sortedData[indexPath.row]
         let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
         let filterdata =  data.filter{ $0.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String == selectedEmail }
+        //let selectedEmail = item.email
+        
+        tableview.deselectRow(at: indexPath, animated: true)
+        visitorDataRouter?.routeToBarChart(fetcheddata: filterdata, selectedData: item) */
+        print(sortedData)
+        let data = sortedData
+        let item = sortedData[indexPath.row]
+        let selectedPhoneNo = item.phoneNo
+        let filterdata = data.filter{ $0.phoneNo == selectedPhoneNo }
+        print(filterdata)
+        print(item)
+        
         tableview.deselectRow(at: indexPath, animated: true)
         visitorDataRouter?.routeToBarChart(fetcheddata: filterdata, selectedData: item)
     }
@@ -379,7 +399,7 @@ extension VisitorListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if searchBar.text != "" {
+      /*  if searchBar.text != "" {
             activityIndicator.startAnimating()
             DispatchQueue.global(qos: .userInteractive).async {
                 self.listInteractor?.fetchVisitorsListByName(request: VisitorList.fetchVisitorRecordByName.Request(name: searchText))
@@ -394,7 +414,12 @@ extension VisitorListViewController: UISearchBarDelegate {
         }  else {
             //filterSerchedData = viewObj
             fetchLimitedData(fetchoffset: offset)
-        }
+        } */
+        self.activityIndicator.startAnimating()
+        sortedData = searchText.isEmpty ? visitorAllData: visitorAllData.filter({ (dataString: DisplayData) -> Bool in
+            let name = dataString.name
+            return name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        })
         DispatchQueue.main.async {
             self.tableview.reloadData()
             self.activityIndicator.stopAnimating()
