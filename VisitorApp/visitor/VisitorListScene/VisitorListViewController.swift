@@ -55,6 +55,7 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     let db = Firestore.firestore()
     var visitorAllData = [DisplayData]()
     var sortedData = [DisplayData]()
+    var filteredData = [DisplayData]()
 
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -160,17 +161,19 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
                        let email = data["email"] as? String
                        let phoneNo = data["phoneNo"] as? String
                        let profileImage = data["profileImage"] as? String
+                       let profileVisitImage = item["profileVisitImage"] as? String
                        let currentdate = item["date"] as! Timestamp
                        let date = currentdate.dateValue()
                        let purpose = item["purpose"] as? String
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
                        //let profileVisitImg = data["profileVisitImage"] as? Data
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage ?? "", contactPerson: contactPerson!)
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileVisitImage ?? "", contactPerson: contactPerson!)
                     self.visitorAllData.append(dataArray)
                    }
                }
             self.sortedData = self.visitorAllData.sorted(by: { $0.date > $1.date })
+            self.filteredData = self.sortedData
             DispatchQueue.main.async {
                 self.tableview.reloadData()
                 self.activityIndicator.stopAnimating()
@@ -224,8 +227,8 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
         let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
             let ref = Database.database().reference()
             let dataRef = ref.child("Visitor")
-            dataRef.removeValue()
-            self.sortedData.remove(at: indexpath.row)
+            let firebaserefkey = self.sortedData.remove(at: indexpath.row)
+            dataRef.child(firebaserefkey.phoneNo).removeValue()
             self.tableview.reloadData()
         }
         let cancelAction = UIAlertAction(title: VisitorDataViewControllerConstants.cancelActionMessage, style: .cancel, handler: nil)
@@ -324,13 +327,15 @@ extension VisitorListViewController : UITableViewDataSource{
         //return searchedData.count
         //return filterSerchedData.count
         //return visitorAllData.count
-        return sortedData.count
+        //return sortedData.count
+        return  filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
         //let visit = filterSerchedData[indexPath.row]
-        let visit = sortedData[indexPath.row]
+        //let visit = sortedData[indexPath.row]
+        let visit = filteredData[indexPath.row]
        /* cell.setUpCellData(visitData: visit)
         let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
         let formatter = DateFormatter()
@@ -382,7 +387,7 @@ extension VisitorListViewController: UITableViewDelegate{
         visitorDataRouter?.routeToBarChart(fetcheddata: filterdata, selectedData: item) */
         print(sortedData)
         let data = sortedData
-        let item = sortedData[indexPath.row]
+        let item = filteredData[indexPath.row]
         let selectedPhoneNo = item.phoneNo
         let filterdata = data.filter{ $0.phoneNo == selectedPhoneNo }
         print(filterdata)
@@ -416,7 +421,7 @@ extension VisitorListViewController: UISearchBarDelegate {
             fetchLimitedData(fetchoffset: offset)
         } */
         self.activityIndicator.startAnimating()
-        sortedData = searchText.isEmpty ? visitorAllData: visitorAllData.filter({ (dataString: DisplayData) -> Bool in
+        filteredData = searchText.isEmpty ? sortedData: sortedData.filter({ (dataString: DisplayData) -> Bool in
             let name = dataString.name
             return name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         })
@@ -431,7 +436,8 @@ extension VisitorListViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.resignFirstResponder()
         //searchedData = viewObj
-        filterSerchedData = viewObj
+        //filterSerchedData = viewObj
+        sortedData = visitorAllData
         searchBar.endEditing(true)
         DispatchQueue.main.async {
             self.tableview.reloadData()

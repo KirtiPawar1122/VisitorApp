@@ -1,6 +1,8 @@
 
 import UIKit
 import Charts
+import FirebaseFirestore
+import FirebaseDatabase
 
 protocol VisitorChartDisplayLogic {
     func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel)
@@ -43,7 +45,9 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     var chartInteractor : VisitorChartBusinessLogic?
     var appdelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+    var ref = DatabaseReference.init()
+    let db = Firestore.firestore()
+    var visitorData = [DisplayData]()
     //MARK: Object lifecycle
    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
           super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -72,9 +76,10 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
+        self.ref = Database.database().reference()
         setupUI()
-        getChartData()
-       
+        //getChartData()
+        displayChartData()
     }
 
     func setupUI(){
@@ -100,6 +105,88 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
              self.chartInteractor?.getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request())
         }
     }
+    
+    func displayChartData(){
+        activityIndicator.startAnimating()
+        let ref = db.collection("Visitor")
+        ref.getDocuments { [self] (snapshots, error) in
+               guard let snap = snapshots?.documents else {return}
+               for document in snap{
+                   let data = document.data()
+                   let visitdata = data["visits"] as! [[String:Any]]
+                   for item in visitdata{
+                       let name = data["name"] as? String
+                       let email = data["email"] as? String
+                       let phoneNo = data["phoneNo"] as? String
+                       let profileImage = item["profileVisitImage"] as? String
+                       let currentdate = item["date"] as! Timestamp
+                       let date = currentdate.dateValue()
+                       let purpose = item["purpose"] as? String
+                       let company = item["company"] as? String
+                       let contactPerson = item["contactPersonName"] as? String
+                    
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                    print(dataArray)
+                    self.visitorData.append(dataArray)
+                   }
+               }
+            self.displayData(chartData: visitorData)
+        }
+    }
+    
+    func displayData(chartData : [DisplayData]) {
+        print(chartData.count)
+        for item in chartData{
+            if "Meeting" == item.purspose{
+                meetings = meetings + 1
+                print("Meeting: " ,meetings)
+            } else if "Interview" == item.purspose{
+                interviews = interviews + 1
+                print("IN:",interviews)
+            } else if "Guest Visit" == item.purspose{
+                guestVisits = guestVisits + 1
+                print("GV:", guestVisits)
+            } else if "Other" == item.purspose{
+                others = others + 1
+                print("OH:",others)
+            }
+        }
+        let total = Double(chartData.count)
+        var meeting : Double{
+            let meetingValue = 100 * Double(meetings) / total
+            return meetingValue
+        }
+        var interview : Double{
+            let interviewValue = 100 * Double(interviews) / total
+            return interviewValue
+        }
+        var guestVisit : Double{
+            let guestValue = 100 * Double(guestVisits) / total
+            return guestValue
+        }
+        var other : Double{
+            let otherValue = 100 * Double(others) / total
+            return otherValue
+        }
+        
+        DispatchQueue.main.async {
+            let data = [meeting,guestVisit,interview,other]
+            self.customizeChart(dataPoints: self.purpose, values: data)
+            
+            let centerTextStrings = NSMutableAttributedString()
+            let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
+            let centerText2 = NSMutableAttributedString(string: "\n    \(chartData.count)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
+                             
+            centerTextStrings.append(centerText1)
+            centerTextStrings.append(centerText2)
+            self.chartView.centerAttributedText = centerTextStrings
+            self.chartView.notifyDataSetChanged()
+            self.tableview.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+        
+    }
+    
     
     func displayPercenatageDataOnChart(viewModel:
         VisitorChart.FetchVisitorPurposeType.ViewModel) {

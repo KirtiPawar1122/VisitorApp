@@ -87,6 +87,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var visitorData = [DisplayData]()
     var sortedData = [DisplayData]()
     var visitorsData = [VisitorModel]()
+    var purposeArray = [String: Any]()
+    var visitArray = [String: Any]()
+    
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
@@ -117,6 +120,33 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         super.viewDidLoad()
         self.ref = Database.database().reference()
         setUpUI()
+        getPurposeDetails()
+        getVisitingPersonDetails()
+    }
+    func getPurposeDetails(){
+        let purpose = db.collection("Purpose")
+        purpose.getDocuments { (snapshots, error) in
+            guard let snap = snapshots?.documents else {return}
+            print(snap)
+            for item in snap{
+                let data = item.data()
+                print(data)
+                self.purposeArray = data
+            }
+        }
+    }
+    
+    func getVisitingPersonDetails(){
+        let visitingPerson = db.collection("VisitingPersons")
+        visitingPerson.getDocuments { (snapshot, error) in
+            guard let snap = snapshot?.documents else {return}
+            print(snap)
+            for item in snap{
+                let data = item.data()
+                print(data)
+                self.visitArray = data
+            }
+        }
     }
     
     //MARK: UI Setup Method
@@ -135,6 +165,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let tapPurposeTextField = UITapGestureRecognizer(target: self, action: #selector(purposeAction))
         purposeTextField.addGestureRecognizer(tapPurposeTextField)
         purposeTextField.isUserInteractionEnabled = true
+        
+        let tapOnContactPersonTextfeild = UITapGestureRecognizer(target: self, action: #selector(visitPersonAction))
+        visitTextField.addGestureRecognizer(tapOnContactPersonTextfeild)
+        visitTextField.isUserInteractionEnabled = true
         
         submitButton.layer.cornerRadius = submitButton.frame.height/2
         submitButton.layer.borderColor = UIColor.black.cgColor
@@ -235,41 +269,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
     
-    /*func fetchVisitorData(email: String, phoneNo: String) -> [VisitorModel]{
-       var visitorArr = [VisitorModel]()
-        //var sortedVisits = [VisitModel]()
-       let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
-        ref.getDocuments { (snapshot, error) in
-            guard let snap = snapshot?.documents else {return}
-            for document in snap{
-                var visitArr = [VisitModel]()
-                let data = document.data()
-                print(data)
-                let name = data["name"] as? String
-                let email = data["email"] as? String
-                let phoneNo = data["phoneNo"] as? String
-                let profileImage = data["profileImage"] as? String
-                let visitdata = data["visits"] as! [[String:Any]]
-                for data in visitdata {
-                    //print(data)
-                    let date = data["date"] as? Date
-                    let purpose = data["purpose"] as? String
-                    let company = data["company"] as? String
-                    let contactPerson = data["contactPersonName"] as? String
-                    let profileVisitImg = data["profileVisitImage"] as? String
-                    let visitarr = VisitModel(date: date ?? Date() , company: company ?? "", purpose: purpose ?? "", contactPersonName: contactPerson ?? "", profileVisitImage: profileVisitImg ?? "" )
-                }
-                let dataArray = VisitorModel(email: email ?? "", name: name ?? "" , phoneNo: phoneNo ?? "", profileImage: profileImage ?? "", visitData: visitdata, visits: visitArr)
-                visitorArr.append(dataArray)
-                //self.displayData(viewModel: dataArray)
-            }
-            print(visitorArr)
-        }
-        
-        
-        return visitorArr
-    } */
-    
     func fetchVisitorData(email: String, phoneNo: String) -> [DisplayData]{
         let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
         ref.getDocuments { (snapshots, error) in
@@ -281,14 +280,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                        let name = data["name"] as? String
                        let email = data["email"] as? String
                        let phoneNo = data["phoneNo"] as? String
-                       let profileImage = data["profileImage"] as? String
+                       let profileImage = item["profileVisitImage"] as? String
                        let currentdate = item["date"] as! Timestamp
                        let date = currentdate.dateValue()
                        let purpose = item["purpose"] as? String
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
-                       //let profileVisitImg = data["profileVisitImage"] as? Data
-                    //let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
                     let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
                     self.visitorData.append(dataArray)
                    }
@@ -302,7 +299,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
         return visitorData
      }
-    
     
     func displayData(viewModel: DisplayData){
          print(viewModel)
@@ -322,35 +318,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                 self.selectedImage = profileImage
             }
             self.visitorImage.image = self.selectedImage
-            
         }
-        
          speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
          userTextField.resignFirstResponder()
      }
-    
-
-   /* func displayData(viewModel: VisitorModel){
-        print(viewModel)
-        userTextField.text = viewModel.name
-        emailTextField.text = viewModel.email
-        checkphoneNo = viewModel.phoneNo
-        let visitsData = viewModel.visits
-        for data in visitsData{
-            companyTextField.text = data.company
-            visitTextField.text = data.contactPersonName
-        }
-        let profileData = viewModel.profileImage
-        let profileImage  = UIImage(named: profileData)
-        if profileImage?.size == defaultImage?.size{
-            selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
-        } else {
-            selectedImage = profileImage
-        }
-        visitorImage.image = selectedImage
-        speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
-        userTextField.resignFirstResponder()
-    } */
     
     func getCurrentDate() -> Date? {
         let now = Date()
@@ -590,7 +561,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
             default: break
             }
         }
-      }
+    }
     
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)){
@@ -635,7 +606,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
     @objc func purposeAction(){
-        presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.optionMenuFirstAction, VisitorViewControllerConstants.optionMenuSecondAction, VisitorViewControllerConstants.optionMenuThirdAction, VisitorViewControllerConstants.optionMenuFourthAction) { (option) in
+      /*  presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.optionMenuFirstAction, VisitorViewControllerConstants.optionMenuSecondAction, VisitorViewControllerConstants.optionMenuThirdAction, VisitorViewControllerConstants.optionMenuFourthAction) { (option) in
             switch (option){
             case VisitorViewControllerConstants.optionMenuFirstAction:
                 self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFirstAction
@@ -647,11 +618,100 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
                 self.purposeTextField.text = VisitorViewControllerConstants.optionMenuThirdAction
                 break
             case VisitorViewControllerConstants.optionMenuFourthAction:
-                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFourthAction
+                //self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFourthAction
+                let alert = UIAlertController(title: "Enter your reason", message: "", preferredStyle: .alert)
+                let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
+                    let textField = alert.textFields![0] as UITextField
+                    if textField.text != "" {
+                        //Read TextFields text data
+                        print(textField.text!)
+        
+                        self.purposeTextField.text = textField.text
+                    } else {
+                        print("TF 1 is Empty...")
+                    }
+                }
+                alert.addTextField { (textField) in
+                    textField.placeholder = "Enter Reason"
+                }
+                alert.addAction(save)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
+                self.present(alert, animated: true, completion: nil)
+                break
+            default: break
+            }
+        } */
+        
+        presentAlertsWithTitles(title: "", message: "select option", preferredStyle: .actionSheet, options: purposeArray) { (option) in
+            print(option)
+            switch option {
+            case "GuestVisit":
+                self.purposeTextField.text = option
+                break
+            case "Meeting":
+                self.purposeTextField.text = option
+                break
+            case "Interview":
+                self.purposeTextField.text = option
+                break
+            case "Other":
+                let alert = UIAlertController(title: "Enter your reason", message: "", preferredStyle: .alert)
+                let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
+                    let textField = alert.textFields![0] as UITextField
+                    if textField.text != "" {
+                        //Read TextFields text data
+                        print(textField.text!)
+        
+                        self.purposeTextField.text = textField.text
+                    } else {
+                        print("TF 1 is Empty...")
+                    }
+                }
+                alert.addTextField { (textField) in
+                    textField.placeholder = "Enter Reason"
+                }
+                alert.addAction(save)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
+                self.present(alert, animated: true, completion: nil)
+                break
+            default: break
+                
+            }
+        }
+        
+    }
+    
+    @objc func visitPersonAction(){
+        presentAlertsWithTitles(title: "", message: "Select Option", preferredStyle: .actionSheet, options: visitArray) { (option) in
+            switch(option){
+            case "HR" :
+                self.visitTextField.text = option
+                break
+            case "Admin" :
+                self.visitTextField.text = option
+                break
+            case "Other" :
+                let alert = UIAlertController(title: "Enter Visiting Person Name", message: "", preferredStyle: .alert)
+                let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
+                    let textField = alert.textFields![0] as UITextField
+                    if textField.text != "" {
+                        print(textField.text!)
+                        self.visitTextField.text = textField.text
+                    } else {
+                        print("TF 1 is Empty...")
+                    }
+                }
+                alert.addTextField { (textField) in
+                    textField.placeholder = "Enter Visiting Person Name"
+                }
+                alert.addAction(save)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
+                self.present(alert, animated: true, completion: nil)
                 break
             default: break
             }
         }
+        
     }
 }
 
@@ -664,6 +724,26 @@ extension VisitorViewController {
                    completion(options[index])
                }))
            }
+
+        switch UIDevice.current.userInterfaceIdiom {
+            case .pad:
+                alertController.popoverPresentationController?.sourceView = self.view
+                alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+            default:
+                    break
+                   }
+           self.present(alertController, animated: true, completion: nil)
+       }
+    // for purpose & Visit textfeilds
+    func presentAlertsWithTitles(title: String, message: String, preferredStyle: UIAlertController.Style, options: [String:Any], completion: @escaping (String) -> Void) {
+           let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+          
+        for (key,value) in options{
+            alertController.addAction(UIAlertAction.init(title: key, style: .default, handler: { (action) in
+                completion(value as! String)
+            }))
+        }
         
         switch UIDevice.current.userInterfaceIdiom {
             case .pad:
@@ -741,7 +821,10 @@ extension UIImage {
 }
 extension VisitorViewController{
     func uploadImageURL(visitorImage: UIImage, completion: @escaping ((_ url: URL?) -> ())) {
-        let storageRef = Storage.storage().reference().child("profileImage")
+    
+        let uuid = NSUUID().uuidString
+        print(uuid)
+        let storageRef = Storage.storage().reference().child("profileImage").child(uuid)
         //let image = UIImage(named: "person-1")
         //let data = image?.pngData()
         let data = self.visitorImage.image?.pngData()
