@@ -1,10 +1,4 @@
-//
-//  DisplayData.swift
-//  VisitorApp
-//
-//  Created by Kirti Pawar on 12/04/21.
-//  Copyright © 2021 Mayur Kamthe. All rights reserved.
-//
+
 
 import Foundation
 import UIKit

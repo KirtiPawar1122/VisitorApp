@@ -104,8 +104,6 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         
         getBarChartData()
         setUpUI()
-        print(seletedVisitorData)
-        print(visitorData)
         
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorsChartViewControllerConstants.dateFormat

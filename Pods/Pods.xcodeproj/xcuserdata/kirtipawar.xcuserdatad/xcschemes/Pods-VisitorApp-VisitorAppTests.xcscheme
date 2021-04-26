@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BF03B0B2B8B052092CB5F90CC5FB3757"
-               BuildableName = "Charts.framework"
-               BlueprintName = "Charts"
+               BlueprintIdentifier = "BCE8BF4D4593C378BA9C7586690E9BAA"
+               BuildableName = "Pods_VisitorApp_VisitorAppTests.framework"
+               BlueprintName = "Pods-VisitorApp-VisitorAppTests"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,15 +47,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BF03B0B2B8B052092CB5F90CC5FB3757"
-            BuildableName = "Charts.framework"
-            BlueprintName = "Charts"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

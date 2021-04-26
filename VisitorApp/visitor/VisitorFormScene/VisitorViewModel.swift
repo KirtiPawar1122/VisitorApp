@@ -27,7 +27,7 @@ enum VisitorForm {
             var visitPurpose: String?
             var visitingName: String?
             var companyName: String?
-            var profileImage: Data
+            var profileImage: Data?
             var currentDate: Date?
         }
         
@@ -39,4 +39,37 @@ enum VisitorForm {
             
         }
     }
+    
+    enum saveVisitorsRecord {
+        struct Request {
+            var email: String
+            var phonNo: String
+            var profileImage: String
+            var name: String
+            var visits: [[String: Any]]
+        }
+        
+        struct Response {
+            
+        }
+        
+        struct  ViewModel {
+            
+        }
+    }
+    
+    enum fetchVisitorsRecord{
+        struct Request {
+            var phoneNo: String?
+        }
+        
+        struct Response {
+            var visitorData: DisplayData
+        }
+        
+        struct ViewModel {
+            var visitorData: DisplayData
+        }
+    }
+    
 }

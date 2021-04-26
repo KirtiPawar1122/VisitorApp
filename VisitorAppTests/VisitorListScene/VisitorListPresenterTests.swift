@@ -33,6 +33,10 @@ class VisitorListPresenterTests: XCTestCase
   
   class VisitorListDisplayLogicSpy: VisitorListDisplayLogic
   {
+    func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel) {
+        print(viewModel)
+    }
+    
     
     var displayVisit : [Visit] = []
     var displayVisitorListCalled = false

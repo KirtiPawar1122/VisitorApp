@@ -46,14 +46,19 @@ class VisitorFormViewControllerTests: XCTestCase
   
   class VisitorFormBusinessLogicSpy: VisitorFormBusinessLogic
   {
-   
     var fetchRecordCalled = false
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request) {
         fetchRecordCalled = true
     }
-    
+    func fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request) {
+        fetchRecordCalled = true
+    }
     var saveVisitorRecordCalled = false
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
+        saveVisitorRecordCalled = true
+        print(request)
+    }
+    func saveVisitorsRecord(request: VisitorForm.saveVisitorsRecord.Request) {
         saveVisitorRecordCalled = true
         print(request)
     }
@@ -66,9 +71,10 @@ class VisitorFormViewControllerTests: XCTestCase
     let spy = VisitorFormBusinessLogicSpy()
     sut.interactor = spy
     loadView()
-    sut.fetchData(email: "k@ggmail.com", phoneNo: "8411912075")
     
-    XCTAssert(spy.fetchRecordCalled,"record fetched successfully")
+    sut.fetchVisitorRecord(phoneNo: "8411912075")
+
+    XCTAssert(spy.fetchRecordCalled, "record fetched Successfully")
     
   }
     
@@ -83,7 +89,7 @@ class VisitorFormViewControllerTests: XCTestCase
         XCTAssertEqual(phoneTextfeild.keyboardType, UIKeyboardType.numberPad, "number keypad is not set" )
   }
    
-  func testValidateData(){
+  func testValidateData() -> Bool {
     
        let phoneNo = "8411912075"
        let email = "k@gmail.com"
@@ -92,7 +98,6 @@ class VisitorFormViewControllerTests: XCTestCase
        let purpose = "Meeting"
        let visitingPerson = "HR"
         
-    
        let validateEmail = email.isValidEmail(mail: email)
        XCTAssertTrue(validateEmail, "Error in validate email")
     
@@ -110,14 +115,15 @@ class VisitorFormViewControllerTests: XCTestCase
       
        let validateVisitingPerson = !visitingPerson.isBlank
        XCTAssertTrue(validateVisitingPerson, "Error in validate visiting person name")
+
+      return true
+    }
     
-      let spy = VisitorFormBusinessLogicSpy()
-      sut.interactor = spy
     
-      loadView()
-      sut.saveVisitorData(request: VisitorForm.saveVisitorRecord.Request(name: name, email: email, phoneNo: phoneNo, visitPurpose: purpose, visitingName: visitingPerson, companyName: companyName, profileImage: Data(), currentDate: Date()))
-    
-      XCTAssert(spy.saveVisitorRecordCalled, "record Saved Successfully")
+    func testSaveData(){
+        
+        
     }
     
 }
+

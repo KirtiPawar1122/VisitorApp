@@ -3,6 +3,9 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseFirestore
+import FirebaseDatabase
 
 struct VisitorInteractorConstants {
     static let visitorName = "name"
@@ -28,13 +31,20 @@ struct VisitorInteractorConstants {
 protocol VisitorFormBusinessLogic{
     func fetchRequest(request: VisitorForm.fetchVisitorRecord.Request)
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request)
+    func saveVisitorsRecord(request: VisitorForm.saveVisitorsRecord.Request)
+    func fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request)
 }
 
 class VisitorInteractor: VisitorFormBusinessLogic {
     
+  
     var presenter : VisitorFormPrsentationLogic?
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
-      
+    var ref = DatabaseReference.init()
+    let db = Firestore.firestore()
+    var visitorData = [DisplayData]()
+    var sortedData = [DisplayData]()
+
     func saveVisitorRecord(request: VisitorForm.saveVisitorRecord.Request) {
         visitorCoreData.saveVisitorRecord(request: request)
     }
@@ -46,5 +56,38 @@ class VisitorInteractor: VisitorFormBusinessLogic {
             self.presenter?.presentFetchResults(response: visitorResponse)
         }
     }
- 
+    
+    func saveVisitorsRecord(request: VisitorForm.saveVisitorsRecord.Request){
+        let dict : [String: Any] = ["email" : request.email, "phoneNo": request.phonNo, "name": request.name, "profileImage": request.profileImage, "visits": request.visits]
+        db.collection("Visitor").document(request.phonNo).setData(dict)
+    }
+    
+    func fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request){
+        let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: request.phoneNo!)
+        ref.getDocuments { (snapshots, error) in
+            guard let snap = snapshots?.documents else {return}
+            for document in snap{
+                let data = document.data()
+                let visitdata = data["visits"] as! [[String:Any]]
+                for item in visitdata{
+                    let name = data["name"] as? String
+                    let email = data["email"] as? String
+                    let phoneNo = data["phoneNo"] as? String
+                    let profileImage = item["profileVisitImage"] as? String
+                    let currentdate = item["date"] as! Timestamp
+                    let date = currentdate.dateValue()
+                    let purpose = item["purpose"] as? String
+                    let company = item["company"] as? String
+                    let contactPerson = item["contactPersonName"] as? String
+                 let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                    self.visitorData.append(dataArray)
+                    print(self.visitorData)
+                }
+            }
+            self.sortedData = self.visitorData.sorted(by: { $0.date > $1.date })
+            print(self.sortedData)
+            let visitorRecord = VisitorForm.fetchVisitorsRecord.Response(visitorData: self.sortedData[0])
+            self.presenter?.presentFethcedResults(response: visitorRecord)
+        }
+    }
 }

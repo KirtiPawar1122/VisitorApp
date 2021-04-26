@@ -44,6 +44,10 @@ class VisitorChartViewControllerTests: XCTestCase
   
   class VisitorChartBusinessLogicSpy: VisitorChartBusinessLogic
   {
+    func getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request) {
+        print(request)
+    }
+    
  
     var displayChartDataCalled = false
     func visitorsChartData(request: VisitorChart.VisitorChartData.Request) {
@@ -74,7 +78,7 @@ class VisitorChartViewControllerTests: XCTestCase
     
     // When
     loadView()
-    sut.displayChart(viewModel: viewModel)
+    //sut.displayChart(viewModel: viewModel)
     
     // Then
     //XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")

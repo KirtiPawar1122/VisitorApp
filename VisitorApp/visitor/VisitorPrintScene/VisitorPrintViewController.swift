@@ -1,5 +1,8 @@
 
 import UIKit
+import Firebase
+import FirebaseFirestore
+import FirebaseDatabase
 
 protocol VisitorPrintDisplayLogic{
     func displayVisitorPrint(viewModel: VisitorPrint.VisitorPrintData.ViewModel)
@@ -71,7 +74,7 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         super.viewDidLoad()
         setupUI()
         print(printVisitorsData)
-       print(printVisitData)
+        print(printVisitData)
         print(printVisitorData)
     
     }

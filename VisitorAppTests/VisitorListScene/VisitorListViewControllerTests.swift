@@ -46,6 +46,18 @@ class VisitorListViewControllerTests: XCTestCase
   
   class VisitorListBusinessLogicSpy: VisitorListBusinessLogic
   {
+    func fetchVisitorDataWithLimit(fetchOffset: Int, request: VisitorList.fetchVisitorList.Request) {
+        print(fetchOffset)
+    }
+    
+    func fetchVisitorsListByName(request: VisitorList.fetchVisitorRecordByName.Request) {
+        print(request)
+    }
+    
+    func fetchVisitorsListByNameNNN() {
+   
+    }
+    
     var visits : [Visit]?
     var fetchDataCalled = false
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {

@@ -33,6 +33,10 @@ class VisitorListInteractorTests: XCTestCase
   
   class VisitorListPresentationLogicSpy: VisitorListPresentationLogic
   {
+    func presentAllVisitorsRecord(response: VisitorList.fetchVisitorRecordByName.Response) {
+        print(response)
+    }
+    
     
     var visits = [Visit]()
     var presentFethcedDataCalled = false

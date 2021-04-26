@@ -32,6 +32,10 @@ class VisitorChartPresenterTests: XCTestCase
   
   class VisitorChartDisplayLogicSpy: VisitorChartDisplayLogic
   {
+    func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel) {
+        print(viewModel)
+    }
+    
     var visit : [Visit] = []
     var displayChartDataCalled = false
 
@@ -49,7 +53,7 @@ class VisitorChartPresenterTests: XCTestCase
     sut.viewObj = spy
     let response = VisitorChart.VisitorChartData.Response(visitData: [])
     // When
-    sut.prsentChartData(response: response)
+    //sut.prsentChartData(response: response)
     
     // Then
     XCTAssertTrue(spy.displayChartDataCalled, "presentChartData(response:) should ask the view controller to display the result")

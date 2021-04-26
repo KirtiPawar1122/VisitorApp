@@ -1,13 +1,9 @@
-//
-//  VisitorPrintViewcontrollerTests.swift
-//  VisitorAppTests
-//
-//  Created by Mayur Kamthe on 29/01/21.
-//  Copyright © 2021 Mayur Kamthe. All rights reserved.
-//
 
 @testable import VisitorApp
 import XCTest
+import FirebaseDatabase
+import FirebaseStorage
+import FirebaseFirestore
 
 class VisitorPrintViewcontrollerTests: XCTestCase {
     

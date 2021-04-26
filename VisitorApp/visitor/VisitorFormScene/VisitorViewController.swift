@@ -9,6 +9,7 @@ import FirebaseDatabase
 
 protocol VisitorFormDisplayLogic{
     func displayVisitorData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel)
+    func displayVisitorsData(viewModel: VisitorForm.fetchVisitorsRecord.ViewModel)
 }
 
 struct VisitorViewControllerConstants {
@@ -50,6 +51,8 @@ struct VisitorViewControllerConstants {
 }
 
 class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic {
+   
+    
 
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var scrollView : UIScrollView!
@@ -151,7 +154,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     //MARK: UI Setup Method
     func setUpUI(){
-        
+    
         hideKeyboardTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector( VisitorViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -299,9 +302,11 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
         return visitorData
      }
+   
     
     func displayData(viewModel: DisplayData){
          print(viewModel)
+       
          userTextField.text = viewModel.name
          emailTextField.text = viewModel.email
          companyTextField.text = viewModel.companyName
@@ -322,6 +327,37 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
          speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
          userTextField.resignFirstResponder()
      }
+    
+    func displayVisitorsData(viewModel: VisitorForm.fetchVisitorsRecord.ViewModel) {
+        print(viewModel)
+        guard let visitData = viewModel.visitorData as? DisplayData else {
+           return
+        }
+        userTextField.text = visitData.name
+        emailTextField.text = visitData.email
+        companyTextField.text = visitData.companyName
+        visitTextField.text = visitData.contactPerson
+        checkphoneNo = visitData.phoneNo
+       
+       DispatchQueue.main.async { [self] in
+           let profileURL = URL(string: visitData.profileImage )
+           let data = try? Data(contentsOf: profileURL!)
+           let profileImage  = UIImage(data: data!)
+           if profileImage?.size == self.defaultImage?.size{
+               self.selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
+           } else {
+               self.selectedImage = profileImage
+           }
+           self.visitorImage.image = self.selectedImage
+       }
+        speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
+        userTextField.resignFirstResponder()
+        
+    }
+    
+    func fetchVisitorRecord(phoneNo: String){
+        interactor?.fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request(phoneNo: phoneNo))
+    }
     
     func getCurrentDate() -> Date? {
         let now = Date()
@@ -353,7 +389,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
     }
     
-    
     //MARK: TextFields methods
     private func switchToNextTextField(_ textField: UITextField){
         switch textField {
@@ -384,7 +419,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         // code for fetch data
         if (phoneTextField.text != "" && emailTextField.text == "") {
           //fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
-            fetchVisitorData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
+           // fetchVisitorData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
+            fetchVisitorRecord(phoneNo: phoneTextField.text ?? "")
         }
         return true
     }
@@ -478,19 +514,20 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func saveVisitorsData(visitor: VisitorModel){
         
-        let dict: [String:Any]  = ["email" : visitor.email, "name" : visitor.name, "phoneNo": visitor.phoneNo, "profileImage" : visitor.profileImage, "visits" : visitor.visitData]
+        //let dict: [String:Any]  = ["email" : visitor.email, "name" : visitor.name, "phoneNo": visitor.phoneNo, "profileImage" : visitor.profileImage, "visits" : visitor.visitData]
        
         if (checkphoneNo != visitor.phoneNo){
             showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")
-            db.collection("Visitor").document(visitor.phoneNo).setData(dict)
-            
+            //db.collection("Visitor").document(visitor.phoneNo).setData(dict)
+            let request = VisitorForm.saveVisitorsRecord.Request(email: visitor.email, phonNo: visitor.phoneNo, profileImage: visitor.profileImage, name: visitor.name, visits: visitor.visitData)
+            interactor?.saveVisitorsRecord(request: request)
+           
         } else {
             showAlerts(alert: VisitorViewControllerConstants.checkmailAlert)
             checkphoneNo = ""
             self.db.collection("Visitor").document(visitor.phoneNo).updateData(["visits" : FieldValue.arrayUnion(visitor.visitData)])
         }
-       // db.collection("Visitor").document(visitor.phoneNo).setData(dict)
     }
 
     func resetTextFields() {
@@ -606,41 +643,6 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
     @objc func purposeAction(){
-      /*  presentAlertWithTitles(title: "", message: VisitorViewControllerConstants.optionMenuMessage, preferredStyle: .actionSheet, options: VisitorViewControllerConstants.optionMenuFirstAction, VisitorViewControllerConstants.optionMenuSecondAction, VisitorViewControllerConstants.optionMenuThirdAction, VisitorViewControllerConstants.optionMenuFourthAction) { (option) in
-            switch (option){
-            case VisitorViewControllerConstants.optionMenuFirstAction:
-                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFirstAction
-                break
-            case VisitorViewControllerConstants.optionMenuSecondAction:
-                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuSecondAction
-                break
-            case VisitorViewControllerConstants.optionMenuThirdAction:
-                self.purposeTextField.text = VisitorViewControllerConstants.optionMenuThirdAction
-                break
-            case VisitorViewControllerConstants.optionMenuFourthAction:
-                //self.purposeTextField.text = VisitorViewControllerConstants.optionMenuFourthAction
-                let alert = UIAlertController(title: "Enter your reason", message: "", preferredStyle: .alert)
-                let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
-                    let textField = alert.textFields![0] as UITextField
-                    if textField.text != "" {
-                        //Read TextFields text data
-                        print(textField.text!)
-        
-                        self.purposeTextField.text = textField.text
-                    } else {
-                        print("TF 1 is Empty...")
-                    }
-                }
-                alert.addTextField { (textField) in
-                    textField.placeholder = "Enter Reason"
-                }
-                alert.addAction(save)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
-                self.present(alert, animated: true, completion: nil)
-                break
-            default: break
-            }
-        } */
         
         presentAlertsWithTitles(title: "", message: "select option", preferredStyle: .actionSheet, options: purposeArray) { (option) in
             print(option)
@@ -735,6 +737,7 @@ extension VisitorViewController {
                    }
            self.present(alertController, animated: true, completion: nil)
        }
+    
     // for purpose & Visit textfeilds
     func presentAlertsWithTitles(title: String, message: String, preferredStyle: UIAlertController.Style, options: [String:Any], completion: @escaping (String) -> Void) {
            let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)

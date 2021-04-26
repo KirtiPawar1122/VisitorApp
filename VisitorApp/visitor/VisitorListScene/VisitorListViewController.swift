@@ -160,14 +160,13 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
                        let name = data["name"] as? String
                        let email = data["email"] as? String
                        let phoneNo = data["phoneNo"] as? String
-                       let profileImage = data["profileImage"] as? String
+                       //let profileImage = data["profileImage"] as? String
                        let profileVisitImage = item["profileVisitImage"] as? String
                        let currentdate = item["date"] as! Timestamp
                        let date = currentdate.dateValue()
                        let purpose = item["purpose"] as? String
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
-                       //let profileVisitImg = data["profileVisitImage"] as? Data
                     let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileVisitImage ?? "", contactPerson: contactPerson!)
                     self.visitorAllData.append(dataArray)
                    }
@@ -323,39 +322,13 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
 //MARK: - Tableview DataSource methods
 extension VisitorListViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return viewObj.count
-        //return searchedData.count
-        //return filterSerchedData.count
-        //return visitorAllData.count
-        //return sortedData.count
         return  filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitorDataViewControllerConstants.visitorCell, for: indexPath) as! VisitorTableViewCell
-        //let visit = filterSerchedData[indexPath.row]
-        //let visit = sortedData[indexPath.row]
-        let visit = filteredData[indexPath.row]
-       /* cell.setUpCellData(visitData: visit)
-        let email = visit.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String
-        let formatter = DateFormatter()
-        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForSaveDate
-        let compareDate = visit.date
-        uniqueKey = (email ?? "") + "\(String(describing: compareDate))"
         
-        if let imageFromCache = appDelegate.imageCache.object(forKey: uniqueKey as AnyObject){
-            cell.profileImage.image = imageFromCache
-        } else {
-            cell.profileImage.image = UIImage(named: VisitorDataViewControllerConstants.defaultImage)
-        }
-        //self.activityIndica or.stopAnimating() */
-        /*cell.visitPurpose.text = visit.purspose
-        cell.visitorName.text = visit.name
-        let formatter = DateFormatter()
-        formatter.dateFormat = VisitorDataViewControllerConstants.dateFormatterForDisplayDate
-        let compareDate = visit.date
-        let compareDbDate = formatter.string(from: compareDate)
-        cell.date.text = compareDbDate */
+        let visit = filteredData[indexPath.row]
         cell.setUpCellData(visitData: visit)
         
         return cell
@@ -375,16 +348,7 @@ extension VisitorListViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        //let data = viewObj
-        //let data = searchedData
-       /* let item = filterSerchedData[indexPath.row]
-        //let item = sortedData[indexPath.row]
-        let selectedEmail = item.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as! String
-        let filterdata =  data.filter{ $0.visitors?.value(forKey: VisitorDataViewControllerConstants.emailString) as? String == selectedEmail }
-        //let selectedEmail = item.email
         
-        tableview.deselectRow(at: indexPath, animated: true)
-        visitorDataRouter?.routeToBarChart(fetcheddata: filterdata, selectedData: item) */
         print(sortedData)
         let data = sortedData
         let item = filteredData[indexPath.row]
@@ -435,8 +399,6 @@ extension VisitorListViewController: UISearchBarDelegate {
         print("on click cancel")
         searchBar.text = ""
         searchBar.resignFirstResponder()
-        //searchedData = viewObj
-        //filterSerchedData = viewObj
         sortedData = visitorAllData
         searchBar.endEditing(true)
         DispatchQueue.main.async {
