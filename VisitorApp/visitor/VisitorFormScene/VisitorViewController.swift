@@ -239,7 +239,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @objc func dissmissKeyboard(){
         view.endEditing(true)
     }
-    
+    //for CORE DATA
     func displayVisitorData(viewModel: VisitorForm.fetchVisitorRecord.ViewModel) {
         //print(viewModel)
         guard let visitData = viewModel.visit else {
@@ -267,12 +267,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
         userTextField.resignFirstResponder()
     }
-    
+    //CoreData
     func fetchData(email : String, phoneNo : String){
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
     
-    func fetchVisitorData(email: String, phoneNo: String) -> [DisplayData]{
+    /*func fetchVisitorData(email: String, phoneNo: String) -> [DisplayData]{
         let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
         ref.getDocuments { (snapshots, error) in
                guard let snap = snapshots?.documents else {return}
@@ -326,35 +326,38 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
          speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
          userTextField.resignFirstResponder()
-     }
-    
+     }  */
+    //for FIR
     func displayVisitorsData(viewModel: VisitorForm.fetchVisitorsRecord.ViewModel) {
         print(viewModel)
-        guard let visitData = viewModel.visitorData as? DisplayData else {
-           return
-        }
-        userTextField.text = visitData.name
-        emailTextField.text = visitData.email
-        companyTextField.text = visitData.companyName
-        visitTextField.text = visitData.contactPerson
-        checkphoneNo = visitData.phoneNo
-       
-       DispatchQueue.main.async { [self] in
-           let profileURL = URL(string: visitData.profileImage )
-           let data = try? Data(contentsOf: profileURL!)
-           let profileImage  = UIImage(data: data!)
-           if profileImage?.size == self.defaultImage?.size{
-               self.selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
-           } else {
-               self.selectedImage = profileImage
+        if viewModel.visitorData.count != 0 {
+            let visitData = viewModel.visitorData[0]
+            userTextField.text = visitData.name
+            emailTextField.text = visitData.email
+            companyTextField.text = visitData.companyName
+            visitTextField.text = visitData.contactPerson
+            checkphoneNo = visitData.phoneNo
+           
+           DispatchQueue.main.async { [self] in
+               let profileURL = URL(string: visitData.profileImage )
+               let data = try? Data(contentsOf: profileURL!)
+               let profileImage  = UIImage(data: data!)
+               if profileImage?.size == self.defaultImage?.size{
+                   self.selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
+               } else {
+                   self.selectedImage = profileImage
+               }
+               self.visitorImage.image = self.selectedImage
            }
-           self.visitorImage.image = self.selectedImage
-       }
-        speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
-        userTextField.resignFirstResponder()
+            speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
+            userTextField.resignFirstResponder()
+            
+        } else {
+            self.userTextField.resignFirstResponder()
+        }
         
     }
-    
+    //Firebase
     func fetchVisitorRecord(phoneNo: String){
         interactor?.fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request(phoneNo: phoneNo))
     }
@@ -497,7 +500,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         
         return true
     }
-
+    //Core Data
     func saveVisitorData(request: VisitorForm.saveVisitorRecord.Request){
         
         if (checkphoneNo != request.phoneNo) {
@@ -512,10 +515,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         interactor?.saveVisitorRecord(request: request)
     }
     
+    //Firebase
     func saveVisitorsData(visitor: VisitorModel){
-        
-        //let dict: [String:Any]  = ["email" : visitor.email, "name" : visitor.name, "phoneNo": visitor.phoneNo, "profileImage" : visitor.profileImage, "visits" : visitor.visitData]
-       
+               
         if (checkphoneNo != visitor.phoneNo){
             showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")

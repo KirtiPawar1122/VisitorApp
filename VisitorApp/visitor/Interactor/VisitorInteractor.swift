@@ -86,7 +86,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
             }
             self.sortedData = self.visitorData.sorted(by: { $0.date > $1.date })
             print(self.sortedData)
-            let visitorRecord = VisitorForm.fetchVisitorsRecord.Response(visitorData: self.sortedData[0])
+            let visitorRecord = VisitorForm.fetchVisitorsRecord.Response(visitorData: self.sortedData)
             self.presenter?.presentFethcedResults(response: visitorRecord)
         }
     }

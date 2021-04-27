@@ -27,4 +27,17 @@ enum VisitorList {
             var visit: [Visit]?
         }
     }
+    
+    enum fetchAllVisitorsList{
+        struct Request {
+            
+        }
+        struct Response {
+            var visitorList: [DisplayData]
+        }
+        struct ViewModel {
+            var visitorList: [DisplayData]
+        }
+    }
+
 }

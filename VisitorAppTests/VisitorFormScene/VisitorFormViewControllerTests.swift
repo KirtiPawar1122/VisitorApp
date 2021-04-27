@@ -9,7 +9,14 @@ class VisitorFormViewControllerTests: XCTestCase
   var sut: VisitorViewController!
   var window: UIWindow!
   var visitModel = Visit()
-  
+    let phoneNo = "8411912075"
+    let email = "k@gmail.com"
+    let visitorname = "Kirti"
+    let companyName = "Wurth IT pvt ltd"
+    let purpose = "Meeting"
+    let visitingPerson = "HR"
+   
+    
   // MARK: - Test lifecycle
   
   override func setUp()
@@ -91,20 +98,13 @@ class VisitorFormViewControllerTests: XCTestCase
    
   func testValidateData() -> Bool {
     
-       let phoneNo = "8411912075"
-       let email = "k@gmail.com"
-       let name = "Kirti"
-       let companyName = "Wurth IT pvt ltd"
-       let purpose = "Meeting"
-       let visitingPerson = "HR"
-        
        let validateEmail = email.isValidEmail(mail: email)
        XCTAssertTrue(validateEmail, "Error in validate email")
     
        let validatePhone = phoneNo.isphoneValidate(phone: phoneNo)
        XCTAssertTrue(validatePhone, "Error in validat phone number")
     
-       let validateName = !name.isBlank
+       let validateName = !visitorname.isBlank
        XCTAssertTrue(validateName, "Error in validate name" )
        
        let validateCompany = !companyName.isBlank
@@ -121,8 +121,17 @@ class VisitorFormViewControllerTests: XCTestCase
     
     
     func testSaveData(){
+        let visitData = VisitModel(date: Date(), company: companyName, purpose: purpose, contactPersonName: visitingPerson, profileVisitImage: "")
+        let visitorData = VisitorModel(email: email, name: visitorname, phoneNo: phoneNo, profileImage: "", visitData: [visitData.dictionary],visits: [visitData])
         
+        let spy = VisitorFormBusinessLogicSpy()
+        sut.interactor = spy
         
+        if testValidateData(){
+            sut.saveVisitorsData(visitor: visitorData)
+        }
+        
+        XCTAssert(spy.saveVisitorRecordCalled , "Record saved successfully")
     }
     
 }

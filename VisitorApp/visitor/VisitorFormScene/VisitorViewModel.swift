@@ -64,11 +64,11 @@ enum VisitorForm {
         }
         
         struct Response {
-            var visitorData: DisplayData
+            var visitorData: [DisplayData]
         }
         
         struct ViewModel {
-            var visitorData: DisplayData
+            var visitorData: [DisplayData]
         }
     }
     

@@ -1,6 +1,9 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseFirestore
+import FirebaseDatabase
 
 struct VisitorListInteractorConstants{
     static let visitEntity = "Visit"
@@ -13,6 +16,7 @@ protocol VisitorListBusinessLogic{
     func fetchVisitorDataWithLimit(fetchOffset: Int,request: VisitorList.fetchVisitorList.Request)
     func fetchVisitorsListByName(request: VisitorList.fetchVisitorRecordByName.Request)
     func fetchVisitorsListByNameNNN()
+    func fetchVisitorList(request: VisitorList.fetchAllVisitorsList.Request)
 }
 
 class VisitorListInteractor: VisitorListBusinessLogic {
@@ -23,6 +27,10 @@ class VisitorListInteractor: VisitorListBusinessLogic {
     var visitorCoreData : VisitorCoreDataStore = VisitorCoreDataStore()
     var offset: Int = 0
     var visit : [Visit] = []
+    var ref = DatabaseReference.init()
+    let db = Firestore.firestore()
+    var visitorData = [DisplayData]()
+    var sortedData = [DisplayData]()
     
     func fetchVisitorData(request: VisitorList.fetchVisitorList.Request) {
         let visitorFetchRequest = NSFetchRequest<Visit>(entityName: VisitorListInteractorConstants.visitEntity)
@@ -101,6 +109,34 @@ class VisitorListInteractor: VisitorListBusinessLogic {
         } catch let error as NSError{
             print(error.description)
         }
-        
     }
+    
+    func fetchVisitorList(request: VisitorList.fetchAllVisitorsList.Request) {
+        let ref = db.collection("Visitor")
+        ref.getDocuments { (snapshots, error) in
+            guard let snap = snapshots?.documents else {return}
+            for document in snap{
+                let data = document.data()
+                let visitdata = data["visits"] as! [[String:Any]]
+                for item in visitdata{
+                    let name = data["name"] as? String
+                    let email = data["email"] as? String
+                    let phoneNo = data["phoneNo"] as? String
+                    let profileImage = item["profileVisitImage"] as? String
+                    let currentdate = item["date"] as! Timestamp
+                    let date = currentdate.dateValue()
+                    let purpose = item["purpose"] as? String
+                    let company = item["company"] as? String
+                    let contactPerson = item["contactPersonName"] as? String
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                    self.visitorData.append(dataArray)
+                }
+            }
+            self.sortedData = self.visitorData.sorted(by: { $0.date > $1.date })
+            print(self.sortedData)
+            let visitorResponse = VisitorList.fetchAllVisitorsList.Response(visitorList: self.sortedData)
+            self.listPresenterProtocol?.presentVisitorsList(response: visitorResponse)
+        }
+    }
+    
 }

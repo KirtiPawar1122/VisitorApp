@@ -10,6 +10,7 @@ import Alamofire
 protocol VisitorListDisplayLogic{
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel)
     func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel)
+    func displayVisitorsReccord(viewModel : VisitorList.fetchAllVisitorsList.ViewModel)
 }
 
 struct VisitorDataViewControllerConstants{
@@ -150,33 +151,9 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     
     func fetchVisitorData(){
         activityIndicator.startAnimating()
-        let ref = db.collection("Visitor")
-        ref.getDocuments { (snapshots, error) in
-               guard let snap = snapshots?.documents else {return}
-               for document in snap{
-                   let data = document.data()
-                   let visitdata = data["visits"] as! [[String:Any]]
-                   for item in visitdata{
-                       let name = data["name"] as? String
-                       let email = data["email"] as? String
-                       let phoneNo = data["phoneNo"] as? String
-                       //let profileImage = data["profileImage"] as? String
-                       let profileVisitImage = item["profileVisitImage"] as? String
-                       let currentdate = item["date"] as! Timestamp
-                       let date = currentdate.dateValue()
-                       let purpose = item["purpose"] as? String
-                       let company = item["company"] as? String
-                       let contactPerson = item["contactPersonName"] as? String
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileVisitImage ?? "", contactPerson: contactPerson!)
-                    self.visitorAllData.append(dataArray)
-                   }
-               }
-            self.sortedData = self.visitorAllData.sorted(by: { $0.date > $1.date })
-            self.filteredData = self.sortedData
-            DispatchQueue.main.async {
-                self.tableview.reloadData()
-                self.activityIndicator.stopAnimating()
-            }
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            let request = VisitorList.fetchAllVisitorsList.Request()
+            self.listInteractor?.fetchVisitorList(request: request)
         }
     }
     
@@ -202,6 +179,16 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
     func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel) {
         searchData = viewModel.visit!
         //print("SearchData:", searchData)
+    }
+    
+    func displayVisitorsReccord(viewModel: VisitorList.fetchAllVisitorsList.ViewModel) {
+        print(viewModel.visitorList)
+        sortedData = viewModel.visitorList
+        filteredData = sortedData
+        DispatchQueue.main.async {
+            self.tableview.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     //MARK: - Delete Record from table
