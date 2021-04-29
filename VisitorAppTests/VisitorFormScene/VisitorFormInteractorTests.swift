@@ -57,7 +57,7 @@ class VisitorFormInteractorTests: XCTestCase
     // Given
     let spy = VisitorFormPresentationLogicSpy()
     sut.presenter = spy
-    //let requestData = VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo)
+
     let requestData = VisitorForm.fetchVisitorsRecord.Request(phoneNo: phoneNo)
     
     // When

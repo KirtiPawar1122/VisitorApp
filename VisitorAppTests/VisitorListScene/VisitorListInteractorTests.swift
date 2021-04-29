@@ -33,11 +33,11 @@ class VisitorListInteractorTests: XCTestCase
   
   class VisitorListPresentationLogicSpy: VisitorListPresentationLogic
   {
+   
     func presentAllVisitorsRecord(response: VisitorList.fetchVisitorRecordByName.Response) {
         print(response)
     }
-    
-    
+
     var visits = [Visit]()
     var presentFethcedDataCalled = false
     func presentVisitorListResult(response: VisitorList.fetchVisitorList.Response) {
@@ -45,23 +45,25 @@ class VisitorListInteractorTests: XCTestCase
         let res = response.visit
         visits = res!
     }
+    
+    var displayData = [DisplayData]()
+    func presentVisitorsList(response: VisitorList.fetchAllVisitorsList.Response) {
+        presentFethcedDataCalled = true
+        let res = response.visitorList
+        displayData = res
+    }
+    
   }
   
-  // MARK: Tests
-  
-  func testForFetchAllVisitorData()
-  {
-    // Given
-    let spy = VisitorListPresentationLogicSpy()
-    sut.listPresenterProtocol = spy
+  // MARK: Tests    
     
-    let request = VisitorList.fetchVisitorList.Request()
-    
-    // When
-    sut.fetchVisitorData(request: request)
-    
-    // Then
-    XCTAssertTrue(spy.presentFethcedDataCalled, "fetchVisitorData(request:) should ask the presenter to format the result")
-    XCTAssertNotNil(spy.visits.count, "Data is not nil")
-  }
+    func testForFetchVisitorsRecord() {
+        let spy = VisitorListPresentationLogicSpy()
+        sut.listPresenterProtocol = spy
+         
+        let request = VisitorList.fetchAllVisitorsList.Request()
+        sut.fetchVisitorList(request: request)
+            
+        XCTAssertNotNil(spy.presentFethcedDataCalled, "Present Fetch Record is called")
+    }
 }

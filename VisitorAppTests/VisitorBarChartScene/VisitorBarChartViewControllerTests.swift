@@ -78,5 +78,6 @@ class VisitorBarChartViewControllerTests: XCTestCase
     
     // Then
     //XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")
+    XCTAssert(true)
   }
 }

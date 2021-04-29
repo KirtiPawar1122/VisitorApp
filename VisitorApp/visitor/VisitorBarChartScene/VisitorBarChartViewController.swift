@@ -73,6 +73,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
     
     var visitorData = [DisplayData]()
     var seletedVisitorData: DisplayData?
+    let defaultImage = "person-1"
     
     
     //MARK: - Object lifecycle
@@ -108,23 +109,11 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         let formatter = DateFormatter()
         formatter.dateFormat = VisitorsChartViewControllerConstants.dateFormat
         let currentSelectedDate = seletedVisitorData?.date
-        let stringDate = formatter.string(from: currentSelectedDate!)
+        let currentdate = Date()
+        let stringDate = formatter.string(from: currentSelectedDate ?? currentdate)
         print(stringDate)
      
-       /* purposeLabel.text = selectedData.purpose
-        nameLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.nameString) as? String
-        emailLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.emailString) as? String
-        dateLabel.text = stringDate
-        companyLabel.text = selectedData.companyName
-        hostLabel.text = selectedData.visitorName
-        phoneLabel.text = selectedData.visitors?.value(forKey: VisitorsChartViewControllerConstants.phoneString) as? String
-        totalVisitCount.text = String(datavisit.count)
-
-        guard let image = UIImage(data: selectedData.visitImage ?? Data()) else {
-            return
-        }
-        profileImage.image = image */
-        
+    
         purposeLabel.text = seletedVisitorData?.purspose
         nameLabel.text = seletedVisitorData?.name
         emailLabel.text = seletedVisitorData?.email
@@ -133,7 +122,7 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
         hostLabel.text = seletedVisitorData?.contactPerson
         phoneLabel.text = seletedVisitorData?.phoneNo
         totalVisitCount.text = String(visitorData.count)
-        guard let profileURL = URL(string: (seletedVisitorData?.profileImage)!) else { return }
+        guard let profileURL = URL(string: (seletedVisitorData?.profileImage) ?? defaultImage ) else { return }
         profileImage.af.setImage(withURL: profileURL)
         displayVisitorDataOnBarBarChart(displayDataOnBar: visitorData)
     }

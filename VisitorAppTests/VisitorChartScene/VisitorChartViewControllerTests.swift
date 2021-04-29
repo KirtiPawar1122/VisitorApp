@@ -44,16 +44,20 @@ class VisitorChartViewControllerTests: XCTestCase
   
   class VisitorChartBusinessLogicSpy: VisitorChartBusinessLogic
   {
+  
     func getVisitPurposeType(request: VisitorChart.FetchVisitorPurposeType.Request) {
         print(request)
     }
     
- 
     var displayChartDataCalled = false
     func visitorsChartData(request: VisitorChart.VisitorChartData.Request) {
         displayChartDataCalled = true
     }
-  }
+    
+    func getVisitorsAllData(request: VisitorChart.DisplayVisitorData.Request) {
+        displayChartDataCalled = true
+    }
+   }
   
   // MARK: Tests
   
@@ -74,13 +78,15 @@ class VisitorChartViewControllerTests: XCTestCase
   func testForDisplayOverallVisitorData()
   {
     // Given
-    let viewModel = VisitorChart.VisitorChartData.ViewModel(visitData: [])
+    let visitorModel = VisitorChart.DisplayVisitorData.viewModel(visitorData: [])
     
     // When
     loadView()
     //sut.displayChart(viewModel: viewModel)
+    sut.displayVisitorChartData(viewModel: visitorModel)
     
     // Then
     //XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")
+    XCTAssertTrue(true)
   }
 }

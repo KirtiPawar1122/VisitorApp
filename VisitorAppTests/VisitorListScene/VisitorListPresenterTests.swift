@@ -36,8 +36,6 @@ class VisitorListPresenterTests: XCTestCase
     func displayAllVisitors(viewModel: VisitorList.fetchVisitorRecordByName.ViewModel) {
         print(viewModel)
     }
-    
-    
     var displayVisit : [Visit] = []
     var displayVisitorListCalled = false
     func displayVisitorList(viewModel: VisitorList.fetchVisitorList.ViewModel) {
@@ -45,22 +43,24 @@ class VisitorListPresenterTests: XCTestCase
         let viewModelList = viewModel.visit
         displayVisit = viewModelList!
     }
-
+    var displayData : [DisplayData] = []
+    func displayVisitorsReccord(viewModel: VisitorList.fetchAllVisitorsList.ViewModel) {
+        print(viewModel)
+        displayVisitorListCalled = true
+        let visitorList = viewModel.visitorList
+        displayData = visitorList
+    }
   }
   
   // MARK: Tests
-  
-  func testPresentSomething()
-  {
-    //Given
-    let spy = VisitorListDisplayLogicSpy()
-    sut.viewDataObject = spy
-    let response = VisitorList.fetchVisitorList.Response(visit: [])
     
-    //When
-    sut.presentVisitorListResult(response: response)
+    func testPresentVisitorList(){
+        let spy = VisitorListDisplayLogicSpy()
+        sut.viewDataObject = spy
+        let response = VisitorList.fetchAllVisitorsList.Response(visitorList: [])
+        sut.presentVisitorsList(response: response)
+        
+        XCTAssertTrue(spy.displayVisitorListCalled, "prsentingVisitorList response should ask the viewController to display thhe result.")
+    }
     
-    //Then
-   // XCTAssertTrue(spy.displayVisitorListCalled, "prsentingVisitorList response should ask the viewController to display thhe result.")
-   }
 }

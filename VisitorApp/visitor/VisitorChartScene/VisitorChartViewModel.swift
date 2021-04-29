@@ -31,4 +31,17 @@ enum VisitorChart {
                var totalVisitCount: Int
            }
        }
+    
+    enum DisplayVisitorData{
+        struct Request {
+            
+        }
+        struct Response {
+            var visitorData: [DisplayData]
+        }
+        
+        struct viewModel {
+            var visitorData: [DisplayData]
+        }
+    }
 }

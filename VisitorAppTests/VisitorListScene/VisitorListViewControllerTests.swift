@@ -64,6 +64,11 @@ class VisitorListViewControllerTests: XCTestCase
         fetchDataCalled = true
         //print(request)
     }
+    
+    var visitorData = [DisplayData]()
+    func fetchVisitorList(request: VisitorList.fetchAllVisitorsList.Request) {
+        fetchDataCalled = true
+    }
   }
 
     class VisitorTableViewSpy : UITableView{

@@ -181,7 +181,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
             guard let profileURL = URL(string: displayData!.profileImage) else { return }
             profileImage.af.setImage(withURL: profileURL )
         }
-        
     }
     
     

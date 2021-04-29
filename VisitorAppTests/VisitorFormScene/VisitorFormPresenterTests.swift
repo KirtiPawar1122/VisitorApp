@@ -57,7 +57,8 @@ class VisitorFormPresenterTests: XCTestCase
 
 
     let visitorData = DisplayData(name: "Kirti", email: "k@gmail.com", phoneNo: "8411912075", purspose: "Meeting", date: Date(), companyName: "Wurth It", profileImage: "", contactPerson: "HR")
-    let response = VisitorForm.fetchVisitorsRecord.Response(visitorData: visitorData)
+        
+    let response = VisitorForm.fetchVisitorsRecord.Response(visitorData: [visitorData])
   
     // When
     sut?.presentFethcedResults(response: response)

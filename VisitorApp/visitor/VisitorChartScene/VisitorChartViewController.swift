@@ -6,6 +6,7 @@ import FirebaseDatabase
 
 protocol VisitorChartDisplayLogic {
     func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel)
+    func displayVisitorChartData(viewModel: VisitorChart.DisplayVisitorData.viewModel)
 }
 
 struct ChartViewControllerConstants{
@@ -28,6 +29,8 @@ struct ChartViewControllerConstants{
 }
 
 class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
+  
+    
     @IBOutlet weak var chartView: PieChartView!
     @IBOutlet var tableview: UITableView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -79,7 +82,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         self.ref = Database.database().reference()
         setupUI()
         //getChartData()
-        displayChartData()
+        //displayChartData()
+        getVisitorChartData()
     }
 
     func setupUI(){
@@ -106,36 +110,16 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         }
     }
     
-    func displayChartData(){
+    func getVisitorChartData(){
         activityIndicator.startAnimating()
-        let ref = db.collection("Visitor")
-        ref.getDocuments { [self] (snapshots, error) in
-               guard let snap = snapshots?.documents else {return}
-               for document in snap{
-                   let data = document.data()
-                   let visitdata = data["visits"] as! [[String:Any]]
-                   for item in visitdata{
-                       let name = data["name"] as? String
-                       let email = data["email"] as? String
-                       let phoneNo = data["phoneNo"] as? String
-                       let profileImage = item["profileVisitImage"] as? String
-                       let currentdate = item["date"] as! Timestamp
-                       let date = currentdate.dateValue()
-                       let purpose = item["purpose"] as? String
-                       let company = item["company"] as? String
-                       let contactPerson = item["contactPersonName"] as? String
-                    
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
-                    print(dataArray)
-                    self.visitorData.append(dataArray)
-                   }
-               }
-            self.displayData(chartData: visitorData)
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.chartInteractor?.getVisitorsAllData(request: VisitorChart.DisplayVisitorData.Request())
         }
     }
     
-    func displayData(chartData : [DisplayData]) {
-        print(chartData.count)
+    func displayVisitorChartData(viewModel: VisitorChart.DisplayVisitorData.viewModel) {
+        print(viewModel.visitorData)
+        let chartData = viewModel.visitorData
         for item in chartData{
             if "Meeting" == item.purspose{
                 meetings = meetings + 1
@@ -184,9 +168,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
             self.tableview.reloadData()
             self.activityIndicator.stopAnimating()
         }
-        
     }
-    
     
     func displayPercenatageDataOnChart(viewModel:
         VisitorChart.FetchVisitorPurposeType.ViewModel) {

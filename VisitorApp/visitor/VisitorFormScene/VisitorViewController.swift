@@ -649,7 +649,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         presentAlertsWithTitles(title: "", message: "select option", preferredStyle: .actionSheet, options: purposeArray) { (option) in
             print(option)
             switch option {
-            case "GuestVisit":
+            case "Guest Visit":
                 self.purposeTextField.text = option
                 break
             case "Meeting":

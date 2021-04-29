@@ -41,21 +41,21 @@ class VisitorChartInteractorTests: XCTestCase
     func prsentChartData(response: VisitorChart.VisitorChartData.Response) {
         presentChartDataCalled = true
     }
+    
+    func presentVisitorChartData(response: VisitorChart.DisplayVisitorData.Response) {
+        presentChartDataCalled = true
+    }
   }
   
   // MARK: Tests
-  
-  func testChartData()
-  {
-    // Given
-    let spy = VisitorChartPresentationLogicSpy()
-    sut.presenter = spy
-    let request = VisitorChart.VisitorChartData.Request()
     
-    // When
-    //sut.visitorsChartData(request: request)
-    
-    // Then
-    XCTAssertTrue(spy.presentChartDataCalled, "visitorChartData(request:) should ask the presenter to format the result")
-  }
+    func testVisitorChartData(){
+        let spy = VisitorChartPresentationLogicSpy()
+        sut.presenter = spy
+        
+        let request = VisitorChart.DisplayVisitorData.Request()
+        sut.getVisitorsAllData(request: request)
+        
+        XCTAssert(true)
+    }
 }
