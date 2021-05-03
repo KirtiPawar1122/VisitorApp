@@ -54,6 +54,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
    
     
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var visitorImage: CustomImageView!
@@ -337,7 +338,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             companyTextField.text = visitData.companyName
             visitTextField.text = visitData.contactPerson
             checkphoneNo = visitData.phoneNo
-           
+    
            DispatchQueue.main.async { [self] in
                let profileURL = URL(string: visitData.profileImage )
                let data = try? Data(contentsOf: profileURL!)
@@ -351,14 +352,17 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
            }
             speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
             userTextField.resignFirstResponder()
+            activityIndicator.stopAnimating()
             
         } else {
             self.userTextField.resignFirstResponder()
+            activityIndicator.stopAnimating()
         }
         
     }
     //Firebase
     func fetchVisitorRecord(phoneNo: String){
+        activityIndicator.startAnimating()
         interactor?.fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request(phoneNo: phoneNo))
     }
     
@@ -377,6 +381,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func saveData(){
+        //activityIndicator.startAnimating()
         self.uploadImageURL(visitorImage: visitorImage.image ?? defaultImage! ) { (url) in
             print(url as Any)
             self.uploadVisitorData(profileURL: url!)
@@ -387,6 +392,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: profileURL.absoluteString )
         let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, visitData: [visitData.dictionary], visits: [visitData])
         if validate() {
+          //activityIndicator.stopAnimating()
           saveVisitorsData(visitor: visitorData)
           visitorsData.append(visitorData)
         }
@@ -517,7 +523,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     //Firebase
     func saveVisitorsData(visitor: VisitorModel){
-               
+        activityIndicator.stopAnimating()
         if (checkphoneNo != visitor.phoneNo){
             showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")

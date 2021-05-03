@@ -805,6 +805,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="CKq-lU-axf">
+                                <rect key="frame" x="412" y="583" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="f0X-Wc-kSD"/>
+                                    <constraint firstAttribute="width" constant="200" id="m1h-Zt-DiY"/>
+                                </constraints>
+                            </activityIndicatorView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P1E-4T-CBI">
                                 <rect key="frame" x="0.0" y="50" width="1024" height="1246"/>
                                 <subviews>
@@ -958,7 +965,9 @@
                         <constraints>
                             <constraint firstItem="P1E-4T-CBI" firstAttribute="top" secondItem="uV8-WG-2Ly" secondAttribute="top" id="8br-Cv-Ccu"/>
                             <constraint firstItem="uV8-WG-2Ly" firstAttribute="trailing" secondItem="P1E-4T-CBI" secondAttribute="trailing" id="BCc-TD-D5m"/>
+                            <constraint firstItem="CKq-lU-axf" firstAttribute="centerY" secondItem="zCs-Zh-Uhm" secondAttribute="centerY" id="FGw-rS-pwR"/>
                             <constraint firstItem="P1E-4T-CBI" firstAttribute="leading" secondItem="uV8-WG-2Ly" secondAttribute="leading" id="Hx9-HQ-LwU"/>
+                            <constraint firstItem="CKq-lU-axf" firstAttribute="centerX" secondItem="zCs-Zh-Uhm" secondAttribute="centerX" id="KHW-Hj-iwn"/>
                             <constraint firstItem="P1E-4T-CBI" firstAttribute="bottom" secondItem="uV8-WG-2Ly" secondAttribute="bottom" id="hhQ-Av-kuC"/>
                         </constraints>
                     </view>
@@ -978,6 +987,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="CKq-lU-axf" id="X95-Zb-8IW"/>
                         <outlet property="companyTextField" destination="I5k-GE-mbP" id="Uaf-3x-eGl"/>
                         <outlet property="containerView" destination="cuj-d2-Zpt" id="37g-AW-W8K"/>
                         <outlet property="emailTextField" destination="pZf-g8-9ix" id="29w-ih-ecj"/>

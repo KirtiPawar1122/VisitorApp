@@ -64,6 +64,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
     
     func fetchVisitorsReccord(request: VisitorForm.fetchVisitorsRecord.Request){
         let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: request.phoneNo!)
+        visitorData.removeAll()
         ref.getDocuments { (snapshots, error) in
             guard let snap = snapshots?.documents else {return}
             for document in snap{
@@ -79,9 +80,9 @@ class VisitorInteractor: VisitorFormBusinessLogic {
                     let purpose = item["purpose"] as? String
                     let company = item["company"] as? String
                     let contactPerson = item["contactPersonName"] as? String
-                 let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
                     self.visitorData.append(dataArray)
-                    print(self.visitorData)
+                  
                 }
             }
             self.sortedData = self.visitorData.sorted(by: { $0.date > $1.date })
