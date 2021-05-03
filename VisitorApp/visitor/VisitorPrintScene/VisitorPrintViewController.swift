@@ -73,10 +73,6 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print(printVisitorsData)
-        print(printVisitData)
-        print(printVisitorData)
-    
     }
     
     func setupUI(){

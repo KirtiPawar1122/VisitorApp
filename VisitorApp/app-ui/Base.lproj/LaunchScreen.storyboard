@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,24 +18,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="visitor00" translatesAutoresizingMaskIntoConstraints="NO" id="A1R-Kg-0Qr">
-                                <rect key="frame" x="61" y="245" width="646" height="534"/>
+                                <rect key="frame" x="222.5" y="378.5" width="323" height="267"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-1" translatesAutoresizingMaskIntoConstraints="NO" id="HoF-fJ-3ck">
-                                <rect key="frame" x="234" y="789" width="300" height="80"/>
+                                <rect key="frame" x="234" y="655.5" width="300" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="CVw-YA-5ac"/>
                                     <constraint firstAttribute="width" constant="300" id="VHX-sX-4Ic"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="HoF-fJ-3ck" firstAttribute="top" secondItem="A1R-Kg-0Qr" secondAttribute="bottom" constant="10" id="1du-pp-tae"/>
                             <constraint firstItem="A1R-Kg-0Qr" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Czz-2g-EvW"/>
                             <constraint firstItem="A1R-Kg-0Qr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kun-3D-qvV"/>
                             <constraint firstItem="HoF-fJ-3ck" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="q85-nY-Nvu"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -44,5 +46,8 @@
     <resources>
         <image name="logo-1" width="206" height="51"/>
         <image name="visitor00" width="323" height="267"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

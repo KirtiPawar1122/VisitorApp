@@ -649,16 +649,16 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         presentAlertsWithTitles(title: "", message: "select option", preferredStyle: .actionSheet, options: purposeArray) { (option) in
             print(option)
             switch option {
-            case "Guest Visit":
+            case VisitorViewControllerConstants.optionMenuFirstAction:
                 self.purposeTextField.text = option
                 break
-            case "Meeting":
+            case VisitorViewControllerConstants.optionMenuSecondAction:
                 self.purposeTextField.text = option
                 break
-            case "Interview":
+            case VisitorViewControllerConstants.optionMenuThirdAction:
                 self.purposeTextField.text = option
                 break
-            case "Other":
+            case VisitorViewControllerConstants.optionMenuFourthAction:
                 let alert = UIAlertController(title: "Enter your reason", message: "", preferredStyle: .alert)
                 let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
                     let textField = alert.textFields![0] as UITextField

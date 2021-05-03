@@ -202,6 +202,10 @@ class VisitorBarChartViewController: UIViewController, VisitorBarChartDisplayLog
                 other = other + 1
                 let otherDateString = formatter.string(from: item.date)
                 otherDate.append(otherDateString)
+            } else {
+                other = other + 1
+                let otherDateString = formatter.string(from: item.date)
+                otherDate.append(otherDateString)
             }
         }
         items = [meetingDate,interviewDate,guestvisitDate,otherDate]

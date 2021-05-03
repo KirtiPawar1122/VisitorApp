@@ -211,10 +211,20 @@ class VisitorListViewController: UIViewController, VisitorListDisplayLogic {
             self.tableview.reloadData()
         } */
         let confirmAction = UIAlertAction(title: VisitorDataViewControllerConstants.confirmActionMessage, style: .default) {(_) in
-            let ref = Database.database().reference()
-            let dataRef = ref.child("Visitor")
+            //let ref = Database.database().reference()
+          
             let firebaserefkey = self.sortedData.remove(at: indexpath.row)
-            dataRef.child(firebaserefkey.phoneNo).removeValue()
+            let dataRef = self.db.collection("Visitor").whereField("phoneNo", isEqualTo: firebaserefkey.phoneNo)
+            print(dataRef)
+            dataRef.getDocuments { (snapshot, error) in
+                guard let snap = snapshot?.documents else {return}
+                print(snap)
+                for item in snap{
+                    print(item.data())
+                }
+            }
+            //self.db.collection("Visitor").document(firebaserefkey.phoneNo).updateData(["visits" : FieldValue.delete()])
+            
             self.tableview.reloadData()
         }
         let cancelAction = UIAlertAction(title: VisitorDataViewControllerConstants.cancelActionMessage, style: .cancel, handler: nil)

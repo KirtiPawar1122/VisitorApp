@@ -123,16 +123,19 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         for item in chartData{
             if "Meeting" == item.purspose{
                 meetings = meetings + 1
-                print("Meeting: " ,meetings)
+                //print("Meeting: " ,meetings)
             } else if "Interview" == item.purspose{
                 interviews = interviews + 1
-                print("IN:",interviews)
+                //print("IN:",interviews)
             } else if "Guest Visit" == item.purspose{
                 guestVisits = guestVisits + 1
-                print("GV:", guestVisits)
-            } else if "Other" == item.purspose{
+                //print("GV:", guestVisits)
+            } else if "Other" == item.purspose  {
                 others = others + 1
                 print("OH:",others)
+            } else {
+                others = others + 1
+                print(item.purspose)
             }
         }
         let total = Double(chartData.count)
@@ -173,7 +176,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     func displayPercenatageDataOnChart(viewModel:
         VisitorChart.FetchVisitorPurposeType.ViewModel) {
         let data = viewModel.visitTypes
-        for item in viewModel.visitTypes{
+        for item in data{
             if VisitPurpose.meeting == item.visitPurpose{
                 meetings = item.purposeCount
             } else if VisitPurpose.guestVisit == item.visitPurpose{
