@@ -3,7 +3,7 @@ import Foundation
 import UIKit
 
 @available(iOS 13.0, *)
-@IBDesignable class CardView: UIView {
+class CardView: UIView {
     
     var conrnerRadius: CGFloat = 5
     var offsetWidth: CGFloat = 5

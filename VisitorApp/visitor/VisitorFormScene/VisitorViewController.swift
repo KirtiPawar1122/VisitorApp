@@ -65,6 +65,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var companyTextField: CustomTextField!
     @IBOutlet weak var purposeTextField: CustomTextField!
     @IBOutlet weak var visitTextField: CustomTextField!
+    @IBOutlet weak var officeLocationTextField: CustomTextField!
     @IBOutlet var innerView: UIView!
     @IBOutlet var takePictureButtonLabel: UIButton!
     var visitor : [Visitor] = []
@@ -93,6 +94,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var visitorsData = [VisitorModel]()
     var purposeArray = [String: Any]()
     var visitArray = [String: Any]()
+    var locationArray = [String:Any]()
     
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -126,6 +128,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         setUpUI()
         getPurposeDetails()
         getVisitingPersonDetails()
+        getOfficeLocation()
     }
     func getPurposeDetails(){
         let purpose = db.collection("Purpose")
@@ -153,6 +156,20 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         }
     }
     
+    func getOfficeLocation(){
+        let officeLocation = db.collection("OfficeLocation")
+        officeLocation.getDocuments { (snapshot, error) in
+            guard let snap = snapshot?.documents else {return}
+            print(snap)
+            for item in snap{
+                let data = item.data()
+                print(data)
+                self.locationArray = data
+            }
+        }
+        
+       
+    }
     //MARK: UI Setup Method
     func setUpUI(){
     
@@ -173,6 +190,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         let tapOnContactPersonTextfeild = UITapGestureRecognizer(target: self, action: #selector(visitPersonAction))
         visitTextField.addGestureRecognizer(tapOnContactPersonTextfeild)
         visitTextField.isUserInteractionEnabled = true
+        
+        let tapOnLocationTextfield = UITapGestureRecognizer(target: self, action: #selector(officeLocationAction))
+        officeLocationTextField.addGestureRecognizer(tapOnLocationTextfield)
+        officeLocationTextField.isUserInteractionEnabled = true
         
         submitButton.layer.cornerRadius = submitButton.frame.height/2
         submitButton.layer.borderColor = UIColor.black.cgColor
@@ -545,6 +566,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         companyTextField.text = ""
         visitTextField.text = ""
         purposeTextField.text = ""
+        officeLocationTextField.text = ""
         visitorImage.image = UIImage(named: VisitorViewControllerConstants.selectedImageName)
         selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
     }
@@ -644,63 +666,44 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
         } else {
             selectedImage = orienatationFixedImage
         }
-        
+    
         //selectedImage = compressImage
         visitorImage.image = selectedImage
         dismiss(animated: true, completion: nil)
     }
 
     @objc func purposeAction(){
-        
-        presentAlertsWithTitles(title: "", message: "select option", preferredStyle: .actionSheet, options: purposeArray) { (option) in
-            print(option)
-            switch option {
-            case VisitorViewControllerConstants.optionMenuFirstAction:
-                self.purposeTextField.text = option
-                break
-            case VisitorViewControllerConstants.optionMenuSecondAction:
-                self.purposeTextField.text = option
-                break
-            case VisitorViewControllerConstants.optionMenuThirdAction:
-                self.purposeTextField.text = option
-                break
-            case VisitorViewControllerConstants.optionMenuFourthAction:
-                let alert = UIAlertController(title: "Enter your reason", message: "", preferredStyle: .alert)
+    
+        presentAlertsWithOption(title: "", message: "Select Option", preferredStyle: .actionSheet, options: purposeArray) { (key, value) in
+            if key == "other" {
+                let alert = UIAlertController(title: "Enter Visit Reason", message: "", preferredStyle: .alert)
                 let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
                     let textField = alert.textFields![0] as UITextField
                     if textField.text != "" {
-                        //Read TextFields text data
                         print(textField.text!)
-        
                         self.purposeTextField.text = textField.text
                     } else {
                         print("TF 1 is Empty...")
                     }
                 }
                 alert.addTextField { (textField) in
-                    textField.placeholder = "Enter Reason"
+                    textField.placeholder = "Enter visit reason"
                 }
                 alert.addAction(save)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
                 self.present(alert, animated: true, completion: nil)
-                break
-            default: break
                 
+            } else {
+                self.purposeTextField.text = value
             }
         }
         
     }
     
     @objc func visitPersonAction(){
-        presentAlertsWithTitles(title: "", message: "Select Option", preferredStyle: .actionSheet, options: visitArray) { (option) in
-            switch(option){
-            case "HR" :
-                self.visitTextField.text = option
-                break
-            case "Admin" :
-                self.visitTextField.text = option
-                break
-            case "Other" :
+        presentAlertsWithOption(title: "", message: "Select Option", preferredStyle: .actionSheet, options: visitArray) { (key , value) in
+            print(key,value)
+            if key == "Other" {
                 let alert = UIAlertController(title: "Enter Visiting Person Name", message: "", preferredStyle: .alert)
                 let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
                     let textField = alert.textFields![0] as UITextField
@@ -717,11 +720,38 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
                 alert.addAction(save)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
                 self.present(alert, animated: true, completion: nil)
-                break
-            default: break
+                
+            } else {
+                self.visitTextField.text = value
             }
         }
-        
+    }
+    
+    @objc func officeLocationAction(){
+        presentAlertsWithOption(title: "", message: "Office Location", preferredStyle: .actionSheet, options: locationArray) { (key, value) in
+            print(key, value)
+            if key == "Other" {
+                let alert = UIAlertController(title: "Enter Location", message: "", preferredStyle: .alert)
+                let save = UIAlertAction(title: "Save", style: .default) { (alertAction) in
+                    let textField = alert.textFields![0] as UITextField
+                    if textField.text != "" {
+                        print(textField.text!)
+                        self.officeLocationTextField.text = textField.text
+                    } else {
+                        print("TF 1 is Empty...")
+                    }
+                }
+                alert.addTextField { (textField) in
+                    textField.placeholder = "Enter Location"
+                }
+                alert.addAction(save)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
+                self.present(alert, animated: true, completion: nil)
+                
+            } else {
+                self.officeLocationTextField.text = value
+            }
+        }
     }
 }
 
@@ -766,10 +796,29 @@ extension VisitorViewController {
                    }
            self.present(alertController, animated: true, completion: nil)
        }
+    
+    func presentAlertsWithOption(title: String, message: String, preferredStyle: UIAlertController.Style,options: [String: Any], completion: @escaping (String,String) -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        
+        for (key,value) in options{
+            alertController.addAction(UIAlertAction.init(title: key, style: .default, handler: { (action) in
+                completion(key, value as! String)
+            }))
+        }
+        
+        switch UIDevice.current.userInterfaceIdiom {
+            case .pad:
+                alertController.popoverPresentationController?.sourceView = self.view
+                alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
+            default:
+                    break
+                   }
+           self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
-
 public extension UIView {
-
     func shake(count : Float = 3,for duration : TimeInterval = 0.3, withTranslation translation : Float = 10) {
         
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
