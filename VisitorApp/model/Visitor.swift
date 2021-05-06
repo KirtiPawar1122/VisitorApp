@@ -34,6 +34,7 @@ struct VisitModel {
     var purpose: String
     var contactPersonName: String
     var profileVisitImage: String
+    var officeLocation: String
     
     var dictionary: [String: Any] {
         return [
@@ -41,7 +42,8 @@ struct VisitModel {
             "company": company,
             "purpose": purpose,
             "contactPersonName": contactPersonName,
-            "profileVisitImage": profileVisitImage
+            "profileVisitImage": profileVisitImage,
+            "officeLocation": officeLocation
         ]
     }
 }

@@ -24,6 +24,7 @@ struct VisitorViewControllerConstants {
     static let companyValidateMessage = "Please enter company Name"
     static let purposeValidateMessage = "Please enter visit purpose"
     static let visitingValidateMessage = "Please enter visiting person name"
+    static let locationValidateMessage = "Plese select any option"
     static let imageValidateMessage = "Please select Image"
     static let optionMenuMessage = "Choose Option"
     static let optionMenuFirstAction = "Guest Visit"
@@ -66,6 +67,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var purposeTextField: CustomTextField!
     @IBOutlet weak var visitTextField: CustomTextField!
     @IBOutlet weak var officeLocationTextField: CustomTextField!
+    @IBOutlet weak var hardwareDetailTextField: CustomTextField!
     @IBOutlet var innerView: UIView!
     @IBOutlet var takePictureButtonLabel: UIButton!
     var visitor : [Visitor] = []
@@ -168,7 +170,17 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             }
         }
         
-       
+       /* let officeLocation = db.collection("OfficeLocation").document().collection("Office1")
+        officeLocation.getDocuments { (snapshot, error) in
+            guard let snap = snapshot?.documents else {return}
+            print(snap)
+            for item in snap{
+                let data = item.data()
+                print(data)
+            }
+        } */
+        
+        
     }
     //MARK: UI Setup Method
     func setUpUI(){
@@ -358,6 +370,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             emailTextField.text = visitData.email
             companyTextField.text = visitData.companyName
             visitTextField.text = visitData.contactPerson
+            officeLocationTextField.text = visitData.officeLocation
             checkphoneNo = visitData.phoneNo
     
            DispatchQueue.main.async { [self] in
@@ -410,7 +423,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     }
     
     func uploadVisitorData(profileURL : URL) {
-        let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: profileURL.absoluteString )
+        let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: profileURL.absoluteString, officeLocation: officeLocationTextField.text! )
         let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, visitData: [visitData.dictionary], visits: [visitData])
         if validate() {
           //activityIndicator.stopAnimating()
@@ -438,6 +451,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             visitTextField.becomeFirstResponder()
             
         case visitTextField:
+            officeLocationTextField.becomeFirstResponder()
+            
+        case officeLocationTextField:
             submitButton.becomeFirstResponder()
             
         default:
@@ -470,6 +486,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         switchToNextTextField(textField)
         textField.resignFirstResponder()
         purposeTextField.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
+        visitTextField.addTarget(self, action: #selector(visitPersonAction), for: .editingDidBegin)
+        officeLocationTextField.addTarget(self, action: #selector(officeLocationAction), for: .editingDidBegin)
         return true
     }
 
@@ -513,6 +531,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         guard let visitorName = visitTextField.text, !visitorName.isBlank else{
             self.view.makeToast(VisitorViewControllerConstants.visitingValidateMessage, position: .center)
             visitTextField.shake()
+            return false
+        }
+        
+        guard let officeLocation = officeLocationTextField.text, !officeLocation.isBlank else {
+            self.view.makeToast(VisitorViewControllerConstants.locationValidateMessage)
+            officeLocationTextField.shake()
             return false
         }
         
@@ -777,26 +801,6 @@ extension VisitorViewController {
        }
     
     // for purpose & Visit textfeilds
-    func presentAlertsWithTitles(title: String, message: String, preferredStyle: UIAlertController.Style, options: [String:Any], completion: @escaping (String) -> Void) {
-           let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
-          
-        for (key,value) in options{
-            alertController.addAction(UIAlertAction.init(title: key, style: .default, handler: { (action) in
-                completion(value as! String)
-            }))
-        }
-        
-        switch UIDevice.current.userInterfaceIdiom {
-            case .pad:
-                alertController.popoverPresentationController?.sourceView = self.view
-                alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-            default:
-                    break
-                   }
-           self.present(alertController, animated: true, completion: nil)
-       }
-    
     func presentAlertsWithOption(title: String, message: String, preferredStyle: UIAlertController.Style,options: [String: Any], completion: @escaping (String,String) -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
         

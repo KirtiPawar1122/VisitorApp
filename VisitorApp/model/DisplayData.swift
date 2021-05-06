@@ -12,4 +12,5 @@ struct DisplayData {
     var companyName: String
     var profileImage: String
     var contactPerson: String
+    var officeLocation: String
 }

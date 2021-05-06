@@ -79,8 +79,8 @@ class VisitorChartInteractor : VisitorChartBusinessLogic, VisitorChartDataStore 
                        let purpose = item["purpose"] as? String
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
-                    
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
+                       let officeLocation = item["officeLocation"] as? String
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "")
                     print(dataArray)
                     self.visitorData.append(dataArray)
                    }
