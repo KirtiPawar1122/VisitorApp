@@ -13,4 +13,5 @@ struct DisplayData {
     var profileImage: String
     var contactPerson: String
     var officeLocation: String
+    var hardwareDetails: String
 }

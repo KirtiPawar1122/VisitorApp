@@ -46,6 +46,7 @@ enum VisitorForm {
             var phonNo: String
             var profileImage: String
             var name: String
+            var hardwareDetail: String
             var visits: [[String: Any]]
         }
         

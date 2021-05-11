@@ -6,6 +6,7 @@ import Toast_Swift
 import Firebase
 import FirebaseFirestore
 import FirebaseDatabase
+import CoreLocation
 
 protocol VisitorFormDisplayLogic{
     func displayVisitorData(viewModel : VisitorForm.fetchVisitorRecord.ViewModel)
@@ -51,7 +52,7 @@ struct VisitorViewControllerConstants {
     static let minTapCount = 0
 }
 
-class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic {
+class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic, CLLocationManagerDelegate {
    
     
 
@@ -97,6 +98,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var purposeArray = [String: Any]()
     var visitArray = [String: Any]()
     var locationArray = [String:Any]()
+    let locationManager = CLLocationManager()
     
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -131,6 +133,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         getPurposeDetails()
         getVisitingPersonDetails()
         getOfficeLocation()
+        getCurrentLocation()
     }
     func getPurposeDetails(){
         let purpose = db.collection("Purpose")
@@ -169,19 +172,36 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                 self.locationArray = data
             }
         }
-        
-       /* let officeLocation = db.collection("OfficeLocation").document().collection("Office1")
-        officeLocation.getDocuments { (snapshot, error) in
-            guard let snap = snapshot?.documents else {return}
-            print(snap)
-            for item in snap{
-                let data = item.data()
-                print(data)
-            }
-        } */
-        
-        
     }
+    
+    func getCurrentLocation(){
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+                   locationManager.delegate = self
+                   locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                   locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+            let lat = Double(locValue.latitude)
+            let lng = Double(locValue.longitude)
+            print("cordinates = \(lat) \(lng)")
+        
+            let location = CLLocation(latitude: lat, longitude: lng)
+            location.placemark { (placemark, error) in
+            guard let placemark = placemark else {
+                   print("Error:", error ?? "nil")
+                   return
+               }
+                print(placemark.postalCode!,placemark.country!,placemark.name!,placemark.locality!)
+                self.officeLocationTextField.text = placemark.locality! + ", " + placemark.country!
+        }
+          locationManager.stopUpdatingLocation() // If you only want to receive location once
+    }
+    
     //MARK: UI Setup Method
     func setUpUI(){
     
@@ -306,61 +326,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
     
-    /*func fetchVisitorData(email: String, phoneNo: String) -> [DisplayData]{
-        let ref = db.collection("Visitor").whereField("phoneNo", isEqualTo: phoneNo)
-        ref.getDocuments { (snapshots, error) in
-               guard let snap = snapshots?.documents else {return}
-               for document in snap{
-                   let data = document.data()
-                   let visitdata = data["visits"] as! [[String:Any]]
-                   for item in visitdata{
-                       let name = data["name"] as? String
-                       let email = data["email"] as? String
-                       let phoneNo = data["phoneNo"] as? String
-                       let profileImage = item["profileVisitImage"] as? String
-                       let currentdate = item["date"] as! Timestamp
-                       let date = currentdate.dateValue()
-                       let purpose = item["purpose"] as? String
-                       let company = item["company"] as? String
-                       let contactPerson = item["contactPersonName"] as? String
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!)
-                    self.visitorData.append(dataArray)
-                   }
-               }
-            self.sortedData = self.visitorData.sorted(by: { $0.date > $1.date })
-            if self.sortedData.count != 0 {
-                self.displayData(viewModel: self.sortedData[0])
-            } else {
-                self.userTextField.resignFirstResponder()
-            }
-        }
-        return visitorData
-     }
-   
-    
-    func displayData(viewModel: DisplayData){
-         print(viewModel)
-       
-         userTextField.text = viewModel.name
-         emailTextField.text = viewModel.email
-         companyTextField.text = viewModel.companyName
-         visitTextField.text = viewModel.contactPerson
-         checkphoneNo = viewModel.phoneNo
-        
-        DispatchQueue.main.async { [self] in
-            let profileURL = URL(string: viewModel.profileImage )
-            let data = try? Data(contentsOf: profileURL!)
-            let profileImage  = UIImage(data: data!)
-            if profileImage?.size == self.defaultImage?.size{
-                self.selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
-            } else {
-                self.selectedImage = profileImage
-            }
-            self.visitorImage.image = self.selectedImage
-        }
-         speechUtterance(message: "Hello \(userTextField.text!), Welcome to Wurth IT")
-         userTextField.resignFirstResponder()
-     }  */
     //for FIR
     func displayVisitorsData(viewModel: VisitorForm.fetchVisitorsRecord.ViewModel) {
         print(viewModel)
@@ -424,7 +389,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func uploadVisitorData(profileURL : URL) {
         let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: profileURL.absoluteString, officeLocation: officeLocationTextField.text! )
-        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, visitData: [visitData.dictionary], visits: [visitData])
+        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, hardwareDetails: hardwareDetailTextField.text!, visitData: [visitData.dictionary], visits: [visitData])
         if validate() {
           //activityIndicator.stopAnimating()
           saveVisitorsData(visitor: visitorData)
@@ -454,6 +419,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             officeLocationTextField.becomeFirstResponder()
             
         case officeLocationTextField:
+            hardwareDetailTextField.becomeFirstResponder()
+            
+        case hardwareDetailTextField:
             submitButton.becomeFirstResponder()
             
         default:
@@ -540,6 +508,12 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             return false
         }
         
+        guard let hardwareDetails = hardwareDetailTextField.text, !hardwareDetails.isBlank else {
+            self.view.makeToast(VisitorViewControllerConstants.locationValidateMessage)
+            hardwareDetailTextField.shake()
+            return false
+        }
+        
         if visitorImage.image == UIImage(named: VisitorViewControllerConstants.selectedImageName){
             selectedImage = UIImage(named: VisitorViewControllerConstants.defaultImageName)
         }
@@ -573,7 +547,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")
             //db.collection("Visitor").document(visitor.phoneNo).setData(dict)
-            let request = VisitorForm.saveVisitorsRecord.Request(email: visitor.email, phonNo: visitor.phoneNo, profileImage: visitor.profileImage, name: visitor.name, visits: visitor.visitData)
+            let request = VisitorForm.saveVisitorsRecord.Request(email: visitor.email, phonNo: visitor.phoneNo, profileImage: visitor.profileImage, name: visitor.name, hardwareDetail: visitor.hardwareDetails, visits: visitor.visitData)
             interactor?.saveVisitorsRecord(request: request)
            
         } else {
@@ -591,6 +565,8 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         visitTextField.text = ""
         purposeTextField.text = ""
         officeLocationTextField.text = ""
+        hardwareDetailTextField.text = ""
+        getCurrentLocation()
         visitorImage.image = UIImage(named: VisitorViewControllerConstants.selectedImageName)
         selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
     }
@@ -903,5 +879,11 @@ extension VisitorViewController{
                 print("error in upload image")
             }
         }
+    }
+}
+
+extension CLLocation {
+    func placemark(completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> ()) {
+        CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first, $1) }
     }
 }

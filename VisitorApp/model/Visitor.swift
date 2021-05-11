@@ -14,6 +14,7 @@ struct VisitorModel {
     var name: String
     var phoneNo: String
     var profileImage: String
+    var hardwareDetails: String
     var visitData: [[String: Any]]
     var visits: [VisitModel]
 
@@ -23,6 +24,7 @@ struct VisitorModel {
             "name": name,
             "phoneNo": phoneNo,
             "profileImage": profileImage,
+            "hardwareDetails": hardwareDetails,
             "visits": visits
         ]
     }

@@ -58,7 +58,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
     }
     
     func saveVisitorsRecord(request: VisitorForm.saveVisitorsRecord.Request){
-        let dict : [String: Any] = ["email" : request.email, "phoneNo": request.phonNo, "name": request.name, "profileImage": request.profileImage, "visits": request.visits]
+        let dict : [String: Any] = ["email" : request.email, "phoneNo": request.phonNo, "name": request.name, "profileImage": request.profileImage,"hardwareDetail": request.hardwareDetail,"visits": request.visits]
         db.collection("Visitor").document(request.phonNo).setData(dict)
     }
     
@@ -74,6 +74,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
                     let name = data["name"] as? String
                     let email = data["email"] as? String
                     let phoneNo = data["phoneNo"] as? String
+                    let hardwareDetail = data["hardwareDetail"] as? String
                     let profileImage = item["profileVisitImage"] as? String
                     let currentdate = item["date"] as! Timestamp
                     let date = currentdate.dateValue()
@@ -81,7 +82,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
                     let company = item["company"] as? String
                     let contactPerson = item["contactPersonName"] as? String
                     let officeLocation = item["officeLocation"] as? String
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "")
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "", hardwareDetails: hardwareDetail ?? "")
                     self.visitorData.append(dataArray)
                   
                 }

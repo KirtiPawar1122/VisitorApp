@@ -73,6 +73,7 @@ class VisitorChartInteractor : VisitorChartBusinessLogic, VisitorChartDataStore 
                        let name = data["name"] as? String
                        let email = data["email"] as? String
                        let phoneNo = data["phoneNo"] as? String
+                       let hardwareDetail = data["hardwareDetail"] as? String
                        let profileImage = item["profileVisitImage"] as? String
                        let currentdate = item["date"] as! Timestamp
                        let date = currentdate.dateValue()
@@ -80,7 +81,7 @@ class VisitorChartInteractor : VisitorChartBusinessLogic, VisitorChartDataStore 
                        let company = item["company"] as? String
                        let contactPerson = item["contactPersonName"] as? String
                        let officeLocation = item["officeLocation"] as? String
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "")
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "", hardwareDetails: hardwareDetail ?? "")
                     print(dataArray)
                     self.visitorData.append(dataArray)
                    }
