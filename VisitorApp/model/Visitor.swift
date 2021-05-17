@@ -15,6 +15,7 @@ struct VisitorModel {
     var phoneNo: String
     var profileImage: String
     var hardwareDetails: String
+    var nationalIDNo: String
     var visitData: [[String: Any]]
     var visits: [VisitModel]
 

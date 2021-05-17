@@ -56,7 +56,7 @@ class VisitorFormPresenterTests: XCTestCase
     sut?.viewObj = spy
 
 
-    let visitorData = DisplayData(name: "Kirti", email: "k@gmail.com", phoneNo: "8411912075", purspose: "Meeting", date: Date(), companyName: "Wurth It", profileImage: "", contactPerson: "HR")
+        let visitorData = DisplayData(name: "Kirti", email: "k@gmail.com", phoneNo: "8411912075", purspose: "Meeting", date: Date(), companyName: "Wurth It", profileImage: "", contactPerson: "HR", officeLocation: "",hardwareDetails: "" , nationalIDNo: "")
         
     let response = VisitorForm.fetchVisitorsRecord.Response(visitorData: [visitorData])
   

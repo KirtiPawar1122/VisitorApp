@@ -58,7 +58,7 @@ class VisitorInteractor: VisitorFormBusinessLogic {
     }
     
     func saveVisitorsRecord(request: VisitorForm.saveVisitorsRecord.Request){
-        let dict : [String: Any] = ["email" : request.email, "phoneNo": request.phonNo, "name": request.name, "profileImage": request.profileImage,"hardwareDetail": request.hardwareDetail,"visits": request.visits]
+        let dict : [String: Any] = ["email" : request.email, "phoneNo": request.phonNo, "name": request.name, "profileImage": request.profileImage,"hardwareDetail": request.hardwareDetail,"nationalIDNo": request.nationalIDNo, "visits": request.visits]
         db.collection("Visitor").document(request.phonNo).setData(dict)
     }
     
@@ -82,7 +82,8 @@ class VisitorInteractor: VisitorFormBusinessLogic {
                     let company = item["company"] as? String
                     let contactPerson = item["contactPersonName"] as? String
                     let officeLocation = item["officeLocation"] as? String
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "", hardwareDetails: hardwareDetail ?? "")
+                    let nationalIDNo = data["nationalIDNo"] as? String
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "", hardwareDetails: hardwareDetail ?? "", nationalIDNo: nationalIDNo ?? "")
                     self.visitorData.append(dataArray)
                   
                 }

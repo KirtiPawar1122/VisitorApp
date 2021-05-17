@@ -69,8 +69,8 @@ class VisitorFormInteractorTests: XCTestCase
     
     func testSaveRecord(){
         
-        let visitData = VisitModel(date: Date(), company: "Wurth It", purpose: "Meeting", contactPersonName: "HR", profileVisitImage: "")
-        let requestSave = VisitorForm.saveVisitorsRecord.Request(email: "k@gmail.com", phonNo: "8411912075", profileImage: "", name: "Kirti Pawar", visits: [visitData.dictionary])
+        let visitData = VisitModel(date: Date(), company: "Wurth It", purpose: "Meeting", contactPersonName: "HR", profileVisitImage: "", officeLocation: "")
+        let requestSave = VisitorForm.saveVisitorsRecord.Request(email: "k@gmail.com", phonNo: "8411912075", profileImage: "", name: "Kirti Pawar", hardwareDetail: "",nationalIDNo: "",visits: [visitData.dictionary])
         
         sut.saveVisitorsRecord(request: requestSave)
         

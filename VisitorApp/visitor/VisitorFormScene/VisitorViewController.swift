@@ -52,7 +52,7 @@ struct VisitorViewControllerConstants {
     static let minTapCount = 0
 }
 
-class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic, CLLocationManagerDelegate {
+class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDisplayLogic {
    
     
 
@@ -69,6 +69,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     @IBOutlet weak var visitTextField: CustomTextField!
     @IBOutlet weak var officeLocationTextField: CustomTextField!
     @IBOutlet weak var hardwareDetailTextField: CustomTextField!
+    @IBOutlet weak var nationalIDTextfield: CustomTextField!
     @IBOutlet var innerView: UIView!
     @IBOutlet var takePictureButtonLabel: UIButton!
     var visitor : [Visitor] = []
@@ -182,24 +183,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
                    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
                    locationManager.startUpdatingLocation()
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-            let lat = Double(locValue.latitude)
-            let lng = Double(locValue.longitude)
-            print("cordinates = \(lat) \(lng)")
-        
-            let location = CLLocation(latitude: lat, longitude: lng)
-            location.placemark { (placemark, error) in
-            guard let placemark = placemark else {
-                   print("Error:", error ?? "nil")
-                   return
-               }
-                print(placemark.postalCode!,placemark.country!,placemark.name!,placemark.locality!)
-                self.officeLocationTextField.text = placemark.locality! + ", " + placemark.country!
-        }
-          locationManager.stopUpdatingLocation() // If you only want to receive location once
     }
     
     //MARK: UI Setup Method
@@ -325,7 +308,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func fetchData(email : String, phoneNo : String){
         interactor?.fetchRequest(request: VisitorForm.fetchVisitorRecord.Request(phoneNo: phoneNo))
     }
-    
     //for FIR
     func displayVisitorsData(viewModel: VisitorForm.fetchVisitorsRecord.ViewModel) {
         print(viewModel)
@@ -381,20 +363,19 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     
     func saveData(){
         //activityIndicator.startAnimating()
-        self.uploadImageURL(visitorImage: visitorImage.image ?? defaultImage! ) { (url) in
-            print(url as Any)
-            self.uploadVisitorData(profileURL: url!)
+        if validate(){
+            self.uploadImageURL(visitorImage: visitorImage.image ?? defaultImage! ) { (url) in
+                print(url as Any)
+                self.uploadVisitorData(profileURL: url!)
+            }
         }
     }
     
     func uploadVisitorData(profileURL : URL) {
         let visitData = VisitModel(date: getCurrentDate()!, company: companyTextField.text!, purpose: purposeTextField.text!, contactPersonName: visitTextField.text!, profileVisitImage: profileURL.absoluteString, officeLocation: officeLocationTextField.text! )
-        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, hardwareDetails: hardwareDetailTextField.text!, visitData: [visitData.dictionary], visits: [visitData])
-        if validate() {
-          //activityIndicator.stopAnimating()
-          saveVisitorsData(visitor: visitorData)
-          visitorsData.append(visitorData)
-        }
+        let visitorData = VisitorModel(email: emailTextField.text!, name: userTextField.text!, phoneNo: phoneTextField.text!, profileImage: profileURL.absoluteString, hardwareDetails: hardwareDetailTextField.text!, nationalIDNo: nationalIDTextfield.text!, visitData: [visitData.dictionary], visits: [visitData])
+        saveVisitorsData(visitor: visitorData)
+        visitorsData.append(visitorData)
     }
     
     //MARK: TextFields methods
@@ -422,6 +403,9 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             hardwareDetailTextField.becomeFirstResponder()
             
         case hardwareDetailTextField:
+            nationalIDTextfield.becomeFirstResponder()
+        
+        case nationalIDTextfield:
             submitButton.becomeFirstResponder()
             
         default:
@@ -433,7 +417,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         // code for fetch data
         if (phoneTextField.text != "" && emailTextField.text == "") {
           //fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
-           // fetchVisitorData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
+          //fetchVisitorData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
             fetchVisitorRecord(phoneNo: phoneTextField.text ?? "")
         }
         return true
@@ -547,7 +531,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             showAlerts(alert: "Hello \(visitor.name), Welcome to Wurth IT")
             speechUtterance(message: "Hello \(visitor.name), Welcome to Wurth IT")
             //db.collection("Visitor").document(visitor.phoneNo).setData(dict)
-            let request = VisitorForm.saveVisitorsRecord.Request(email: visitor.email, phonNo: visitor.phoneNo, profileImage: visitor.profileImage, name: visitor.name, hardwareDetail: visitor.hardwareDetails, visits: visitor.visitData)
+            let request = VisitorForm.saveVisitorsRecord.Request(email: visitor.email, phonNo: visitor.phoneNo, profileImage: visitor.profileImage, name: visitor.name, hardwareDetail: visitor.hardwareDetails, nationalIDNo: visitor.nationalIDNo, visits: visitor.visitData)
             interactor?.saveVisitorsRecord(request: request)
            
         } else {
@@ -566,6 +550,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         purposeTextField.text = ""
         officeLocationTextField.text = ""
         hardwareDetailTextField.text = ""
+        nationalIDTextfield.text = ""
         getCurrentLocation()
         visitorImage.image = UIImage(named: VisitorViewControllerConstants.selectedImageName)
         selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
@@ -861,7 +846,6 @@ extension UIImage {
 }
 extension VisitorViewController{
     func uploadImageURL(visitorImage: UIImage, completion: @escaping ((_ url: URL?) -> ())) {
-    
         let uuid = NSUUID().uuidString
         print(uuid)
         let storageRef = Storage.storage().reference().child("profileImage").child(uuid)
@@ -879,6 +863,28 @@ extension VisitorViewController{
                 print("error in upload image")
             }
         }
+    }
+}
+
+extension VisitorViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+            let lat = Double(locValue.latitude)
+            let lng = Double(locValue.longitude)
+            let banerLocation = CLLocation(latitude: 18.5590, longitude:  73.7868)
+            let hinjewadiLocation = CLLocation(latitude: 18.5913, longitude: 73.7389)
+            let location = CLLocation(latitude: lat, longitude: lng)
+            if (location == banerLocation && location == hinjewadiLocation) {
+            location.placemark { (placemark, error) in
+            guard let placemark = placemark else {
+                   print("Error:", error ?? "nil")
+                   return
+               }
+                print(placemark.postalCode!,placemark.country!,placemark.name!,placemark.locality!)
+                self.officeLocationTextField.text = placemark.subLocality! + ", " + placemark.locality! + ", " + placemark.country!
+            }
+        } 
+          locationManager.stopUpdatingLocation() // If you only want to receive location once
     }
 }
 

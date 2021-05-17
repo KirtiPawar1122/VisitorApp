@@ -121,8 +121,8 @@ class VisitorFormViewControllerTests: XCTestCase
     
     
     func testSaveData(){
-        let visitData = VisitModel(date: Date(), company: companyName, purpose: purpose, contactPersonName: visitingPerson, profileVisitImage: "")
-        let visitorData = VisitorModel(email: email, name: visitorname, phoneNo: phoneNo, profileImage: "", visitData: [visitData.dictionary],visits: [visitData])
+        let visitData = VisitModel(date: Date(), company: companyName, purpose: purpose, contactPersonName: visitingPerson, profileVisitImage: "", officeLocation: "")
+        let visitorData = VisitorModel(email: email, name: visitorname, phoneNo: phoneNo, profileImage: "", hardwareDetails: "",nationalIDNo: "",visitData: [visitData.dictionary],visits: [visitData])
         
         let spy = VisitorFormBusinessLogicSpy()
         sut.interactor = spy

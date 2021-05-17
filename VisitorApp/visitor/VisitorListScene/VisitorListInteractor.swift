@@ -130,7 +130,8 @@ class VisitorListInteractor: VisitorListBusinessLogic {
                     let company = item["company"] as? String
                     let contactPerson = item["contactPersonName"] as? String
                     let officeLocation = item["officeLocation"] as? String
-                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "", hardwareDetails: hardwareDetail ?? "")
+                    let nationalIDNo = data["nationalIDNo"] as? String
+                    let dataArray = DisplayData(name: name!, email: email!, phoneNo: phoneNo!, purspose: purpose!, date: date , companyName: company!, profileImage: profileImage!, contactPerson: contactPerson!, officeLocation: officeLocation ?? "", hardwareDetails: hardwareDetail ?? "", nationalIDNo: nationalIDNo ?? "")
                     self.visitorData.append(dataArray)
                 }
             }
