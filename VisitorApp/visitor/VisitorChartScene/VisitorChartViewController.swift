@@ -5,7 +5,7 @@ import FirebaseFirestore
 import FirebaseDatabase
 
 protocol VisitorChartDisplayLogic {
-    func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel)
+    //func displayPercenatageDataOnChart(viewModel: VisitorChart.FetchVisitorPurposeType.ViewModel)
     func displayVisitorChartData(viewModel: VisitorChart.DisplayVisitorData.viewModel)
 }
 
@@ -51,6 +51,8 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     var ref = DatabaseReference.init()
     let db = Firestore.firestore()
     var visitorData = [DisplayData]()
+    var purposeArray = [String: Any]()
+    
     //MARK: Object lifecycle
    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
           super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -81,9 +83,23 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         self.navigationItem.title = ChartViewControllerConstants.chartTitle
         self.ref = Database.database().reference()
         setupUI()
-        //getChartData()
-        //displayChartData()
+        getPurposeDetails()
         getVisitorChartData()
+    }
+    
+    func getPurposeDetails(){
+        DispatchQueue.main.async {
+            let purpose = self.db.collection("Purpose")
+            purpose.getDocuments { (snapshots, error) in
+                guard let snap = snapshots?.documents else {return}
+                print(snap)
+                for item in snap{
+                    let data = item.data()
+                    print(data)
+                    self.purposeArray = data
+                }
+            }
+        }
     }
 
     func setupUI(){
@@ -119,17 +135,15 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
     
     func displayVisitorChartData(viewModel: VisitorChart.DisplayVisitorData.viewModel) {
         print(viewModel.visitorData)
+        print(purposeArray)
         let chartData = viewModel.visitorData
         for item in chartData{
             if "Meeting" == item.purspose{
                 meetings = meetings + 1
-                //print("Meeting: " ,meetings)
             } else if "Interview" == item.purspose{
                 interviews = interviews + 1
-                //print("IN:",interviews)
             } else if "Guest Visit" == item.purspose{
                 guestVisits = guestVisits + 1
-                //print("GV:", guestVisits)
             } else if "Other" == item.purspose  {
                 others = others + 1
                 print("OH:",others)
@@ -138,6 +152,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
                 print(item.purspose)
             }
         }
+    
         let total = Double(chartData.count)
         var meeting : Double{
             let meetingValue = 100 * Double(meetings) / total
@@ -173,56 +188,6 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
         }
     }
     
-    func displayPercenatageDataOnChart(viewModel:
-        VisitorChart.FetchVisitorPurposeType.ViewModel) {
-        let data = viewModel.visitTypes
-        for item in data{
-            if VisitPurpose.meeting == item.visitPurpose{
-                meetings = item.purposeCount
-            } else if VisitPurpose.guestVisit == item.visitPurpose{
-                guestVisits = item.purposeCount
-            } else if VisitPurpose.interview == item.visitPurpose{
-                interviews = item.purposeCount
-            } else if VisitPurpose.other == item.visitPurpose{
-                others = item.purposeCount
-            }
-        }
-        let total = Double(viewModel.totalVisitCount)
-        var meeting : Double{
-            let meetingValue = 100 * Double(meetings) / total
-            return meetingValue
-        }
-        var guestVisit : Double{
-            let guestValue = 100 * Double(guestVisits) / total
-            return guestValue
-        }
-        var interview : Double{
-            let interviewValue = 100 * Double(interviews) / total
-            return interviewValue
-        }
-        var other : Double{
-            let otherValue = 100 * Double(others) / total
-            return otherValue
-        }
-        
-        DispatchQueue.main.async {
-            let data = [meeting,guestVisit,interview,other]
-            self.customizeChart(dataPoints: self.purpose, values: data)
-            
-            let centerTextStrings = NSMutableAttributedString()
-            let centerText1 = NSMutableAttributedString(string: ChartViewControllerConstants.centerString , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText1Size) as Any])
-            let centerText2 = NSMutableAttributedString(string: "\n    \(viewModel.totalVisitCount)" , attributes: [NSAttributedString.Key.font: UIFont(name: ChartViewControllerConstants.font,size:ChartViewControllerConstants.centerText2Size) as Any])
-                             
-            centerTextStrings.append(centerText1)
-            centerTextStrings.append(centerText2)
-            self.chartView.centerAttributedText = centerTextStrings
-            self.chartView.notifyDataSetChanged()
-            self.tableview.reloadData()
-            self.activityIndicator.stopAnimating()
-        }
-    }
-    
- 
     func customizeChart(dataPoints: [String], values: [Double]) {
         
       // 1. Set ChartDataEntry
@@ -258,7 +223,7 @@ class VisitorChartViewController: UIViewController, VisitorChartDisplayLogic {
       }
       pieChartDataSet.colors = colors
       
-            // 3. Set ChartData
+      // 3. Set ChartData
       let pieChartData = PieChartData(dataSet: pieChartDataSet)
       let format = NumberFormatter()
       format.numberStyle = .percent
@@ -297,10 +262,8 @@ extension VisitorChartViewController: UITableViewDataSource{
             }
         } else if indexPath.row == 1{
             if data == ChartViewControllerConstants.guestVisitTitle{
-
                 cell.dataCountLabel.text = String(guestVisits)
                 cell.backgroundColor = ChartViewControllerConstants.guestColor
-
             }
         } else if indexPath.row == 2{
             if data == ChartViewControllerConstants.interviewTitle{
