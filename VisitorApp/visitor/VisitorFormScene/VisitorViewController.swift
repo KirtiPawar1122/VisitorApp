@@ -100,6 +100,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     var visitArray = [String: Any]()
     var locationArray = [String:Any]()
     let locationManager = CLLocationManager()
+    var alertController = UIAlertController()
     
     //MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -323,7 +324,7 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
            DispatchQueue.main.async { [self] in
                let profileURL = URL(string: visitData.profileImage )
                let data = try? Data(contentsOf: profileURL!)
-               let profileImage  = UIImage(data: data!)
+               let profileImage  = UIImage(data: data!) // otional imag
                if profileImage?.size == self.defaultImage?.size{
                    self.selectedImage = UIImage(named: VisitorViewControllerConstants.selectedImageName)
                } else {
@@ -394,12 +395,15 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
             purposeTextField.becomeFirstResponder()
             
         case purposeTextField:
+            alertController.dismiss(animated: true, completion: nil)
             visitTextField.becomeFirstResponder()
             
         case visitTextField:
+            alertController.dismiss(animated: true, completion: nil)
             officeLocationTextField.becomeFirstResponder()
             
         case officeLocationTextField:
+            alertController.dismiss(animated: true, completion: nil)
             hardwareDetailTextField.becomeFirstResponder()
             
         case hardwareDetailTextField:
@@ -416,8 +420,6 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         // code for fetch data
         if (phoneTextField.text != "" && emailTextField.text == "") {
-          //fetchData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "" )
-          //fetchVisitorData(email: emailTextField.text ?? "", phoneNo: phoneTextField.text ?? "")
             fetchVisitorRecord(phoneNo: phoneTextField.text ?? "")
         }
         return true
@@ -440,8 +442,10 @@ class VisitorViewController: UIViewController,UITextFieldDelegate,VisitorFormDis
         purposeTextField.addTarget(self, action: #selector(purposeAction), for: .editingDidBegin)
         visitTextField.addTarget(self, action: #selector(visitPersonAction), for: .editingDidBegin)
         officeLocationTextField.addTarget(self, action: #selector(officeLocationAction), for: .editingDidBegin)
+        //switchToNextTextField(textField)
         return true
     }
+    
 
     /* Navigation bar hidden button */
     @IBAction func savedData(_ sender: Any) {
@@ -763,8 +767,9 @@ extension VisitorViewController {
     
     // for purpose & Visit textfeilds
     func presentAlertsWithOption(title: String, message: String, preferredStyle: UIAlertController.Style,options: [String: Any], completion: @escaping (String,String) -> Void) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
-        
+       // let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        //alertController.dismiss(animated: <#T##Bool#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>) - async after
         for (key,value) in options{
             alertController.addAction(UIAlertAction.init(title: key, style: .default, handler: { (action) in
                 completion(key, value as! String)

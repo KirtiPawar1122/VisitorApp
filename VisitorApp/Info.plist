@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App needs usage loccation</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs current user location</string>
 	<key>Bundle name</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
@@ -26,6 +22,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>app needs camera access</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App needs usage loccation</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App needs current user location</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>app needs card image</string>
 	<key>NSPhotoLibraryUsageDescription</key>

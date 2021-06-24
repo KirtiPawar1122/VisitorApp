@@ -935,7 +935,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wurth.WITVisitorApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wurth.WITVisitorApp1;
 				PRODUCT_NAME = VisitorApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -959,7 +959,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wurth.WITVisitorApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wurth.WITVisitorApp1;
 				PRODUCT_NAME = VisitorApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

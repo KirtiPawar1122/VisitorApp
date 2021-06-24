@@ -840,7 +840,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mUk-Vr-XJa">
-                                                <rect key="frame" x="456" y="240" width="112" height="40"/>
+                                                <rect key="frame" x="455.5" y="240" width="113" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="7T5-iH-n9x"/>
                                                 </constraints>
@@ -929,6 +929,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="wdu-m9-DQN" id="ARr-DX-9Ir"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Any hardware details" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GLP-A5-k6o" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="490" width="924" height="40"/>
@@ -937,6 +940,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="wdu-m9-DQN" id="CSU-Qz-DPV"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="National ID No" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g2x-sm-0Zv" customClass="CustomTextField" customModule="VisitorApp" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="560" width="924" height="40"/>
@@ -945,6 +951,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="wdu-m9-DQN" id="j2X-hz-lh5"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
