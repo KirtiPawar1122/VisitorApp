@@ -218,7 +218,9 @@ class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
         if UIDevice.current.userInterfaceIdiom == .pad {
             ac.popoverPresentationController?.sourceView = printButton
         }
-        present(ac, animated: true, completion: nil)
+        //ac.view.addSubview(UIView())
+        ac.pruneNegativeWidthConstraints()
+        present(ac, animated: false, completion: nil)
     }
 }
 
@@ -262,4 +264,14 @@ extension UIImage{
                UIImageWriteToSavedPhotosAlbum(self, completionTarget, completionSelector, nil)
            }
        }
+}
+
+extension UIActivityViewController {
+    func pruneNegativeWidthConstraints() {
+        for subView in self.view.subviews {
+            for constraint in subView.constraints where constraint.debugDescription.contains("height == 52") {
+                subView.removeConstraint(constraint)
+            }
+        }
+    }
 }

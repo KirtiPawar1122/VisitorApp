@@ -840,7 +840,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mUk-Vr-XJa">
-                                                <rect key="frame" x="455.5" y="240" width="113" height="40"/>
+                                                <rect key="frame" x="456" y="240" width="112" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="7T5-iH-n9x"/>
                                                 </constraints>

@@ -679,6 +679,7 @@ extension VisitorViewController: UIImagePickerControllerDelegate, UINavigationCo
                     textField.placeholder = "Enter visit reason"
                 }
                 alert.addAction(save)
+                //alert.view.addSubview(UIView())
                 alert.addAction(UIAlertAction(title: "Cancel", style: .default) { (alertAction) in })
                 self.present(alert, animated: true, completion: nil)
                 
@@ -762,14 +763,15 @@ extension VisitorViewController {
             default:
                     break
                    }
-           self.present(alertController, animated: true, completion: nil)
+           //alertController.pruneNegativeWidthConstraints()
+            alertController.view.addSubview(UIView())
+            self.present(alertController, animated: false, completion: nil)
        }
     
     // for purpose & Visit textfeilds
     func presentAlertsWithOption(title: String, message: String, preferredStyle: UIAlertController.Style,options: [String: Any], completion: @escaping (String,String) -> Void) {
-       // let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
         alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
-        //alertController.dismiss(animated: <#T##Bool#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>) - async after
+        
         for (key,value) in options{
             alertController.addAction(UIAlertAction.init(title: key, style: .default, handler: { (action) in
                 completion(key, value as! String)
@@ -784,7 +786,9 @@ extension VisitorViewController {
             default:
                     break
                    }
-           self.present(alertController, animated: true, completion: nil)
+            //alertController.view.addSubview(UIView())
+            alertController.pruneNegativeWidthConstraints()
+            self.present(alertController, animated: false, completion: nil)
     }
     
 }
@@ -798,6 +802,15 @@ public extension UIView {
         animation.autoreverses = true
         animation.values = [translation, -translation]
         layer.add(animation, forKey: "shake")
+    }
+}
+extension UIAlertController {
+    func pruneNegativeWidthConstraints() {
+        for subView in self.view.subviews {
+            for constraint in subView.constraints where constraint.debugDescription.contains("width == - 16") {
+                subView.removeConstraint(constraint)
+            }
+        }
     }
 }
 
