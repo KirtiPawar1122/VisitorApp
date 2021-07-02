@@ -24,7 +24,6 @@ struct VisitorPrintViewControllerConstant{
 }
 
 class VisitorPrintViewController: UIViewController,VisitorPrintDisplayLogic {
-   
     
     @IBOutlet var visitorCardView: UIView!
     @IBOutlet var profileImage: UIImageView!
