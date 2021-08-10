@@ -32,6 +32,9 @@ class VisitorChartInteractorTests: XCTestCase
   
   class VisitorChartPresentationLogicSpy: VisitorChartPresentationLogic
   {
+    func presentChartPurposeData(response: VisitorChart.FetchVisitorPurposeType.Response) {
+    }
+    
    
     
     var presentChartDataCalled = false
@@ -51,7 +54,7 @@ class VisitorChartInteractorTests: XCTestCase
     let request = VisitorChart.VisitorChartData.Request()
     
     // When
-    sut.visitorsChartData(request: request)
+//    sut.visitorsChartData(request: request)
     
     // Then
     XCTAssertTrue(spy.presentChartDataCalled, "visitorChartData(request:) should ask the presenter to format the result")
